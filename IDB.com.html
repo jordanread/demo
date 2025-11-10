@@ -155,6 +155,114 @@
         border: 1px solid var(--active-border);
       }
 
+      /* ===== Responsive header ===== */
+      :root {
+        --header-h: 64px;
+      }
+
+      header {
+        min-height: var(--header-h);
+      }
+      .brand img {
+        width: 36px;
+        height: 36px;
+      }
+
+      .menu-toggle {
+        display: none; /* hidden on desktop */
+        align-items: center;
+        gap: 8px;
+        padding: 8px 10px;
+        border-radius: 10px;
+        border: 1px solid var(--pill-border);
+        background: var(--pill-bg);
+        color: var(--pill-text);
+        font-weight: 600;
+      }
+      .menu-toggle .bars {
+        width: 18px;
+        height: 2px;
+        background: currentColor;
+        position: relative;
+        border-radius: 2px;
+      }
+      .menu-toggle .bars::before,
+      .menu-toggle .bars::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background: currentColor;
+        border-radius: 2px;
+      }
+      .menu-toggle .bars::before {
+        top: -6px;
+      }
+      .menu-toggle .bars::after {
+        top: 6px;
+      }
+
+      /* Mobile menu container (closed by default) */
+      .navlinks {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        flex-wrap: wrap;
+        transition: transform 0.18s ease, opacity 0.18s ease;
+      }
+      @media (max-width: 820px) {
+        nav {
+          gap: 10px;
+        }
+        .navlinks {
+          position: fixed;
+          left: 0;
+          right: 0;
+          top: var(--header-h);
+          background: var(--panel);
+          border-bottom: var(--elev);
+          box-shadow: var(--shadow);
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 0;
+          transform: translateY(-8px);
+          opacity: 0;
+          pointer-events: none;
+        }
+        .navlinks a {
+          padding: 14px 18px;
+          border-radius: 0;
+          border-top: 1px solid var(--line);
+        }
+        .navlinks .pill {
+          margin: 10px 18px;
+          justify-content: center;
+        }
+        .navlinks.open {
+          transform: none;
+          opacity: 1;
+          pointer-events: auto;
+        }
+        .menu-toggle {
+          display: inline-flex;
+        }
+        .theme-toggle {
+          display: none;
+        } /* keep header uncluttered on mobile */
+      }
+
+      /* When menu is open, morph the hamburger a bit */
+      .menu-toggle[aria-expanded="true"] .bars {
+        background: transparent;
+      }
+      .menu-toggle[aria-expanded="true"] .bars::before {
+        transform: translateY(6px) rotate(45deg);
+      }
+      .menu-toggle[aria-expanded="true"] .bars::after {
+        transform: translateY(-6px) rotate(-45deg);
+      }
+
       /* Theme toggle */
       .theme-toggle {
         display: inline-flex;
@@ -443,14 +551,26 @@
       <div class="wrap">
         <nav aria-label="Primary">
           <a class="brand" href="#/" title="IDB — Home">
-            <!-- Minimal nautical mark (compass + wave + hull) -->
-            <img src="idblogo2.png" alt="IDB Logo" width="64px" height="64px" />
+            <img src="idblogo2.png" alt="IDB Logo" width="64" height="64" />
             <span>IDB <span class="muted">— I Deliver Boats</span></span>
           </a>
 
           <div class="spacer"></div>
 
-          <!-- Theme toggle (simple light/dark) -->
+          <!-- Mobile menu button -->
+          <button
+            id="menuToggle"
+            class="menu-toggle"
+            type="button"
+            aria-expanded="false"
+            aria-controls="siteNav"
+            aria-label="Open menu"
+          >
+            <span class="bars" aria-hidden="true"></span>
+            Menu
+          </button>
+
+          <!-- Theme toggle (shown on desktop; hidden on mobile by CSS) -->
           <button
             id="themeToggle"
             class="theme-toggle"
@@ -459,6 +579,8 @@
             aria-pressed="false"
             title="Toggle light/dark"
           >
+            <!-- (keep your existing sun/moon SVGs & sr-only span here) -->
+            <!-- BEGIN icons -->
             <svg
               id="icon-sun"
               viewBox="0 0 24 24"
@@ -486,9 +608,11 @@
               />
             </svg>
             <span id="themeLabel" class="sr-only">Light mode</span>
+            <!-- END icons -->
           </button>
 
-          <div class="navlinks" role="menubar" style="margin-left: 10px">
+          <!-- Primary links -->
+          <div class="navlinks" id="siteNav" role="menubar">
             <a role="menuitem" data-link href="#/">Home</a>
             <a role="menuitem" data-link href="#/services">Services</a>
             <a role="menuitem" data-link href="#/about">About</a>
@@ -545,8 +669,8 @@
               <div class="kicker">Clarity</div>
               <h3>Daily Updates</h3>
               <p class="muted">
-                Plain-language route, weather, and status—shared at agreed
-                intervals.
+                Plain-language route, weather, and status communication, plus
+                live GPS tracking available.
               </p>
             </div>
             <div class="card" style="grid-column: span 4">
@@ -680,14 +804,14 @@
                 care for your vessel. Transparent planning, proactive
                 communication, and respect for weather windows guide every job.
               </p>
-
+              <!-- 
               <h3>Mailing Address</h3>
               <address>
                 IDB — I Deliver Boats<br />
                 PO Box ####<br />
                 [City], [State/Province] [ZIP/Postal]<br />
                 United States
-              </address>
+              </address> -->
 
               <h3>Contacts</h3>
               <p>
@@ -714,7 +838,7 @@
               <div class="kicker">Captain</div>
               <h2 id="captain-title">Captain Profile</h2>
               <div style="display: flex; gap: 16px; align-items: center">
-                <div class="avatar" aria-hidden="true">IG</div>
+                <img src="./IanHelm.jpg" class="avatar" aria-hidden="true" />
                 <div>
                   <h3 style="margin: 0 0 6px">Capt. Ian Gillespie</h3>
                   <p class="muted" style="margin: 0">
@@ -731,9 +855,9 @@
                 <span class="badge">GMDSS / DSC</span>
               </div>
               <p>
-                Experience across coastal and bluewater routes, monohulls and
-                cats. Strong with docking, anchoring, passage planning, and crew
-                leadership.
+                Experience across coastal, inland, and bluewater routes,
+                monohulls and cats. Strong with docking, anchoring, passage
+                planning, and crew leadership.
               </p>
               <p>
                 <a class="btn secondary" href="#/captain"
@@ -756,6 +880,7 @@
       >
         <section class="wrap">
           <div class="card">
+            <!-- <img src="IanHelm2.jpg" class="rounded text-right float-right" alt="Captain on vessel." width="35%" /> -->
             <div class="kicker">Captain</div>
             <h2>Capt. Ian Gillespie</h2>
             <p class="muted">
@@ -1067,6 +1192,46 @@
           // initial render
           handleHashChange();
         });
+      })();
+
+      (function () {
+        const btn = document.getElementById("menuToggle");
+        const nav = document.getElementById("siteNav");
+        if (!btn || !nav) return;
+
+        const prefersReduced = window.matchMedia?.(
+          "(prefers-reduced-motion: reduce)"
+        ).matches;
+        const open = () => {
+          btn.setAttribute("aria-expanded", "true");
+          nav.classList.add("open");
+          document.addEventListener("click", onDocClick, true);
+          document.addEventListener("keydown", onKey);
+        };
+        const close = () => {
+          btn.setAttribute("aria-expanded", "false");
+          nav.classList.remove("open");
+          document.removeEventListener("click", onDocClick, true);
+          document.removeEventListener("keydown", onKey);
+        };
+        const toggle = () =>
+          btn.getAttribute("aria-expanded") === "true" ? close() : open();
+
+        function onDocClick(e) {
+          const inside = nav.contains(e.target) || btn.contains(e.target);
+          if (!inside) close();
+        }
+        function onKey(e) {
+          if (e.key === "Escape") close();
+        }
+
+        btn.addEventListener("click", toggle);
+
+        // Close menu when navigating within SPA
+        window.addEventListener("hashchange", () => close());
+        // Optional: smooth scroll reset on open
+        if (!prefersReduced)
+          nav.addEventListener("transitionend", () => {}, { once: true });
       })();
     </script>
   </body>
