@@ -374,6 +374,29 @@
         color: var(--muted);
       }
 
+      /* ===== Why IDB responsive cards ===== */
+      .why-grid > .card {
+        grid-column: span 4 !important;
+      } /* desktop: 3-up */
+
+      @media (max-width: 900px) {
+        .why-grid > .card {
+          grid-column: span 6 !important;
+        } /* tablet: 2-up */
+      }
+
+      @media (max-width: 640px) {
+        .why-grid > .card {
+          grid-column: 1 / -1 !important;
+        } /* phone: 1-up */
+        .why-grid {
+          gap: 16px;
+        } /* a touch tighter on phones */
+        .card {
+          padding: 18px;
+        } /* optional: slightly smaller padding */
+      }
+
       /* Services */
       .service {
         grid-column: span 4;
