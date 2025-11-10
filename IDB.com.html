@@ -1,602 +1,1073 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en" data-theme="light">
-<head>
-  <meta charset="utf-8" />
-  <title>IDB — I Deliver Boats</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="IDB (I Deliver Boats): Professional yacht delivery, captaining, and on-your-boat training." />
-  <meta name="color-scheme" content="light dark" />
-  <link rel="canonical" href="/" />
-  <style>
-    /* =========================================================
+  <head>
+    <meta charset="utf-8" />
+    <title>IDB — I Deliver Boats</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="IDB (I Deliver Boats): Professional yacht delivery, captaining, and on-your-boat training."
+    />
+    <meta name="color-scheme" content="light dark" />
+    <link rel="canonical" href="/" />
+    <style>
+      /* =========================================================
        MODERN PROFESSIONAL NAUTICAL THEME
        Primary brand color provided: #022a51
        This file is a single-page app that simulates multiple pages via hash routes.
        ========================================================= */
 
-    /* -------- Theme tokens (LIGHT defaults) -------- */
-    :root{
-      --brand: #022a51;   /* deep ocean navy */
-      --brand-600:#073a6e;
-      --brand-500:#0d4b8b;
-      --brand-400:#2a6dab;
-      --brand-100:#e9f2f9;
+      /* -------- Theme tokens (LIGHT defaults) -------- */
+      :root {
+        --brand: #022a51; /* deep ocean navy */
+        --brand-600: #073a6e;
+        --brand-500: #0d4b8b;
+        --brand-400: #2a6dab;
+        --brand-100: #e9f2f9;
 
-      --bg:#f6f9fc;
-      --panel:#ffffff;
-      --ink:#0a1a2b;
-      --text:#1f2a37;
-      --muted:#5b6b7b;
-      --line:#e5edf5;
+        --bg: #f6f9fc;
+        --panel: #ffffff;
+        --ink: #0a1a2b;
+        --text: #1f2a37;
+        --muted: #5b6b7b;
+        --line: #e5edf5;
 
-      --sea:#20a4c9;
-      --sand:#c6b48b;
+        --sea: #20a4c9;
+        --sand: #c6b48b;
 
-      --radius:16px;
-      --shadow:0 8px 28px rgba(2,42,81,.08);
-      --elev:1px solid var(--line);
+        --radius: 16px;
+        --shadow: 0 8px 28px rgba(2, 42, 81, 0.08);
+        --elev: 1px solid var(--line);
 
-      --btn-grad-start:#0f3862;
-      --btn-grad-end:#0d3156;
+        --btn-grad-start: #0f3862;
+        --btn-grad-end: #0d3156;
 
-      --pill-bg:#fff;
-      --pill-border:#dfe8f1;
-      --pill-text:var(--brand-600);
+        --pill-bg: #fff;
+        --pill-border: #dfe8f1;
+        --pill-text: var(--brand-600);
 
-      --card-border:var(--line);
-      --active-bg: var(--brand-100);
-      --active-border: #d9e7f5;
-    }
+        --card-border: var(--line);
+        --active-bg: var(--brand-100);
+        --active-border: #d9e7f5;
+      }
 
-    /* -------- Dark mode overrides (activated with html[data-theme="dark"]) -------- */
-    html[data-theme="dark"]{
-      --bg:#0b1220;
-      --panel:#0f172a;
-      --ink:#e7eef7;
-      --text:#dbe5f0;
-      --muted:#a9b6c6;
-      --line:#1f2b3b;
+      /* -------- Dark mode overrides (activated with html[data-theme="dark"]) -------- */
+      html[data-theme="dark"] {
+        --bg: #0b1220;
+        --panel: #0f172a;
+        --ink: #e7eef7;
+        --text: #dbe5f0;
+        --muted: #a9b6c6;
+        --line: #1f2b3b;
 
-      --brand-600:#47b3d2;
-      --brand-500:#2ba2c7;
-      --brand-400:#5dbfe0;
-      --brand-100:#0d233a;
+        --brand-600: #47b3d2;
+        --brand-500: #2ba2c7;
+        --brand-400: #5dbfe0;
+        --brand-100: #0d233a;
 
-      --sea:#4fc3de;
-      --sand:#bba575;
+        --sea: #4fc3de;
+        --sand: #bba575;
 
-      --shadow:0 8px 28px rgba(0,0,0,.35);
-      --elev:1px solid var(--line);
+        --shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
+        --elev: 1px solid var(--line);
 
-      --btn-grad-start:#0d3156;
-      --btn-grad-end:#0a2846;
+        --btn-grad-start: #0d3156;
+        --btn-grad-end: #0a2846;
 
-      --pill-bg:#0b1626;
-      --pill-border:#203148;
-      --pill-text:#e9f2fb;
+        --pill-bg: #0b1626;
+        --pill-border: #203148;
+        --pill-text: #e9f2fb;
 
-      --card-border:var(--line);
-      --active-bg: #122338;
-      --active-border: #1d2a3d;
-    }
+        --card-border: var(--line);
+        --active-bg: #122338;
+        --active-border: #1d2a3d;
+      }
 
-    /* -------- Base / Reset -------- */
-    *{box-sizing:border-box}
-    html,body{margin:0;height:100%;background:var(--bg);color:var(--text);
-      font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Ubuntu,"Helvetica Neue",Arial}
-    img,svg{display:block;max-width:100%}
-    a{color:var(--brand-600);text-decoration:none}
-    a:hover{text-decoration:underline}
+      /* -------- Base / Reset -------- */
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        height: 100%;
+        background: var(--bg);
+        color: var(--text);
+        font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+          Ubuntu, "Helvetica Neue", Arial;
+      }
+      img,
+      svg {
+        display: block;
+        max-width: 100%;
+      }
+      a {
+        color: var(--brand-600);
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
 
-    /* -------- Layout -------- */
-    .wrap{max-width:1120px;margin:0 auto;padding:0 22px}
+      /* -------- Layout -------- */
+      .wrap {
+        max-width: 1120px;
+        margin: 0 auto;
+        padding: 0 22px;
+      }
 
-    header{
-      position:sticky;top:0;z-index:50;background:var(--panel);border-bottom:var(--elev);
-      backdrop-filter:saturate(180%) blur(6px)
-    }
-    nav{display:flex;align-items:center;gap:18px;padding:14px 0}
-    .brand{display:flex;align-items:center;gap:12px;font-weight:800;color:var(--ink)}
-    .brand svg{width:36px;height:36px}
-    .spacer{flex:1}
-    .navlinks a{padding:8px 12px;border-radius:10px;font-weight:600;color:var(--text)}
-    .navlinks a[aria-current="page"]{background:var(--active-bg);border:1px solid var(--active-border)}
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        background: var(--panel);
+        border-bottom: var(--elev);
+        backdrop-filter: saturate(180%) blur(6px);
+      }
+      nav {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        padding: 14px 0;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-weight: 800;
+        color: var(--ink);
+      }
+      .brand svg {
+        width: 36px;
+        height: 36px;
+      }
+      .spacer {
+        flex: 1;
+      }
+      .navlinks a {
+        padding: 8px 12px;
+        border-radius: 10px;
+        font-weight: 600;
+        color: var(--text);
+      }
+      .navlinks a[aria-current="page"] {
+        background: var(--active-bg);
+        border: 1px solid var(--active-border);
+      }
 
-    /* Theme toggle */
-    .theme-toggle{
-      display:inline-flex;align-items:center;gap:8px;padding:8px 10px;border-radius:10px;
-      border:1px solid var(--pill-border);background:var(--pill-bg);color:var(--pill-text);
-      cursor:pointer;font-weight:600
-    }
-    .theme-toggle svg{width:18px;height:18px}
+      /* Theme toggle */
+      .theme-toggle {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 10px;
+        border-radius: 10px;
+        border: 1px solid var(--pill-border);
+        background: var(--pill-bg);
+        color: var(--pill-text);
+        cursor: pointer;
+        font-weight: 600;
+      }
+      .theme-toggle svg {
+        width: 18px;
+        height: 18px;
+      }
 
-    /* -------- Hero -------- */
-    .hero{
-      position:relative; overflow:hidden;
-      background:
-        radial-gradient(900px 420px at 85% -10%, rgba(32,164,201,.10), transparent 60%),
-        radial-gradient(900px 420px at -5% -10%, rgba(2,42,81,.10), transparent 60%),
-        var(--panel);
-      border-bottom:var(--elev);
-      padding:72px 0 48px;
-    }
-    .hero h1{margin:0 0 10px;font-size:clamp(32px,4vw,56px);line-height:1.05;color:var(--ink)}
-    .hero .lead{margin:0 0 22px;color:var(--muted);font-size:clamp(16px,2.2vw,20px)}
-    .cta{display:flex;gap:12px;flex-wrap:wrap}
-    .btn{
-      display:inline-flex;align-items:center;gap:10px;padding:12px 16px;border-radius:12px;
-      border:1px solid #cfe1f2;background:linear-gradient(var(--btn-grad-start),var(--btn-grad-end));color:#fff;
-      box-shadow:var(--shadow);font-weight:700;letter-spacing:.2px
-    }
-    .btn.secondary{background:var(--panel);border-color:var(--pill-border);color:var(--pill-text)}
-    .btn.secondary:hover{filter:brightness(1.03)}
+      /* -------- Hero -------- */
+      .hero {
+        position: relative;
+        overflow: hidden;
+        background: radial-gradient(
+            900px 420px at 85% -10%,
+            rgba(32, 164, 201, 0.1),
+            transparent 60%
+          ),
+          radial-gradient(
+            900px 420px at -5% -10%,
+            rgba(2, 42, 81, 0.1),
+            transparent 60%
+          ),
+          var(--panel);
+        border-bottom: var(--elev);
+        padding: 72px 0 48px;
+      }
+      .hero h1 {
+        margin: 0 0 10px;
+        font-size: clamp(32px, 4vw, 56px);
+        line-height: 1.05;
+        color: var(--ink);
+      }
+      .hero .lead {
+        margin: 0 0 22px;
+        color: var(--muted);
+        font-size: clamp(16px, 2.2vw, 20px);
+      }
+      .cta {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 12px 16px;
+        border-radius: 12px;
+        border: 1px solid #cfe1f2;
+        background: linear-gradient(var(--btn-grad-start), var(--btn-grad-end));
+        color: #fff;
+        box-shadow: var(--shadow);
+        font-weight: 700;
+        letter-spacing: 0.2px;
+      }
+      .btn.secondary {
+        background: var(--panel);
+        border-color: var(--pill-border);
+        color: var(--pill-text);
+      }
+      .btn.secondary:hover {
+        filter: brightness(1.03);
+      }
 
-    /* -------- Sections / Cards -------- */
-    section{padding:56px 0}
-    h2{font-size:clamp(24px,3vw,34px);margin:0 0 16px;color:var(--ink)}
-    p.section-lead{margin:0 0 28px;color:var(--muted)}
-    .grid{display:grid;gap:22px;grid-template-columns:repeat(12,1fr)}
-    .card{background:var(--panel);border:1px solid var(--card-border);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px}
+      /* -------- Sections / Cards -------- */
+      section {
+        padding: 56px 0;
+      }
+      h2 {
+        font-size: clamp(24px, 3vw, 34px);
+        margin: 0 0 16px;
+        color: var(--ink);
+      }
+      p.section-lead {
+        margin: 0 0 28px;
+        color: var(--muted);
+      }
+      .grid {
+        display: grid;
+        gap: 22px;
+        grid-template-columns: repeat(12, 1fr);
+      }
+      .card {
+        background: var(--panel);
+        border: 1px solid var(--card-border);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        padding: 22px;
+      }
 
-    .kicker{font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--brand-600);font-size:.9rem}
-    .muted{color:var(--muted)}
+      .kicker {
+        font-weight: 800;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--brand-600);
+        font-size: 0.9rem;
+      }
+      .muted {
+        color: var(--muted);
+      }
 
-    /* Services */
-    .service{grid-column:span 4}
-    @media (max-width:900px){.service{grid-column:span 12}}
-    details{border-top:1px dashed var(--line);margin-top:12px;padding-top:12px}
-    details>summary{list-style:none;cursor:pointer;color:var(--brand-600);font-weight:700}
-    details>summary::-webkit-details-marker{display:none}
+      /* Services */
+      .service {
+        grid-column: span 4;
+      }
+      @media (max-width: 900px) {
+        .service {
+          grid-column: span 12;
+        }
+      }
+      details {
+        border-top: 1px dashed var(--line);
+        margin-top: 12px;
+        padding-top: 12px;
+      }
+      details > summary {
+        list-style: none;
+        cursor: pointer;
+        color: var(--brand-600);
+        font-weight: 700;
+      }
+      details > summary::-webkit-details-marker {
+        display: none;
+      }
 
-    /* About & Captain split */
-    .about{grid-column:span 7}
-    .profile{grid-column:span 5;display:grid;gap:14px;align-content:start}
-    @media (max-width:900px){.about,.profile{grid-column:span 12}}
-    .avatar{
-      width:120px;height:120px;border-radius:50%;
-      background:conic-gradient(from 30deg,var(--brand) 0 40%,var(--sea) 40% 70%,var(--sand) 70% 100%);
-      display:grid;place-items:center;color:#fff;font-weight:900;font-size:36px;box-shadow:var(--shadow)
-    }
-    .badges{display:flex;gap:8px;flex-wrap:wrap}
-    .badge{font-size:.85rem;padding:6px 10px;border-radius:999px;background:#f2f7fb;border:1px solid var(--pill-border);color:var(--pill-text)}
-    html[data-theme="dark"] .badge{background:#111f33}
+      /* About & Captain split */
+      .about {
+        grid-column: span 7;
+      }
+      .profile {
+        grid-column: span 5;
+        display: grid;
+        gap: 14px;
+        align-content: start;
+      }
+      @media (max-width: 900px) {
+        .about,
+        .profile {
+          grid-column: span 12;
+        }
+      }
+      .avatar {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        background: conic-gradient(
+          from 30deg,
+          var(--brand) 0 40%,
+          var(--sea) 40% 70%,
+          var(--sand) 70% 100%
+        );
+        display: grid;
+        place-items: center;
+        color: #fff;
+        font-weight: 900;
+        font-size: 36px;
+        box-shadow: var(--shadow);
+      }
+      .badges {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      .badge {
+        font-size: 0.85rem;
+        padding: 6px 10px;
+        border-radius: 999px;
+        background: #f2f7fb;
+        border: 1px solid var(--pill-border);
+        color: var(--pill-text);
+      }
+      html[data-theme="dark"] .badge {
+        background: #111f33;
+      }
 
-    /* Form */
-    form{display:grid;gap:14px;grid-template-columns:repeat(12,1fr)}
-    label{font-size:.95rem}
-    input,select,textarea{
-      width:100%;padding:12px;border-radius:12px;background:var(--panel);color:var(--text);border:1px solid #cfdbe7
-    }
-    html[data-theme="dark"] input, html[data-theme="dark"] select, html[data-theme="dark"] textarea{
-      border-color:#25364c
-    }
-    textarea{min-height:120px;resize:vertical}
-    .col-6{grid-column:span 6}.col-4{grid-column:span 4}.col-8{grid-column:span 8}.col-12{grid-column:span 12}
-    @media (max-width:800px){.col-6,.col-4,.col-8{grid-column:span 12}}
+      /* Form */
+      form {
+        display: grid;
+        gap: 14px;
+        grid-template-columns: repeat(12, 1fr);
+      }
+      label {
+        font-size: 0.95rem;
+      }
+      input,
+      select,
+      textarea {
+        width: 100%;
+        padding: 12px;
+        border-radius: 12px;
+        background: var(--panel);
+        color: var(--text);
+        border: 1px solid #cfdbe7;
+      }
+      html[data-theme="dark"] input,
+      html[data-theme="dark"] select,
+      html[data-theme="dark"] textarea {
+        border-color: #25364c;
+      }
+      textarea {
+        min-height: 120px;
+        resize: vertical;
+      }
+      .col-6 {
+        grid-column: span 6;
+      }
+      .col-4 {
+        grid-column: span 4;
+      }
+      .col-8 {
+        grid-column: span 8;
+      }
+      .col-12 {
+        grid-column: span 12;
+      }
+      @media (max-width: 800px) {
+        .col-6,
+        .col-4,
+        .col-8 {
+          grid-column: span 12;
+        }
+      }
 
-    /* Footer */
-    footer{padding:40px 0;border-top:var(--elev);color:var(--muted);text-align:center;background:var(--panel)}
+      /* Footer */
+      footer {
+        padding: 40px 0;
+        border-top: var(--elev);
+        color: var(--muted);
+        text-align: center;
+        background: var(--panel);
+      }
 
-    /* -------- SPA pages (hash router) -------- */
-    main>.page{display:none;opacity:0;transform:translateY(6px)}
-    main>.page[aria-hidden="false"]{display:block;animation:fadeIn .22s ease-out forwards}
-    @keyframes fadeIn{to{opacity:1;transform:translateY(0)}}
+      /* -------- SPA pages (hash router) -------- */
+      main > .page {
+        display: none;
+        opacity: 0;
+        transform: translateY(6px);
+      }
+      main > .page[aria-hidden="false"] {
+        display: block;
+        animation: fadeIn 0.22s ease-out forwards;
+      }
+      @keyframes fadeIn {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
 
-    /* A11y helper */
-    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
-    .pill{display:inline-flex;align-items:center;gap:8px;padding:8px 10px;border-radius:999px;border:1px solid var(--pill-border);
-      background:var(--pill-bg);color:var(--pill-text)}
-  </style>
-</head>
-<body>
-  <!-- ===== Header ===== -->
-  <header>
-    <div class="wrap">
-      <nav aria-label="Primary">
-        <a class="brand" href="#/" title="IDB — Home">
-          <!-- Minimal nautical mark (compass + wave + hull) -->
-          <svg viewBox="0 0 64 64" aria-hidden="true">
-            <defs><linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0" stop-color="#022a51"/><stop offset="1" stop-color="#20a4c9"/></linearGradient></defs>
-            <circle cx="32" cy="32" r="30" fill="url(#g1)" opacity=".12" stroke="currentColor" stroke-width="2"/>
-            <path d="M10 38c6 6 14 8 22 8s16-2 22-8" fill="none" stroke="currentColor" stroke-width="2" opacity=".45" />
-            <path d="M22 28l10-12 10 12-10-3z" fill="currentColor"/>
-          </svg>
-          <span>IDB <span class="muted">— I Deliver Boats</span></span>
-        </a>
+      /* A11y helper */
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        border: 0;
+      }
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 10px;
+        border-radius: 999px;
+        border: 1px solid var(--pill-border);
+        background: var(--pill-bg);
+        color: var(--pill-text);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ===== Header ===== -->
+    <header>
+      <div class="wrap">
+        <nav aria-label="Primary">
+          <a class="brand" href="#/" title="IDB — Home">
+            <!-- Minimal nautical mark (compass + wave + hull) -->
+            <img src="idblogo2.png" alt="IDB Logo" width="512px" height="512px" />
+            <span>IDB <span class="muted">— I Deliver Boats</span></span>
+          </a>
 
-        <div class="spacer"></div>
+          <div class="spacer"></div>
 
-        <!-- Theme toggle (simple light/dark) -->
-        <button id="themeToggle" class="theme-toggle" type="button" aria-label="Toggle color theme" aria-pressed="false" title="Toggle light/dark">
-          <svg id="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <circle cx="12" cy="12" r="4"></circle>
-            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path>
-          </svg>
-          <svg id="icon-moon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="display:none">
-            <path d="M21.75 14.5a9.75 9.75 0 1 1-12.25-12.2 0.75 0.75 0 0 1 .97.97A8.25 8.25 0 0 0 20.78 13.5a0.75 0.75 0 0 1 .97.98z"/>
-          </svg>
-          <span id="themeLabel" class="sr-only">Light mode</span>
-        </button>
+          <!-- Theme toggle (simple light/dark) -->
+          <button
+            id="themeToggle"
+            class="theme-toggle"
+            type="button"
+            aria-label="Toggle color theme"
+            aria-pressed="false"
+            title="Toggle light/dark"
+          >
+            <svg
+              id="icon-sun"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <circle cx="12" cy="12" r="4"></circle>
+              <path
+                d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"
+              ></path>
+            </svg>
+            <svg
+              id="icon-moon"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              aria-hidden="true"
+              style="display: none"
+            >
+              <path
+                d="M21.75 14.5a9.75 9.75 0 1 1-12.25-12.2 0.75 0.75 0 0 1 .97.97A8.25 8.25 0 0 0 20.78 13.5a0.75 0.75 0 0 1 .97.98z"
+              />
+            </svg>
+            <span id="themeLabel" class="sr-only">Light mode</span>
+          </button>
 
-        <div class="navlinks" role="menubar" style="margin-left:10px">
-          <a role="menuitem" data-link href="#/">Home</a>
-          <a role="menuitem" data-link href="#/services">Services</a>
-          <a role="menuitem" data-link href="#/about">About</a>
-          <a role="menuitem" data-link href="#/captain">Captain</a>
-          <a role="menuitem" data-link href="#/contact" class="pill">Contact</a>
-        </div>
-      </nav>
-    </div>
-  </header>
-
-  <main id="app">
-    <!-- ===== HOME ===== -->
-    <div id="page-home" class="page" data-route="/" data-page-title="IDB — I Deliver Boats" data-meta-desc="Professional yacht delivery, captaining, and on-your-boat training." aria-hidden="true">
-      <section class="hero">
-        <div class="wrap">
-          <h1>Professional Yacht Delivery, Captaining & On-Your-Boat Training</h1>
-          <p class="lead">Modern, safety-first seamanship with clear communication—so you can enjoy your boat and your plan stays on schedule.</p>
-          <div class="cta">
-            <a class="btn" href="#/contact">Get a Quote</a>
-            <a class="btn secondary" href="#/services">Explore Services</a>
+          <div class="navlinks" role="menubar" style="margin-left: 10px">
+            <a role="menuitem" data-link href="#/">Home</a>
+            <a role="menuitem" data-link href="#/services">Services</a>
+            <a role="menuitem" data-link href="#/about">About</a>
+            <a role="menuitem" data-link href="#/captain">Captain</a>
+            <a role="menuitem" data-link href="#/contact" class="pill"
+              >Contact</a
+            >
           </div>
-        </div>
-      </section>
+        </nav>
+      </div>
+    </header>
 
-      <section class="wrap">
-        <h2>Why IDB</h2>
-        <p class="section-lead">Owner-operated. Weather-led. Communication-first.</p>
-        <div class="grid">
-          <div class="card" style="grid-column:span 4">
-            <div class="kicker">Safety</div>
-            <h3>Conservative, Prepared</h3>
-            <p class="muted">Checklists, redundancy, and prudent weather margins guide every passage.</p>
-          </div>
-          <div class="card" style="grid-column:span 4">
-            <div class="kicker">Clarity</div>
-            <h3>Daily Updates</h3>
-            <p class="muted">Plain-language route, weather, and status—shared at agreed intervals.</p>
-          </div>
-          <div class="card" style="grid-column:span 4">
-            <div class="kicker">Care</div>
-            <h3>Your Boat, Respected</h3>
-            <p class="muted">Meticulous handovers and post-passage notes with practical recommendations.</p>
-          </div>
-        </div>
-      </section>
-    </div>
-
-    <!-- ===== SERVICES ===== -->
-    <div id="page-services" class="page" data-route="/services" data-page-title="Services — IDB" data-meta-desc="Delivery, captaining, and training services for sail and power yachts." aria-hidden="true">
-      <section class="wrap">
-        <h2>Services</h2>
-        <p class="section-lead">Three ways we help keep your adventure moving.</p>
-        <div class="grid">
-          <!-- Delivering Boats -->
-          <article class="service card" aria-labelledby="svc1-title">
-            <div class="kicker">Service</div>
-            <h3 id="svc1-title">Delivering Boats</h3>
-            <p class="muted">Full-service yacht delivery with route planning, weather windows, and owner updates.</p>
-            <ul>
-              <li>Passage planning &amp; float plan</li>
-              <li>Daily check-ins &amp; tracking</li>
-              <li>Pre-/post-delivery reports</li>
-            </ul>
-            <details>
-              <summary aria-controls="svc1-more" aria-expanded="false">Read more</summary>
-              <div id="svc1-more">
-                <p>We handle crew, provisioning, watch schedules, and port logistics. Pre-departure checks establish baseline systems; after arrival you’ll receive a condition report and actionable recommendations.</p>
-              </div>
-            </details>
-          </article>
-
-          <!-- Captaining Boats -->
-          <article class="service card" aria-labelledby="svc2-title">
-            <div class="kicker">Service</div>
-            <h3 id="svc2-title">Captaining Boats</h3>
-            <p class="muted">A professional captain for day sails, relocations, sea trials, or special events.</p>
-            <ul>
-              <li>Hourly, daily, or multi-day</li>
-              <li>Crew coordination</li>
-              <li>Docking &amp; tight-quarters ops</li>
-            </ul>
-            <details>
-              <summary aria-controls="svc2-more" aria-expanded="false">Read more</summary>
-              <div id="svc2-more">
-                <p>Ideal when you want a confident hand on the helm. We align on goals—passenger comfort, testing, or schedule—and operate conservatively around weather and risk.</p>
-              </div>
-            </details>
-          </article>
-
-          <!-- Training on Your Boat -->
-          <article class="service card" aria-labelledby="svc3-title">
-            <div class="kicker">Service</div>
-            <h3 id="svc3-title">Training on Your Boat</h3>
-            <p class="muted">Hands-on instruction aboard <em>your</em> vessel to build real-world confidence.</p>
-            <ul>
-              <li>Docking &amp; close-quarters</li>
-              <li>Anchoring &amp; mooring</li>
-              <li>Systems &amp; seamanship</li>
-            </ul>
-            <details>
-              <summary aria-controls="svc3-more" aria-expanded="false">Read more</summary>
-              <div id="svc3-more">
-                <p>Customized syllabus covering pre-departure checks, sail handling, MOB drills, chart/GPS workflow, and debrief notes you can reuse.</p>
-              </div>
-            </details>
-          </article>
-        </div>
-      </section>
-    </div>
-
-    <!-- ===== ABOUT (includes captain teaser) ===== -->
-    <div id="page-about" class="page" data-route="/about" data-page-title="About — IDB" data-meta-desc="About IDB, mailing address, contact details, and captain overview." aria-hidden="true">
-      <section class="wrap">
-        <div class="grid">
-          <article class="about card" aria-labelledby="about-title">
-            <div class="kicker">About</div>
-            <h2 id="about-title">About IDB</h2>
-            <p>We’re an owner-operated outfit focused on safety, clarity, and care for your vessel. Transparent planning, proactive communication, and respect for weather windows guide every job.</p>
-
-            <h3>Mailing Address</h3>
-            <address>
-              IDB — I Deliver Boats<br/>
-              PO Box ####<br/>
-              [City], [State/Province] [ZIP/Postal]<br/>
-              United States
-            </address>
-
-            <h3>Contacts</h3>
-            <p>
-              Phone: <a href="tel:+15558675309">+1 (555) 867-5309</a><br/>
-              WhatsApp: <a href="https://wa.me/15558675309" target="_blank" rel="noopener">Chat on WhatsApp</a><br/>
-              Email: <a href="mailto:hello@ideliverboats.com">hello@ideliverboats.com</a>
+    <main id="app">
+      <!-- ===== HOME ===== -->
+      <div
+        id="page-home"
+        class="page"
+        data-route="/"
+        data-page-title="IDB — I Deliver Boats"
+        data-meta-desc="Professional yacht delivery, captaining, and on-your-boat training."
+        aria-hidden="true"
+      >
+        <section class="hero">
+          <div class="wrap">
+            <h1>
+              Professional Yacht Delivery, Captaining & On-Your-Boat Training
+            </h1>
+            <p class="lead">
+              Modern, safety-first seamanship with clear communication—so you
+              can enjoy your boat and your plan stays on schedule.
             </p>
-          </article>
-
-          <article id="captain-card" class="profile card" aria-labelledby="captain-title">
-            <div class="kicker">Captain</div>
-            <h2 id="captain-title">Captain Profile</h2>
-            <div style="display:flex;gap:16px;align-items:center">
-              <div class="avatar" aria-hidden="true">IG</div>
-              <div>
-                <h3 style="margin:0 0 6px;">Capt. Ian Gillespie</h3>
-                <p class="muted" style="margin:0;">Professional skipper focused on safety, clear briefs, and smooth passages.</p>
-              </div>
+            <div class="cta">
+              <a class="btn" href="#/contact">Get a Quote</a>
+              <a class="btn secondary" href="#/services">Explore Services</a>
             </div>
-            <div class="badges" aria-label="Certifications and skills">
-              <span class="badge">USCG Master (Near Coastal)</span>
-              <span class="badge">STCW</span>
-              <span class="badge">CPR / First Aid</span>
-              <span class="badge">Radar / AIS</span>
-              <span class="badge">GMDSS / DSC</span>
-            </div>
-            <p>Experience across coastal and bluewater routes, monohulls and cats. Strong with docking, anchoring, passage planning, and crew leadership.</p>
-            <p><a class="btn secondary" href="#/captain">See full captain page</a></p>
-          </article>
-        </div>
-      </section>
-    </div>
-
-    <!-- ===== CAPTAIN (standalone) ===== -->
-    <div id="page-captain" class="page" data-route="/captain" data-page-title="Captain — IDB" data-meta-desc="Captain credentials, experience, and operating approach." aria-hidden="true">
-      <section class="wrap">
-        <div class="card">
-          <div class="kicker">Captain</div>
-          <h2>Capt. Ian Gillespie</h2>
-          <p class="muted">Owner-operator at IDB • Safety-first • Clear comms • Weather-led</p>
-
-          <h3>Experience</h3>
-          <ul>
-            <li>Deliveries: U.S. East Coast, ICW, Bahamas, Eastern Caribbean</li>
-            <li>Vessel types: Sail &amp; Power, mono &amp; cat, 25–60 ft</li>
-            <li>Specialties: Docking, anchoring, passage planning, crew leadership, systems triage</li>
-          </ul>
-
-          <h3>Approach</h3>
-          <p>Conservative margins, clear briefs, and checklists. Owners are fully informed with route, weather, and status updates—no surprises. Your boat is treated like my own.</p>
-
-          <div class="badges" style="margin-top:8px">
-            <span class="badge">USCG Master</span>
-            <span class="badge">TWIC</span>
-            <span class="badge">STCW</span>
-            <span class="badge">PST / FF</span>
           </div>
+        </section>
 
-          <p style="margin-top:18px"><a class="btn" href="#/contact">Request availability</a></p>
-        </div>
-      </section>
-    </div>
+        <section class="wrap">
+          <h2>Why IDB</h2>
+          <p class="section-lead">
+            Owner-operated. Weather-led. Communication-first.
+          </p>
+          <div class="grid">
+            <div class="card" style="grid-column: span 4">
+              <div class="kicker">Safety</div>
+              <h3>Conservative, Prepared</h3>
+              <p class="muted">
+                Checklists, redundancy, and prudent weather margins guide every
+                passage.
+              </p>
+            </div>
+            <div class="card" style="grid-column: span 4">
+              <div class="kicker">Clarity</div>
+              <h3>Daily Updates</h3>
+              <p class="muted">
+                Plain-language route, weather, and status—shared at agreed
+                intervals.
+              </p>
+            </div>
+            <div class="card" style="grid-column: span 4">
+              <div class="kicker">Care</div>
+              <h3>Your Boat, Respected</h3>
+              <p class="muted">
+                Meticulous handovers and post-passage notes with practical
+                recommendations.
+              </p>
+            </div>
+          </div>
+        </section>
+      </div>
 
-    <!-- ===== CONTACT ===== -->
-    <div id="page-contact" class="page" data-route="/contact" data-page-title="Contact — IDB" data-meta-desc="Request a quote for delivery, captaining, or on-your-boat training." aria-hidden="true">
-      <section class="wrap">
-        <div class="card">
-          <div class="kicker">Contact</div>
-          <h2>Request a Quote</h2>
-          <p class="section-lead">Tell us about your boat and plans. We’ll get back with timing, options, and next steps.</p>
+      <!-- ===== SERVICES ===== -->
+      <div
+        id="page-services"
+        class="page"
+        data-route="/services"
+        data-page-title="Services — IDB"
+        data-meta-desc="Delivery, captaining, and training services for sail and power yachts."
+        aria-hidden="true"
+      >
+        <section class="wrap">
+          <h2>Services</h2>
+          <p class="section-lead">
+            Three ways we help keep your adventure moving.
+          </p>
+          <div class="grid">
+            <!-- Delivering Boats -->
+            <article class="service card" aria-labelledby="svc1-title">
+              <div class="kicker">Service</div>
+              <h3 id="svc1-title">Delivering Boats</h3>
+              <p class="muted">
+                Full-service yacht delivery with route planning, weather
+                windows, and owner updates.
+              </p>
+              <ul>
+                <li>Passage planning &amp; float plan</li>
+                <li>Daily check-ins &amp; tracking</li>
+                <li>Pre-/post-delivery reports</li>
+              </ul>
+              <details>
+                <summary aria-controls="svc1-more" aria-expanded="false">
+                  Read more
+                </summary>
+                <div id="svc1-more">
+                  <p>
+                    We handle crew, provisioning, watch schedules, and port
+                    logistics. Pre-departure checks establish baseline systems;
+                    after arrival you’ll receive a condition report and
+                    actionable recommendations.
+                  </p>
+                </div>
+              </details>
+            </article>
 
-          <!-- Replace 'action' with your endpoint (Formspree/Basin/your backend) -->
-          <form action="#" method="post" novalidate aria-labelledby="contact-title">
-            <h3 id="contact-title" class="sr-only">Contact Form</h3>
+            <!-- Captaining Boats -->
+            <article class="service card" aria-labelledby="svc2-title">
+              <div class="kicker">Service</div>
+              <h3 id="svc2-title">Captaining Boats</h3>
+              <p class="muted">
+                A professional captain for day sails, relocations, sea trials,
+                or special events.
+              </p>
+              <ul>
+                <li>Hourly, daily, or multi-day</li>
+                <li>Crew coordination</li>
+                <li>Docking &amp; tight-quarters ops</li>
+              </ul>
+              <details>
+                <summary aria-controls="svc2-more" aria-expanded="false">
+                  Read more
+                </summary>
+                <div id="svc2-more">
+                  <p>
+                    Ideal when you want a confident hand on the helm. We align
+                    on goals—passenger comfort, testing, or schedule—and operate
+                    conservatively around weather and risk.
+                  </p>
+                </div>
+              </details>
+            </article>
 
-            <div class="col-6">
-              <label for="name">Name *</label>
-              <input id="name" name="name" type="text" autocomplete="name" required />
+            <!-- Training on Your Boat -->
+            <article class="service card" aria-labelledby="svc3-title">
+              <div class="kicker">Service</div>
+              <h3 id="svc3-title">Training on Your Boat</h3>
+              <p class="muted">
+                Hands-on instruction aboard <em>your</em> vessel to build
+                real-world confidence.
+              </p>
+              <ul>
+                <li>Docking &amp; close-quarters</li>
+                <li>Anchoring &amp; mooring</li>
+                <li>Systems &amp; seamanship</li>
+              </ul>
+              <details>
+                <summary aria-controls="svc3-more" aria-expanded="false">
+                  Read more
+                </summary>
+                <div id="svc3-more">
+                  <p>
+                    Customized syllabus covering pre-departure checks, sail
+                    handling, MOB drills, chart/GPS workflow, and debrief notes
+                    you can reuse.
+                  </p>
+                </div>
+              </details>
+            </article>
+          </div>
+        </section>
+      </div>
+
+      <!-- ===== ABOUT (includes captain teaser) ===== -->
+      <div
+        id="page-about"
+        class="page"
+        data-route="/about"
+        data-page-title="About — IDB"
+        data-meta-desc="About IDB, mailing address, contact details, and captain overview."
+        aria-hidden="true"
+      >
+        <section class="wrap">
+          <div class="grid">
+            <article class="about card" aria-labelledby="about-title">
+              <div class="kicker">About</div>
+              <h2 id="about-title">About IDB</h2>
+              <p>
+                We’re an owner-operated outfit focused on safety, clarity, and
+                care for your vessel. Transparent planning, proactive
+                communication, and respect for weather windows guide every job.
+              </p>
+
+              <h3>Mailing Address</h3>
+              <address>
+                IDB — I Deliver Boats<br />
+                PO Box ####<br />
+                [City], [State/Province] [ZIP/Postal]<br />
+                United States
+              </address>
+
+              <h3>Contacts</h3>
+              <p>
+                Phone: <a href="tel:+15558675309">+1 (555) 867-5309</a><br />
+                WhatsApp:
+                <a
+                  href="https://wa.me/15558675309"
+                  target="_blank"
+                  rel="noopener"
+                  >Chat on WhatsApp</a
+                ><br />
+                Email:
+                <a href="mailto:hello@ideliverboats.com"
+                  >hello@ideliverboats.com</a
+                >
+              </p>
+            </article>
+
+            <article
+              id="captain-card"
+              class="profile card"
+              aria-labelledby="captain-title"
+            >
+              <div class="kicker">Captain</div>
+              <h2 id="captain-title">Captain Profile</h2>
+              <div style="display: flex; gap: 16px; align-items: center">
+                <div class="avatar" aria-hidden="true">IG</div>
+                <div>
+                  <h3 style="margin: 0 0 6px">Capt. Ian Gillespie</h3>
+                  <p class="muted" style="margin: 0">
+                    Professional skipper focused on safety, clear briefs, and
+                    smooth passages.
+                  </p>
+                </div>
+              </div>
+              <div class="badges" aria-label="Certifications and skills">
+                <span class="badge">USCG Master (Near Coastal)</span>
+                <span class="badge">STCW</span>
+                <span class="badge">CPR / First Aid</span>
+                <span class="badge">Radar / AIS</span>
+                <span class="badge">GMDSS / DSC</span>
+              </div>
+              <p>
+                Experience across coastal and bluewater routes, monohulls and
+                cats. Strong with docking, anchoring, passage planning, and crew
+                leadership.
+              </p>
+              <p>
+                <a class="btn secondary" href="#/captain"
+                  >See full captain page</a
+                >
+              </p>
+            </article>
+          </div>
+        </section>
+      </div>
+
+      <!-- ===== CAPTAIN (standalone) ===== -->
+      <div
+        id="page-captain"
+        class="page"
+        data-route="/captain"
+        data-page-title="Captain — IDB"
+        data-meta-desc="Captain credentials, experience, and operating approach."
+        aria-hidden="true"
+      >
+        <section class="wrap">
+          <div class="card">
+            <div class="kicker">Captain</div>
+            <h2>Capt. Ian Gillespie</h2>
+            <p class="muted">
+              Owner-operator at IDB • Safety-first • Clear comms • Weather-led
+            </p>
+
+            <h3>Experience</h3>
+            <ul>
+              <li>
+                Deliveries: U.S. East Coast, ICW, Bahamas, Eastern Caribbean
+              </li>
+              <li>Vessel types: Sail &amp; Power, mono &amp; cat, 25–60 ft</li>
+              <li>
+                Specialties: Docking, anchoring, passage planning, crew
+                leadership, systems triage
+              </li>
+            </ul>
+
+            <h3>Approach</h3>
+            <p>
+              Conservative margins, clear briefs, and checklists. Owners are
+              fully informed with route, weather, and status updates—no
+              surprises. Your boat is treated like my own.
+            </p>
+
+            <div class="badges" style="margin-top: 8px">
+              <span class="badge">USCG Master</span>
+              <span class="badge">TWIC</span>
+              <span class="badge">STCW</span>
+              <span class="badge">PST / FF</span>
             </div>
 
-            <div class="col-6">
-              <label for="email">Email *</label>
-              <input id="email" name="email" type="email" autocomplete="email" required />
-            </div>
+            <p style="margin-top: 18px">
+              <a class="btn" href="#/contact">Request availability</a>
+            </p>
+          </div>
+        </section>
+      </div>
 
-            <div class="col-6">
-              <label for="phone">Phone / WhatsApp</label>
-              <input id="phone" name="phone" type="tel" autocomplete="tel" />
-            </div>
+      <!-- ===== CONTACT ===== -->
+      <div
+        id="page-contact"
+        class="page"
+        data-route="/contact"
+        data-page-title="Contact — IDB"
+        data-meta-desc="Request a quote for delivery, captaining, or on-your-boat training."
+        aria-hidden="true"
+      >
+        <section class="wrap">
+          <div class="card">
+            <div class="kicker">Contact</div>
+            <h2>Request a Quote</h2>
+            <p class="section-lead">
+              Tell us about your boat and plans. We’ll get back with timing,
+              options, and next steps.
+            </p>
 
-            <div class="col-6">
-              <label for="service">Service *</label>
-              <select id="service" name="service" required>
-                <option value="">Select a service…</option>
-                <option>Delivering Boats</option>
-                <option>Captaining Boats</option>
-                <option>Training on Your Boat</option>
-              </select>
-            </div>
+            <!-- Replace 'action' with your endpoint (Formspree/Basin/your backend) -->
+            <form
+              action="#"
+              method="post"
+              novalidate
+              aria-labelledby="contact-title"
+            >
+              <h3 id="contact-title" class="sr-only">Contact Form</h3>
 
-            <div class="col-6">
-              <label for="boat">Boat (Make / Model / Length)</label>
-              <input id="boat" name="boat" type="text" placeholder="e.g., Pearson 365, 36’" />
-            </div>
+              <div class="col-6">
+                <label for="name">Name *</label>
+                <input
+                  id="name"
+                  name="name"
+                  type="text"
+                  autocomplete="name"
+                  required
+                />
+              </div>
 
-            <div class="col-6">
-              <label for="dates">Target Dates</label>
-              <input id="dates" name="dates" type="text" placeholder="e.g., Nov 15–30" />
-            </div>
+              <div class="col-6">
+                <label for="email">Email *</label>
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  autocomplete="email"
+                  required
+                />
+              </div>
 
-            <div class="col-12">
-              <label for="route">Route / Location</label>
-              <input id="route" name="route" type="text" placeholder="From / To or operating area" />
-            </div>
+              <div class="col-6">
+                <label for="phone">Phone / WhatsApp</label>
+                <input id="phone" name="phone" type="tel" autocomplete="tel" />
+              </div>
 
-            <div class="col-12">
-              <label for="message">Message</label>
-              <textarea id="message" name="message" placeholder="Share goals, constraints, and any questions."></textarea>
-            </div>
+              <div class="col-6">
+                <label for="service">Service *</label>
+                <select id="service" name="service" required>
+                  <option value="">Select a service…</option>
+                  <option>Delivering Boats</option>
+                  <option>Captaining Boats</option>
+                  <option>Training on Your Boat</option>
+                </select>
+              </div>
 
-            <div class="col-12" style="display:flex;gap:12px;align-items:center">
-              <button class="btn" type="submit">Send Request</button>
-              <span class="muted">We’ll reply by email within 1–2 business days.</span>
-            </div>
-          </form>
-        </div>
-      </section>
-    </div>
-  </main>
+              <div class="col-6">
+                <label for="boat">Boat (Make / Model / Length)</label>
+                <input
+                  id="boat"
+                  name="boat"
+                  type="text"
+                  placeholder="e.g., Pearson 365, 36’"
+                />
+              </div>
 
-  <!-- ===== Footer ===== -->
-  <footer>
-    <div class="wrap">
-      © <span id="year"></span> IDB — I Deliver Boats · All rights reserved
-    </div>
-  </footer>
+              <div class="col-6">
+                <label for="dates">Target Dates</label>
+                <input
+                  id="dates"
+                  name="dates"
+                  type="text"
+                  placeholder="e.g., Nov 15–30"
+                />
+              </div>
 
-  <script>
-    // ===========================
-    // THEME TOGGLE (light/dark)
-    // ===========================
-    (function(){
-      const root = document.documentElement;
-      const storageKey = 'idb-theme'; // 'light' | 'dark'
-      const btn = document.getElementById('themeToggle');
-      const iconSun = document.getElementById('icon-sun');
-      const iconMoon = document.getElementById('icon-moon');
-      const label = document.getElementById('themeLabel');
+              <div class="col-12">
+                <label for="route">Route / Location</label>
+                <input
+                  id="route"
+                  name="route"
+                  type="text"
+                  placeholder="From / To or operating area"
+                />
+              </div>
 
-      function setMode(mode){
-        const isDark = mode === 'dark';
-        root.setAttribute('data-theme', mode);
-        localStorage.setItem(storageKey, mode);
-        btn.setAttribute('aria-pressed', isDark ? 'true' : 'false');
-        iconSun.style.display = isDark ? 'none' : 'block';
-        iconMoon.style.display = isDark ? 'block' : 'none';
-        label.textContent = isDark ? 'Dark mode' : 'Light mode';
-        // Inform the UA about form control styling preference
-        const meta = document.querySelector('meta[name="color-scheme"]');
-        if (meta) meta.setAttribute('content', isDark ? 'dark light' : 'light dark');
-      }
+              <div class="col-12">
+                <label for="message">Message</label>
+                <textarea
+                  id="message"
+                  name="message"
+                  placeholder="Share goals, constraints, and any questions."
+                ></textarea>
+              </div>
 
-      // Initialize: respect saved preference, fallback to system
-      const saved = localStorage.getItem(storageKey);
-      if (saved === 'light' || saved === 'dark') {
-        setMode(saved);
-      } else {
-        const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-        setMode(prefersDark ? 'dark' : 'light');
-      }
+              <div
+                class="col-12"
+                style="display: flex; gap: 12px; align-items: center"
+              >
+                <button class="btn" type="submit">Send Request</button>
+                <span class="muted"
+                  >We’ll reply by email within 1–2 business days.</span
+                >
+              </div>
+            </form>
+          </div>
+        </section>
+      </div>
+    </main>
 
-      btn.addEventListener('click', () => {
-        const current = root.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
-        setMode(current === 'dark' ? 'light' : 'dark');
-      });
-    })();
+    <!-- ===== Footer ===== -->
+    <footer>
+      <div class="wrap">
+        © <span id="year"></span> IDB — I Deliver Boats · All rights reserved
+      </div>
+    </footer>
 
-    // =======================================
-    // SIMPLE HASH ROUTER (simulated pages)
-    // =======================================
-    (function () {
-      const PAGES = Array.from(document.querySelectorAll('main > .page'));
-      const LINKS = Array.from(document.querySelectorAll('[data-link]'));
-      const metaDesc = document.querySelector('meta[name="description"]');
-      const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    <script>
+      // ===========================
+      // THEME TOGGLE (light/dark)
+      // ===========================
+      (function () {
+        const root = document.documentElement;
+        const storageKey = "idb-theme"; // 'light' | 'dark'
+        const btn = document.getElementById("themeToggle");
+        const iconSun = document.getElementById("icon-sun");
+        const iconMoon = document.getElementById("icon-moon");
+        const label = document.getElementById("themeLabel");
 
-      function getRouteFromHash(){
-        const hash = location.hash.replace(/^#/, '');
-        const path = hash || '/';
-        const match = PAGES.find(p => p.dataset.route === path);
-        return match || PAGES[0];
-      }
-
-      function setActive(path){
-        LINKS.forEach(a => {
-          const linkPath = a.getAttribute('href').replace(/^#/, '');
-          a.setAttribute('aria-current', linkPath === path ? 'page' : 'false');
-        });
-      }
-
-      function show(page){
-        PAGES.forEach(p => p.setAttribute('aria-hidden', 'true'));
-        page.setAttribute('aria-hidden', 'false');
-
-        // Title & description to mimic multi-page
-        document.title = page.dataset.pageTitle || 'IDB — I Deliver Boats';
-        if (metaDesc) metaDesc.setAttribute('content', page.dataset.metaDesc || 'Yacht delivery, captaining, and on-your-boat training.');
-
-        // a11y focus management for keyboard users
-        const firstHeading = page.querySelector('h1, h2');
-        if (firstHeading && document.body.classList.contains('user-tabbed')) {
-          firstHeading.setAttribute('tabindex', '-1');
-          firstHeading.focus();
+        function setMode(mode) {
+          const isDark = mode === "dark";
+          root.setAttribute("data-theme", mode);
+          localStorage.setItem(storageKey, mode);
+          btn.setAttribute("aria-pressed", isDark ? "true" : "false");
+          iconSun.style.display = isDark ? "none" : "block";
+          iconMoon.style.display = isDark ? "block" : "none";
+          label.textContent = isDark ? "Dark mode" : "Light mode";
+          // Inform the UA about form control styling preference
+          const meta = document.querySelector('meta[name="color-scheme"]');
+          if (meta)
+            meta.setAttribute("content", isDark ? "dark light" : "light dark");
         }
 
-        setActive(page.dataset.route);
-        if (!prefersReduced) { window.scrollTo({ top: 0, behavior: 'smooth' }); } else { window.scrollTo(0,0); }
-      }
+        // Initialize: respect saved preference, fallback to system
+        const saved = localStorage.getItem(storageKey);
+        if (saved === "light" || saved === "dark") {
+          setMode(saved);
+        } else {
+          const prefersDark =
+            window.matchMedia &&
+            window.matchMedia("(prefers-color-scheme: dark)").matches;
+          setMode(prefersDark ? "dark" : "light");
+        }
 
-      function handleHashChange(){ show(getRouteFromHash()); }
+        btn.addEventListener("click", () => {
+          const current =
+            root.getAttribute("data-theme") === "dark" ? "dark" : "light";
+          setMode(current === "dark" ? "light" : "dark");
+        });
+      })();
 
-      // mark keyboard navigation
-      window.addEventListener('keydown', e => { if (e.key === 'Tab') document.body.classList.add('user-tabbed'); }, { once:true });
+      // =======================================
+      // SIMPLE HASH ROUTER (simulated pages)
+      // =======================================
+      (function () {
+        const PAGES = Array.from(document.querySelectorAll("main > .page"));
+        const LINKS = Array.from(document.querySelectorAll("[data-link]"));
+        const metaDesc = document.querySelector('meta[name="description"]');
+        const prefersReduced =
+          window.matchMedia &&
+          window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-      window.addEventListener('hashchange', handleHashChange);
-      window.addEventListener('DOMContentLoaded', () => {
-        // footer year
-        const y = document.getElementById('year'); if (y) y.textContent = new Date().getFullYear();
+        function getRouteFromHash() {
+          const hash = location.hash.replace(/^#/, "");
+          const path = hash || "/";
+          const match = PAGES.find((p) => p.dataset.route === path);
+          return match || PAGES[0];
+        }
 
-        // subtle details open animation (optional)
-        if (!prefersReduced) {
-          document.querySelectorAll('details').forEach(d => {
-            d.addEventListener('toggle', () => {
-              if (d.open && d.animate) {
-                d.animate(
-                  [{opacity:0, transform:'translateY(-4px)'},{opacity:1, transform:'translateY(0)'}],
-                  {duration:180, easing:'ease-out'}
-                );
-              }
-            });
+        function setActive(path) {
+          LINKS.forEach((a) => {
+            const linkPath = a.getAttribute("href").replace(/^#/, "");
+            a.setAttribute(
+              "aria-current",
+              linkPath === path ? "page" : "false"
+            );
           });
         }
 
-        // brand click returns home (avoid default anchor jump)
-        const brand = document.querySelector('.brand');
-        if (brand) brand.addEventListener('click', (e) => { e.preventDefault(); location.hash = '#/'; });
+        function show(page) {
+          PAGES.forEach((p) => p.setAttribute("aria-hidden", "true"));
+          page.setAttribute("aria-hidden", "false");
 
-        // initial render
-        handleHashChange();
-      });
-    })();
-  </script>
-</body>
+          // Title & description to mimic multi-page
+          document.title = page.dataset.pageTitle || "IDB — I Deliver Boats";
+          if (metaDesc)
+            metaDesc.setAttribute(
+              "content",
+              page.dataset.metaDesc ||
+                "Yacht delivery, captaining, and on-your-boat training."
+            );
+
+          // a11y focus management for keyboard users
+          const firstHeading = page.querySelector("h1, h2");
+          if (firstHeading && document.body.classList.contains("user-tabbed")) {
+            firstHeading.setAttribute("tabindex", "-1");
+            firstHeading.focus();
+          }
+
+          setActive(page.dataset.route);
+          if (!prefersReduced) {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          } else {
+            window.scrollTo(0, 0);
+          }
+        }
+
+        function handleHashChange() {
+          show(getRouteFromHash());
+        }
+
+        // mark keyboard navigation
+        window.addEventListener(
+          "keydown",
+          (e) => {
+            if (e.key === "Tab") document.body.classList.add("user-tabbed");
+          },
+          { once: true }
+        );
+
+        window.addEventListener("hashchange", handleHashChange);
+        window.addEventListener("DOMContentLoaded", () => {
+          // footer year
+          const y = document.getElementById("year");
+          if (y) y.textContent = new Date().getFullYear();
+
+          // subtle details open animation (optional)
+          if (!prefersReduced) {
+            document.querySelectorAll("details").forEach((d) => {
+              d.addEventListener("toggle", () => {
+                if (d.open && d.animate) {
+                  d.animate(
+                    [
+                      { opacity: 0, transform: "translateY(-4px)" },
+                      { opacity: 1, transform: "translateY(0)" },
+                    ],
+                    { duration: 180, easing: "ease-out" }
+                  );
+                }
+              });
+            });
+          }
+
+          // brand click returns home (avoid default anchor jump)
+          const brand = document.querySelector(".brand");
+          if (brand)
+            brand.addEventListener("click", (e) => {
+              e.preventDefault();
+              location.hash = "#/";
+            });
+
+          // initial render
+          handleHashChange();
+        });
+      })();
+    </script>
+  </body>
 </html>
