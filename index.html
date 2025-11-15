@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <title>IDB — I Deliver Boats</title>
@@ -8,7 +8,7 @@
       name="description"
       content="IDB (I Deliver Boats): Professional yacht delivery, captaining, and on-your-boat training."
     />
-    <meta name="color-scheme" content="light dark" />
+    <meta name="color-scheme" content="light" />
     <link rel="canonical" href="/" />
     <style>
       /* =========================================================
@@ -49,38 +49,6 @@
         --card-border: var(--line);
         --active-bg: var(--brand-100);
         --active-border: #d9e7f5;
-      }
-
-      /* -------- Dark mode overrides (activated with html[data-theme="dark"]) -------- */
-      html[data-theme="dark"] {
-        --bg: #0b1220;
-        --panel: #0f172a;
-        --ink: #e7eef7;
-        --text: #dbe5f0;
-        --muted: #a9b6c6;
-        --line: #1f2b3b;
-
-        --brand-600: #47b3d2;
-        --brand-500: #2ba2c7;
-        --brand-400: #5dbfe0;
-        --brand-100: #0d233a;
-
-        --sea: #4fc3de;
-        --sand: #bba575;
-
-        --shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
-        --elev: 1px solid var(--line);
-
-        --btn-grad-start: #0d3156;
-        --btn-grad-end: #0a2846;
-
-        --pill-bg: #0b1626;
-        --pill-border: #203148;
-        --pill-text: #e9f2fb;
-
-        --card-border: var(--line);
-        --active-bg: #122338;
-        --active-border: #1d2a3d;
       }
 
       /* -------- Base / Reset -------- */
@@ -247,9 +215,7 @@
         .menu-toggle {
           display: inline-flex;
         }
-        .theme-toggle {
-          display: none;
-        } /* keep header uncluttered on mobile */
+         /* keep header uncluttered on mobile */
       }
 
       /* When menu is open, morph the hamburger a bit */
@@ -261,27 +227,7 @@
       }
       .menu-toggle[aria-expanded="true"] .bars::after {
         transform: translateY(-6px) rotate(-45deg);
-      }
-
-      /* Theme toggle */
-      .theme-toggle {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        padding: 8px 10px;
-        border-radius: 10px;
-        border: 1px solid var(--pill-border);
-        background: var(--pill-bg);
-        color: var(--pill-text);
-        cursor: pointer;
-        font-weight: 600;
-      }
-      .theme-toggle svg {
-        width: 18px;
-        height: 18px;
-      }
-
-      /* -------- Hero -------- */
+      }/* -------- Hero -------- */
       .hero {
         position: relative;
         overflow: hidden;
@@ -467,12 +413,7 @@
         background: #f2f7fb;
         border: 1px solid var(--pill-border);
         color: var(--pill-text);
-      }
-      html[data-theme="dark"] .badge {
-        background: #111f33;
-      }
-
-      /* Form */
+      }/* Form */
       form {
         display: grid;
         gap: 14px;
@@ -490,13 +431,7 @@
         background: var(--panel);
         color: var(--text);
         border: 1px solid #cfdbe7;
-      }
-      html[data-theme="dark"] input,
-      html[data-theme="dark"] select,
-      html[data-theme="dark"] textarea {
-        border-color: #25364c;
-      }
-      textarea {
+      }textarea {
         min-height: 120px;
         resize: vertical;
       }
@@ -580,7 +515,6 @@
   .services-grid { gap: 16px; }                               /* tighter spacing on phones */
 }
 
-
 /* ===== Hero logo float & responsive wrap (injected) ===== */
 .hero .hero-logo{
   float:left;
@@ -636,47 +570,6 @@
           >
             <span class="bars" aria-hidden="true"></span>
             Menu
-          </button>
-
-          <!-- Theme toggle (shown on desktop; hidden on mobile by CSS) -->
-          <button
-            id="themeToggle"
-            class="theme-toggle"
-            type="button"
-            aria-label="Toggle color theme"
-            aria-pressed="false"
-            title="Toggle light/dark"
-          >
-            <!-- (keep your existing sun/moon SVGs & sr-only span here) -->
-            <!-- BEGIN icons -->
-            <svg
-              id="icon-sun"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.8"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              aria-hidden="true"
-            >
-              <circle cx="12" cy="12" r="4"></circle>
-              <path
-                d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"
-              ></path>
-            </svg>
-            <svg
-              id="icon-moon"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-              aria-hidden="true"
-              style="display: none"
-            >
-              <path
-                d="M21.75 14.5a9.75 9.75 0 1 1-12.25-12.2 0.75 0.75 0 0 1 .97.97A8.25 8.25 0 0 0 20.78 13.5a0.75 0.75 0 0 1 .97.98z"
-              />
-            </svg>
-            <span id="themeLabel" class="sr-only">Light mode</span>
-            <!-- END icons -->
           </button>
 
           <!-- Primary links -->
@@ -1115,49 +1008,6 @@
     </footer>
 
     <script>
-      // ===========================
-      // THEME TOGGLE (light/dark)
-      // ===========================
-      (function () {
-        const root = document.documentElement;
-        const storageKey = "idb-theme"; // 'light' | 'dark'
-        const btn = document.getElementById("themeToggle");
-        const iconSun = document.getElementById("icon-sun");
-        const iconMoon = document.getElementById("icon-moon");
-        const label = document.getElementById("themeLabel");
-
-        function setMode(mode) {
-          const isDark = mode === "dark";
-          root.setAttribute("data-theme", mode);
-          localStorage.setItem(storageKey, mode);
-          btn.setAttribute("aria-pressed", isDark ? "true" : "false");
-          iconSun.style.display = isDark ? "none" : "block";
-          iconMoon.style.display = isDark ? "block" : "none";
-          label.textContent = isDark ? "Dark mode" : "Light mode";
-          // Inform the UA about form control styling preference
-          const meta = document.querySelector('meta[name="color-scheme"]');
-          if (meta)
-            meta.setAttribute("content", isDark ? "dark light" : "light dark");
-        }
-
-        // Initialize: respect saved preference, fallback to system
-        const saved = localStorage.getItem(storageKey);
-        if (saved === "light" || saved === "dark") {
-          setMode(saved);
-        } else {
-          const prefersDark =
-            window.matchMedia &&
-            window.matchMedia("(prefers-color-scheme: dark)").matches;
-          setMode(prefersDark ? "dark" : "light");
-        }
-
-        btn.addEventListener("click", () => {
-          const current =
-            root.getAttribute("data-theme") === "dark" ? "dark" : "light";
-          setMode(current === "dark" ? "light" : "dark");
-        });
-      })();
-
       // =======================================
       // SIMPLE HASH ROUTER (simulated pages)
       // =======================================
