@@ -215,7 +215,7 @@
         .menu-toggle {
           display: inline-flex;
         }
-         /* keep header uncluttered on mobile */
+        /* keep header uncluttered on mobile */
       }
 
       /* When menu is open, morph the hamburger a bit */
@@ -227,7 +227,7 @@
       }
       .menu-toggle[aria-expanded="true"] .bars::after {
         transform: translateY(-6px) rotate(-45deg);
-      }/* -------- Hero -------- */
+      } /* -------- Hero -------- */
       .hero {
         position: relative;
         overflow: hidden;
@@ -413,7 +413,7 @@
         background: #f2f7fb;
         border: 1px solid var(--pill-border);
         color: var(--pill-text);
-      }/* Form */
+      } /* Form */
       form {
         display: grid;
         gap: 14px;
@@ -431,7 +431,8 @@
         background: var(--panel);
         color: var(--text);
         border: 1px solid #cfdbe7;
-      }textarea {
+      }
+      textarea {
         min-height: 120px;
         resize: vertical;
       }
@@ -462,6 +463,36 @@
         color: var(--muted);
         text-align: center;
         background: var(--panel);
+      }
+
+      /* Inline layout for the Why IDB header row */
+      .why-header-line {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap; /* allows clean stacking on small screens */
+        gap: 12px;
+      }
+
+      .section-header-line p {
+        margin: 0;
+      }
+
+      /* Typography / emphasis */
+      .section-contact-inline {
+        color: var(--muted);
+        white-space: nowrap; /* keeps phone number + email on one line */
+      }
+
+      /* Mobile: stack vertically */
+      @media (max-width: 640px) {
+        .why-header-line {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+        .section-contact-inline {
+          white-space: normal; /* allow wrapping on small screens */
+        }
       }
 
       /* -------- SPA pages (hash router) -------- */
@@ -502,51 +533,78 @@
         background: var(--pill-bg);
         color: var(--pill-text);
       }
-    
-/* ===== Services responsive cards (injected) ===== */
-.services-grid > .service { grid-column: span 4; }           /* desktop: 3-up */
 
-@media (max-width: 900px){
-  .services-grid > .service { grid-column: span 6; }         /* tablet: 2-up */
-}
+      /* ===== Services responsive cards (injected) ===== */
+      .services-grid > .service {
+        grid-column: span 4;
+      } /* desktop: 3-up */
 
-@media (max-width: 640px){
-  .services-grid > .service { grid-column: 1 / -1; }         /* phone: 1-up */
-  .services-grid { gap: 16px; }                               /* tighter spacing on phones */
-}
+      @media (max-width: 900px) {
+        .services-grid > .service {
+          grid-column: span 6;
+        } /* tablet: 2-up */
+      }
 
-/* ===== Hero logo float & responsive wrap (injected) ===== */
-.hero .hero-logo{
-  float:left;
-  width:35%;
-  max-width:240px;
-  height:auto;
-  margin:0 24px 10px 0;
-  border-radius:10px;
-  box-shadow: var(--shadow);
-  shape-outside: margin-box;
-}
-@media (max-width: 900px){
-  .hero .hero-logo{ width:40%; max-width:220px; margin-right:16px; }
-}
-@media (max-width: 640px){
-  .hero .hero-logo{
-    float:none; display:block; width:56%; max-width:260px;
-    margin:0 auto 16px; shape-outside:auto;
-  }
-}
+      @media (max-width: 640px) {
+        .services-grid > .service {
+          grid-column: 1 / -1;
+        } /* phone: 1-up */
+        .services-grid {
+          gap: 16px;
+        } /* tighter spacing on phones */
+      }
 
-/* ===== Phone-first spacing & typography tweaks (injected) ===== */
-@media (max-width: 640px){
-  section{ padding:36px 0; }
-  .hero{ padding:56px 0 32px; }
-  .card{ padding:16px; }
-  .why-grid{ gap:16px; }
-  .services-grid{ gap:16px; }
-  .hero .lead{ font-size:16px; }
-}
+      /* ===== Hero logo float & responsive wrap (injected) ===== */
+      .hero .hero-logo {
+        float: left;
+        width: 35%;
+        max-width: 240px;
+        height: auto;
+        margin: 0 24px 10px 0;
+        border-radius: 10px;
+        box-shadow: var(--shadow);
+        shape-outside: margin-box;
+      }
+      @media (max-width: 900px) {
+        .hero .hero-logo {
+          width: 40%;
+          max-width: 220px;
+          margin-right: 16px;
+        }
+      }
+      @media (max-width: 640px) {
+        .hero .hero-logo {
+          float: none;
+          display: block;
+          width: 56%;
+          max-width: 260px;
+          margin: 0 auto 16px;
+          shape-outside: auto;
+        }
+      }
 
-</style>
+      /* ===== Phone-first spacing & typography tweaks (injected) ===== */
+      @media (max-width: 640px) {
+        section {
+          padding: 36px 0;
+        }
+        .hero {
+          padding: 56px 0 32px;
+        }
+        .card {
+          padding: 16px;
+        }
+        .why-grid {
+          gap: 16px;
+        }
+        .services-grid {
+          gap: 16px;
+        }
+        .hero .lead {
+          font-size: 16px;
+        }
+      }
+    </style>
   </head>
   <body>
     <!-- ===== Header ===== -->
@@ -600,7 +658,7 @@
           <div class="wrap">
             <img class="hero-logo" src="idblogo3.png" alt="IDB Logo" />
             <h1>
-              Professional Yacht Delivery, Captaining & On-Your-Boat Training
+              Professional Yacht Delivery, Charter Captaining & On-Your-Boat Training
             </h1>
             <p class="lead">
               Modern, safety-first seamanship with clear communication—so you
@@ -615,9 +673,22 @@
 
         <section class="wrap">
           <h2>Why IDB</h2>
-          <p class="section-lead">
-            Owner-operated. Weather-led. Communication-first.
-          </p>
+          <div class="why-header-line">
+            <p class="section-lead">
+              Owner-operated. Weather-led. Communication-first.
+            </p>
+            <p class="section-contact-inline">
+              Phone: <a href="tel:+13212227245">+1 (321) 222-7245</a><br />
+              WhatsApp:
+              <a href="https://wa.me/15734342327" target="_blank" rel="noopener"
+                >Chat on WhatsApp</a
+              ><br />
+              Email:
+              <a href="mailto:CaptainIan@ideliverboats.com"
+                >CaptainIan@ideliverboats.com</a
+              >
+            </p>
+          </div>
           <div class="grid why-grid">
             <div class="card" style="grid-column: span 4">
               <div class="kicker">Safety</div>
@@ -766,6 +837,11 @@
                 care for your vessel. Transparent planning, proactive
                 communication, and respect for weather windows guide every job.
               </p>
+              <p>
+                When timing matters, additional vetted captains can be assigned
+                to meet schedule demands without compromising safety or
+                standards.
+              </p>
               <!-- 
               <h3>Mailing Address</h3>
               <address>
@@ -774,22 +850,6 @@
                 [City], [State/Province] [ZIP/Postal]<br />
                 United States
               </address> -->
-
-              <h3>Contacts</h3>
-              <p>
-                Phone: <a href="tel:+13212227245">+1 (321) 222-7245</a><br />
-                WhatsApp:
-                <a
-                  href="https://wa.me/15734342327"
-                  target="_blank"
-                  rel="noopener"
-                  >Chat on WhatsApp</a
-                ><br />
-                Email:
-                <a href="mailto:CaptainIan@ideliverboats.com"
-                  >CaptainIan@ideliverboats.com</a
-                >
-              </p>
             </article>
 
             <article
@@ -809,13 +869,11 @@
                   </p>
                 </div>
               </div>
-              <div class="badges" aria-label="Certifications and skills">
-                <span class="badge">USCG Master (Near Coastal)</span>
-                <span class="badge">STCW</span>
-                <span class="badge">CPR / First Aid</span>
-                <span class="badge">Radar / AIS</span>
-                <span class="badge">GMDSS / DSC</span>
-              </div>
+            <div class="badges" style="margin-top: 8px">
+              <span class="badge">USCG Master (insured)</span>
+              <span class="badge">Inland Masters</span>
+              <span class="badge">Coastal 6 Pack</span>
+            </div>
               <p>
                 Experience across coastal, inland, and bluewater routes,
                 monohulls and cats. Strong with docking, anchoring, passage
