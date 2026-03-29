@@ -1,0 +1,180 @@
+[
+  {
+    "id": "harvest-rover-v2",
+    "name": "Harvest Rover v2 — \"Bramble\"",
+    "category": "Mobility",
+    "status": "Active",
+    "version": "2.3.1",
+    "deployed": "2023-06",
+    "lead": "tobias-kellenbrink",
+    "description": "Six-wheel drive platform designed for row-crop harvest assist in the north and east fields. Carries up to 40kg of harvested produce. Navigates autonomously using a combination of RTK-GPS, wheel odometry, and a stereo depth camera for obstacle avoidance. Does not harvest independently — it follows human pickers and reduces carry fatigue.",
+    "specs": {
+      "drive": "6WD brushless DC, independent suspension",
+      "payload": "40kg",
+      "battery": "48V 20Ah LiFePO4, ~6hr field runtime",
+      "navigation": "RTK-GPS + stereo depth camera (ZED2i) + IMU",
+      "compute": "NVIDIA Jetson Orin NX 8GB",
+      "comms": "LoRa 915MHz + WiFi 6 when in range"
+    },
+    "lessons": "v1 failed primarily because we tried to make it fully autonomous on day one. v2 is deliberately a harvest assist tool, not a harvester. That distinction changed everything.",
+    "tags": ["Mobility", "Field Operations", "Harvest"]
+  },
+  {
+    "id": "soil-sensor-network",
+    "name": "Distributed Soil Sensor Network — \"Rhizome\"",
+    "category": "Sensing",
+    "status": "Active",
+    "version": "3.2.0",
+    "deployed": "2022-09",
+    "lead": "meridian-strauss",
+    "description": "68 soil probe nodes deployed across all 12 farm zones. Each node measures volumetric water content, soil temperature at 3 depths, electrical conductivity, and pH. Nodes communicate via LoRa mesh to a central gateway. Data logged at 15-minute intervals with configurable event triggers for rapid-change alerts.",
+    "specs": {
+      "nodes": "68 active (72 deployed, 4 currently failed)",
+      "measurements": "VWC, temp ×3 depths, EC, pH per node",
+      "protocol": "LoRa 868MHz mesh, Meshtastic firmware fork",
+      "power": "Solar harvest + 18650 LiPo, 3–6 month battery life",
+      "compute": "ESP32-S3 per node",
+      "data_rate": "15-min intervals, ~2KB per node per day"
+    },
+    "lessons": "Node failures cluster by batch, not by location. Manufacturing variation in the probe tips matters more than we expected. We now run QC tests on every batch before deployment.",
+    "tags": ["Sensing", "Soil Health", "Distributed Systems"]
+  },
+  {
+    "id": "irrigation-inference",
+    "name": "Irrigation Inference Engine — \"Drip\"",
+    "category": "AI / Processing",
+    "status": "Active",
+    "version": "1.4.0",
+    "deployed": "2023-03",
+    "lead": "priya-nandakumar",
+    "description": "Gradient boosted tree model trained on 3 seasons of soil data, weather history, and crop response records. Runs on a central inference server and issues zone-level irrigation schedules every 4 hours. Achieves approximately 31% reduction in water use compared to our previous time-based schedule with no measured yield impact.",
+    "specs": {
+      "model": "XGBoost regression, per-zone models",
+      "training_data": "~2.4M soil readings, 3 seasons",
+      "inference_interval": "Every 4 hours",
+      "features": "42 input features per prediction",
+      "hardware": "Raspberry Pi 4 inference server",
+      "accuracy": "RMSE 4.2% vs actual crop demand"
+    },
+    "lessons": "The model is better at our field conditions than at edge cases — first frost events, post-storm recovery, new crop varieties. We keep manual override prominent and used.",
+    "tags": ["AI", "Water Systems", "Inference"]
+  },
+  {
+    "id": "greenhouse-climate-v3",
+    "name": "Greenhouse Climate Controller — \"Canopy\"",
+    "category": "Infrastructure",
+    "status": "Active",
+    "version": "3.0.2",
+    "deployed": "2024-01",
+    "lead": "yuki-tanigawa",
+    "description": "Closed-loop climate control for Greenhouses A and B. Controls heating, ventilation, shade cloth actuation, and supplemental lighting. Separate control loops for temperature, humidity, CO2, and VPD. Integrates with outdoor weather station for predictive pre-conditioning.",
+    "specs": {
+      "sensors": "Temp/humidity ×8 per greenhouse, CO2, PAR, soil VWC ×12",
+      "actuators": "HVAC unit, 6 vent motors, 2 shade cloth motors, LED grow lights ×24",
+      "control": "PID loops with feedforward weather compensation",
+      "hardware": "Industrial PLC (Click series) + custom ESP32 sensor array",
+      "comms": "Modbus RS485 + MQTT to central dashboard"
+    },
+    "lessons": "Humidity is the hardest variable. Temperature and CO2 respond predictably. Humidity has hysteresis problems during transitions between day/night that we're still tuning.",
+    "tags": ["Infrastructure", "Climate Control", "Greenhouse"]
+  },
+  {
+    "id": "flock-monitoring-drone",
+    "name": "Flock Monitoring UAV — \"Wren\"",
+    "category": "Mobility",
+    "status": "Experimental",
+    "version": "0.8.1",
+    "deployed": "2024-06",
+    "lead": "felix-oduya",
+    "description": "Fixed autonomous flight path drone running twice-daily inspection circuits over the poultry pastures. Uses thermal + RGB imaging to count individuals, flag abnormal clustering behavior, and detect potential predator incursions. Still experimental — reliability at 80% on individual counts, 95% on flock-level behavior detection.",
+    "specs": {
+      "platform": "Modified DJI Mini 3 Pro frame, custom electronics",
+      "sensors": "RGB + FLIR Lepton 3.5 thermal",
+      "flight": "Programmatic waypoint missions via ArduPilot",
+      "battery": "2×4S LiPo, ~28min flight time",
+      "compute": "Coral Edge TPU for on-device inference",
+      "model": "YOLO v8n fine-tuned on our flock"
+    },
+    "lessons": "The chickens have mostly stopped caring about the drone after 3 months. Stress response (measured by clustering behavior) dropped significantly once they acclimated. This was a real concern we had to validate.",
+    "tags": ["UAV", "Livestock", "Computer Vision"]
+  },
+  {
+    "id": "mobile-coop-bot",
+    "name": "Mobile Coop Platform — \"Wanderer\"",
+    "category": "Mobility",
+    "status": "Active",
+    "version": "2.1.0",
+    "deployed": "2023-09",
+    "lead": "tobias-kellenbrink",
+    "description": "Electric tow vehicle that moves the mobile chicken coop along planned rotation paths. Designed to eliminate the twice-weekly manual coop relocation task. Moves the coop approximately 6 meters per day during active rotation cycles. Navigation uses buried wire guidance plus GPS override for path corrections.",
+    "specs": {
+      "drive": "4WD electric, 2.2kW motor",
+      "payload": "Tows coop structure up to 800kg",
+      "guidance": "Buried perimeter wire + GPS correction",
+      "speed": "0.3m/s maximum (intentionally slow)",
+      "battery": "72V 40Ah, charges from coop roof solar",
+      "safety": "Load cell on hitch, obstacle ultrasonic array"
+    },
+    "lessons": "Speed matters enormously for animal stress. Our first version moved at a 'reasonable' 1.5m/s. The chickens hated it. Everything under 0.5m/s is fine. They now walk alongside it voluntarily.",
+    "tags": ["Mobility", "Livestock", "Automation"]
+  },
+  {
+    "id": "aquaponics-monitoring",
+    "name": "Aquaponics Bay Monitor — \"Tide\"",
+    "category": "Sensing",
+    "status": "Active",
+    "version": "2.0.1",
+    "deployed": "2022-11",
+    "lead": "domingo-altamirano",
+    "description": "Continuous monitoring system for the 1,200-liter aquaponics bay. Tracks water temperature, pH, dissolved oxygen, ammonia, nitrite, nitrate, and turbidity. Automated dosing for pH buffering and aeration control. Fish feeding scheduled and adjusted based on DO and ammonia trends.",
+    "specs": {
+      "parameters": "Temp, pH, DO, NH3, NO2, NO3, turbidity",
+      "sensors": "Atlas Scientific probe array",
+      "dosing": "Peristaltic pumps, 2-channel for pH adjustment",
+      "compute": "Raspberry Pi Zero 2W",
+      "alerts": "SMS via Twilio on parameter breaches",
+      "logging": "InfluxDB time series, Grafana visualization"
+    },
+    "lessons": "Ammonia spikes are always our fault — usually overfeeding after someone visits and finds the fish 'charming'. We now log feed events and correlation with ammonia to demonstrate this to skeptics.",
+    "tags": ["Sensing", "Aquaponics", "Water Quality"]
+  },
+  {
+    "id": "perimeter-patrol",
+    "name": "Perimeter Patrol Robot — \"Ridge\"",
+    "category": "Mobility",
+    "status": "Active",
+    "version": "1.2.0",
+    "deployed": "2023-11",
+    "lead": "tobias-kellenbrink",
+    "description": "Ground-based patrol platform running nightly circuits of the property perimeter. Thermal camera and motion detection for predator and intrusion alerting. Loud horn actuator for deterrence. Not a security system in any commercial sense — designed specifically to deter fox and coyote incursion during overnight livestock hours.",
+    "specs": {
+      "drive": "Tracked platform, all-terrain",
+      "sensors": "FLIR thermal + radar motion detector",
+      "deterrence": "120dB horn + bright LED array",
+      "battery": "48V 30Ah, full perimeter on 1 charge",
+      "navigation": "RTK-GPS waypoint following",
+      "uptime": "94% over last 6 months"
+    },
+    "lessons": "Predator deterrence is measurable — fox incursion incidents dropped from ~8/month to ~1/month after deployment. We attribute about 60% of that to Ridge, and 40% to improved fencing we did at the same time.",
+    "tags": ["Mobility", "Perimeter", "Wildlife Deterrence"]
+  },
+  {
+    "id": "compost-telemetry",
+    "name": "Compost Bay Telemetry — \"Heap\"",
+    "category": "Sensing",
+    "status": "Active",
+    "version": "1.1.0",
+    "deployed": "2023-07",
+    "lead": "saoirse-mcbride",
+    "description": "Temperature and gas monitoring for 6 active compost bays. Tracks internal temperature at multiple depths, CO2 off-gassing, and moisture levels. Triggers turning recommendations when conditions indicate anaerobic zones. First system on the property to be named by someone other than an engineer.",
+    "specs": {
+      "bays_monitored": "6 active, 2 curing",
+      "sensors": "DS18B20 temp probes ×4 per bay, CO2 sensor, moisture probe",
+      "alerts": "Telegram bot notifications for turning recommendations",
+      "compute": "ESP32 per bay, MQTT to central broker",
+      "data": "30-minute intervals during active phase"
+    },
+    "lessons": "Perfect compost temperature curves are extremely satisfying to watch. We now have members who are genuinely excited about compost monitoring in a way they weren't before the telemetry existed.",
+    "tags": ["Sensing", "Compost", "Biological Systems"]
+  }
+]

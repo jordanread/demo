@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Technology — The Verdant Forge Collective</title>
+  <meta name="description" content="Nine autonomous systems, sensors, and AI infrastructure running on a regenerative homestead. Open hardware, open software, open data.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/pages/technology.css">
+</head>
+<body>
+<a href="#main" class="skip-link">Skip to main content</a>
+<div class="page-wrapper">
+
+  <div class="page-hero">
+    <div class="container">
+      <span class="section-eyebrow">The systems</span>
+      <h1 class="section-title" style="color:#C8DCC0;">What runs here, and what we learned building it.</h1>
+      <p class="section-subtitle">Nine active platforms. Four experimental. Two retired with lessons documented. All open-source.</p>
+    </div>
+  </div>
+
+  <main id="main">
+
+    <!-- CATEGORY STATS -->
+    <section class="section-sm" style="background:var(--bg-warm);border-bottom:1px solid var(--border);">
+      <div class="container">
+        <div class="tech-stats-row" id="techStats">
+          <div class="tech-stat"><span class="tech-stat__n" id="statMobility">—</span><span class="tech-stat__l">Mobility Platforms</span></div>
+          <div class="tech-stat"><span class="tech-stat__n" id="statSensing">—</span><span class="tech-stat__l">Sensing Networks</span></div>
+          <div class="tech-stat"><span class="tech-stat__n" id="statAI">—</span><span class="tech-stat__l">AI / Inference</span></div>
+          <div class="tech-stat"><span class="tech-stat__n" id="statInfra">—</span><span class="tech-stat__l">Infrastructure</span></div>
+          <div class="tech-stat"><span class="tech-stat__n" id="statActive">—</span><span class="tech-stat__l">Active Right Now</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FILTER + SYSTEMS GRID -->
+    <section class="section" id="systems">
+      <div class="container">
+        <div class="section-header" data-animate>
+          <span class="section-eyebrow">Active & experimental platforms</span>
+          <h2 class="section-title">Deployed Systems</h2>
+        </div>
+        <div class="tech-filters" id="techFilters">
+          <button class="tag active" data-filter="all">All</button>
+          <button class="tag" data-filter="Mobility">Mobility</button>
+          <button class="tag" data-filter="Sensing">Sensing</button>
+          <button class="tag" data-filter="AI / Processing">AI</button>
+          <button class="tag" data-filter="Infrastructure">Infrastructure</button>
+        </div>
+        <div class="grid-auto" id="systemsGrid"><!-- JS --></div>
+      </div>
+    </section>
+
+    <!-- PHILOSOPHY -->
+    <section class="section" style="background:var(--nav-bg);" id="philosophy">
+      <div class="container">
+        <div class="section-header" data-animate>
+          <span class="section-eyebrow" style="color:rgba(78,191,94,0.6);">How we build</span>
+          <h2 class="section-title" style="color:#C8DCC0;">Build Philosophy</h2>
+        </div>
+        <div class="philosophy-grid">
+          <div class="philosophy-item" data-animate data-delay="0">
+            <div class="philosophy-item__num">01</div>
+            <h3>Right-sized compute</h3>
+            <p>We run the smallest compute platform that can do the job reliably. Raspberry Pi Zero for logging, Jetson Orin for perception, ESP32 for sensing. Overprovisioned compute is wasted energy and heat.</p>
+          </div>
+          <div class="philosophy-item" data-animate data-delay="60">
+            <div class="philosophy-item__num">02</div>
+            <h3>Repair-first design</h3>
+            <p>Every system can be diagnosed and repaired with tools in the Tool Barn. No parts that require proprietary calibration equipment or factory service. If Willem can't fix it on-site, we rethink the design.</p>
+          </div>
+          <div class="philosophy-item" data-animate data-delay="120">
+            <div class="philosophy-item__num">03</div>
+            <h3>Soil-safe operation</h3>
+            <p>No hydraulic fluids. No synthetic lubricants that could contaminate soil. Electric drive systems only. Biodegradable or food-safe materials anywhere that contacts soil or crop.</p>
+          </div>
+          <div class="philosophy-item" data-animate data-delay="180">
+            <div class="philosophy-item__num">04</div>
+            <h3>Fail quiet</h3>
+            <p>When a system fails, it stops and alerts a human — not continue in a degraded state. A stopped irrigation pump is recoverable. One that runs incorrectly for 6 hours is an expensive problem.</p>
+          </div>
+          <div class="philosophy-item" data-animate data-delay="240">
+            <div class="philosophy-item__num">05</div>
+            <h3>Open stack</h3>
+            <p>Linux, ROS2, Python, open hardware. We don't use proprietary platforms where open alternatives exist. Vendor lock-in on a farm with a 20-year horizon is a genuine risk.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STACK DIAGRAM -->
+    <section class="section" id="stack">
+      <div class="container">
+        <div class="section-header" data-animate>
+          <span class="section-eyebrow">Architecture</span>
+          <h2 class="section-title">The Technology Stack</h2>
+        </div>
+        <div class="stack-diagram" data-animate>
+          <div class="stack-layer">
+            <div class="stack-layer__label">Physical</div>
+            <div class="stack-layer__content">Mobile platforms (wheeled + aerial) · Soil sensor nodes · Actuators · Property network infrastructure</div>
+          </div>
+          <div class="stack-arrow">↓</div>
+          <div class="stack-layer">
+            <div class="stack-layer__label">Comms</div>
+            <div class="stack-layer__content">LoRa 868/915MHz mesh for sensor nodes · 802.11ax WiFi across property (9 APs) · LTE backup for critical alerts</div>
+          </div>
+          <div class="stack-arrow">↓</div>
+          <div class="stack-layer">
+            <div class="stack-layer__label">Data</div>
+            <div class="stack-layer__content">InfluxDB time-series · PostgreSQL structured records · MQTT broker for real-time message passing · Annual public archive</div>
+          </div>
+          <div class="stack-arrow">↓</div>
+          <div class="stack-layer">
+            <div class="stack-layer__label">Inference</div>
+            <div class="stack-layer__content">Central inference server for large models · Edge inference on Coral TPU + Jetson for latency-sensitive tasks · Retrained each season</div>
+          </div>
+          <div class="stack-arrow">↓</div>
+          <div class="stack-layer stack-layer--top">
+            <div class="stack-layer__label">Interface</div>
+            <div class="stack-layer__content">This website · Physical e-stop + override controls · Telegram alerts · Rule: no alert that doesn't require human action</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+<script src="js/components.js"></script>
+<script src="js/utils.js"></script>
+<script src="js/technology.js"></script>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Journal — The Verdant Forge Collective</title>
+  <meta name="description" content="Field logs, experiment reports, and community discoveries from the Verdant Forge Collective.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/pages/journal.css">
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to main content</a>
+  <div class="page-wrapper">
+
+    <div class="page-hero">
+      <div class="container">
+        <span class="section-eyebrow">Research & documentation</span>
+        <h1 class="section-title" style="color:#C8DCC0;">The Journal</h1>
+        <p class="section-subtitle">Field logs, experiment reports, failure post-mortems, and community reflections. We document everything — including the parts we got wrong.</p>
+      </div>
+    </div>
+
+    <main id="main">
+      <section class="section">
+        <div class="container">
+
+          <!-- Filter controls -->
+          <div class="journal-filters" id="journalFilters">
+            <div class="filter-search">
+              <input type="search" id="journalSearch" class="form-input" placeholder="Search entries…" aria-label="Search journal entries">
+            </div>
+            <div class="filter-tags" id="filterTags">
+              <button class="tag active" data-category="all">All</button>
+              <!-- More tags loaded by JS -->
+            </div>
+            <div class="filter-sort">
+              <select class="form-select" id="journalSort" aria-label="Sort journal entries">
+                <option value="newest">Newest first</option>
+                <option value="oldest">Oldest first</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="journal-results-meta" id="resultsMeta"></div>
+
+          <!-- Pinned entry -->
+          <div id="pinnedEntry"></div>
+
+          <!-- Entry grid -->
+          <div class="grid-3" id="journalGrid">
+            <!-- Loaded by JS -->
+          </div>
+
+          <!-- Pagination -->
+          <div class="journal-pagination" id="journalPagination"></div>
+
+        </div>
+      </section>
+    </main>
+
+  </div>
+  <script src="js/components.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/journal.js"></script>
+</body>
+</html>

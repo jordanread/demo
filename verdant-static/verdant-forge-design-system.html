@@ -1,0 +1,2960 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Verdant Forge Collective — Design System Specification</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  /* ═══════════════════════════════════════════════
+     DESIGN SYSTEM SPEC DOCUMENT STYLES
+  ═══════════════════════════════════════════════ */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --doc-bg: #0D0F0C;
+    --doc-surface: #141710;
+    --doc-surface-2: #1C2018;
+    --doc-border: #2A3026;
+    --doc-text: #D8DDD4;
+    --doc-muted: #7A8574;
+    --doc-accent: #6EBF6A;
+    --doc-amber: #C8913A;
+    --doc-ember: #C8622A;
+
+    /* VFC Design Tokens — Light Mode */
+    --vfc-soil: #2C1F12;
+    --vfc-soil-mid: #4A3520;
+    --vfc-parchment: #F5F0E4;
+    --vfc-parchment-warm: #EDE5D4;
+    --vfc-parchment-deep: #D9CEBC;
+    --vfc-leaf: #3D6B4A;
+    --vfc-leaf-light: #5A8C68;
+    --vfc-leaf-pale: #A8C8A0;
+    --vfc-moss: #8FAF7E;
+    --vfc-canopy: #1A3328;
+    --vfc-ember: #C8622A;
+    --vfc-ember-pale: #E8A87C;
+    --vfc-copper: #8B5E3C;
+    --vfc-sky: #C4DDE8;
+    --vfc-sky-deep: #3A6E8A;
+    --vfc-circuit: #1E3A2A;
+
+    /* VFC Design Tokens — Dark Mode */
+    --vfc-dark-base: #080E0A;
+    --vfc-dark-surface: #0E1610;
+    --vfc-dark-surface-2: #152019;
+    --vfc-dark-surface-3: #1C2B20;
+    --vfc-dark-border: #253320;
+    --vfc-dark-border-bright: #3A5030;
+    --vfc-dark-text: #C8D8C0;
+    --vfc-dark-text-dim: #728A68;
+    --vfc-dark-leaf: #4EBF5E;
+    --vfc-dark-leaf-dim: #2A6B38;
+    --vfc-dark-ember: #E87A3A;
+    --vfc-dark-sky: #4A9EC0;
+    --vfc-dark-amber: #C8913A;
+    --vfc-dark-scan: rgba(78,191,94,0.04);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--doc-bg);
+    color: var(--doc-text);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    line-height: 1.7;
+  }
+
+  /* DOC NAVIGATION */
+  .doc-nav {
+    position: fixed;
+    top: 0; left: 0;
+    width: 220px;
+    height: 100vh;
+    background: var(--doc-surface);
+    border-right: 1px solid var(--doc-border);
+    padding: 24px 0;
+    overflow-y: auto;
+    z-index: 100;
+  }
+  .doc-nav-logo {
+    padding: 0 20px 20px;
+    border-bottom: 1px solid var(--doc-border);
+    margin-bottom: 16px;
+  }
+  .doc-nav-logo span {
+    display: block;
+    font-family: 'Syne', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--doc-accent);
+  }
+  .doc-nav-logo em {
+    display: block;
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-size: 14px;
+    color: var(--doc-text);
+    margin-top: 2px;
+  }
+  .doc-nav a {
+    display: block;
+    padding: 6px 20px;
+    color: var(--doc-muted);
+    text-decoration: none;
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    transition: color 0.15s, background 0.15s;
+    border-left: 2px solid transparent;
+  }
+  .doc-nav a:hover {
+    color: var(--doc-text);
+    background: var(--doc-surface-2);
+    border-left-color: var(--doc-accent);
+  }
+  .doc-nav .section-label {
+    padding: 16px 20px 4px;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--doc-muted);
+    opacity: 0.6;
+  }
+
+  /* MAIN CONTENT */
+  .doc-main {
+    margin-left: 220px;
+    padding: 0 0 120px;
+  }
+
+  /* PAGE HEADER */
+  .doc-header {
+    background: linear-gradient(135deg, #0A1A0E 0%, #0D1A10 40%, #0A1510 100%);
+    border-bottom: 1px solid var(--doc-border);
+    padding: 80px 64px 64px;
+    position: relative;
+    overflow: hidden;
+  }
+  .doc-header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 40px,
+      rgba(78,191,94,0.025) 40px,
+      rgba(78,191,94,0.025) 41px
+    );
+    pointer-events: none;
+  }
+  .doc-header::after {
+    content: 'DESIGN SYSTEM v1.0';
+    position: absolute;
+    top: 24px; right: 64px;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: rgba(78,191,94,0.4);
+  }
+  .doc-header h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(28px, 4vw, 44px);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: #C8DCC0;
+    line-height: 1.1;
+    max-width: 600px;
+  }
+  .doc-header h1 em {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    color: var(--doc-accent);
+  }
+  .doc-header p {
+    margin-top: 16px;
+    color: var(--doc-muted);
+    max-width: 520px;
+    font-size: 12px;
+    line-height: 1.8;
+  }
+  .doc-header .meta-pills {
+    display: flex;
+    gap: 8px;
+    margin-top: 24px;
+    flex-wrap: wrap;
+  }
+  .meta-pill {
+    padding: 4px 12px;
+    border: 1px solid var(--doc-border);
+    border-radius: 2px;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--doc-accent);
+    background: rgba(78,191,94,0.06);
+  }
+
+  /* SECTIONS */
+  .spec-section {
+    padding: 64px;
+    border-bottom: 1px solid var(--doc-border);
+  }
+  .spec-section:last-child { border-bottom: none; }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    margin-bottom: 40px;
+  }
+  .section-number {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: var(--doc-accent);
+    opacity: 0.6;
+    min-width: 32px;
+  }
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: #C8DCC0;
+  }
+
+  .subsection {
+    margin-bottom: 48px;
+  }
+  .subsection-label {
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--doc-accent);
+    margin-bottom: 20px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--doc-border);
+  }
+
+  /* CODE BLOCKS */
+  .code-block {
+    background: #060A07;
+    border: 1px solid var(--doc-border);
+    border-radius: 4px;
+    padding: 20px 24px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11.5px;
+    line-height: 1.8;
+    color: #9ABFA0;
+    overflow-x: auto;
+    margin: 16px 0;
+    position: relative;
+  }
+  .code-block .comment { color: #3A5030; }
+  .code-block .property { color: #6EBF6A; }
+  .code-block .value { color: #C8913A; }
+  .code-block .string { color: #8BBFA0; }
+  .code-block .keyword { color: #4A9EC0; }
+  .code-label {
+    position: absolute;
+    top: 8px; right: 12px;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    color: var(--doc-muted);
+    opacity: 0.5;
+    text-transform: uppercase;
+  }
+
+  /* ═══════════════════════════════
+     COLOR PALETTE SWATCHES
+  ═══════════════════════════════ */
+  .palette-group {
+    margin-bottom: 40px;
+  }
+  .palette-group-label {
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--doc-muted);
+    margin-bottom: 12px;
+  }
+  .swatches {
+    display: flex;
+    gap: 2px;
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  .swatch {
+    flex: 1;
+    min-width: 0;
+  }
+  .swatch-color {
+    height: 72px;
+    transition: transform 0.2s;
+    cursor: default;
+  }
+  .swatch:hover .swatch-color { transform: scaleY(1.08); transform-origin: bottom; }
+  .swatch-info {
+    padding: 8px 6px 4px;
+    background: var(--doc-surface-2);
+  }
+  .swatch-name {
+    font-size: 9px;
+    color: var(--doc-text);
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .swatch-hex {
+    font-size: 9px;
+    color: var(--doc-muted);
+    margin-top: 2px;
+    display: block;
+  }
+  .swatch-var {
+    font-size: 8px;
+    color: var(--doc-accent);
+    opacity: 0.7;
+    margin-top: 1px;
+    display: block;
+  }
+
+  /* MODE PREVIEW PANELS */
+  .mode-panels {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-top: 24px;
+  }
+  .mode-panel {
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--doc-border);
+  }
+  .mode-panel-header {
+    padding: 10px 16px;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .mode-panel-body {
+    padding: 24px;
+    min-height: 200px;
+  }
+
+  /* LIGHT MODE PREVIEW */
+  .light-panel .mode-panel-header {
+    background: #E8E0CC;
+    color: #4A3520;
+  }
+  .light-panel .mode-panel-body {
+    background: var(--vfc-parchment);
+  }
+  .light-nav-preview {
+    background: var(--vfc-canopy);
+    padding: 12px 16px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+  }
+  .light-nav-logo {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--vfc-moss);
+    letter-spacing: 0.05em;
+  }
+  .light-nav-links {
+    display: flex;
+    gap: 16px;
+  }
+  .light-nav-link {
+    font-family: 'Syne', sans-serif;
+    font-size: 10px;
+    color: rgba(168,200,160,0.7);
+    letter-spacing: 0.08em;
+  }
+  .light-nav-link.active { color: var(--vfc-moss); }
+  .light-card-preview {
+    background: white;
+    border: 1px solid #D9CEBC;
+    border-radius: 4px;
+    padding: 16px;
+    box-shadow: 0 2px 8px rgba(44,31,18,0.06);
+  }
+  .light-card-tag {
+    display: inline-block;
+    padding: 2px 8px;
+    background: #E8F2E4;
+    color: #3D6B4A;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    border-radius: 2px;
+    margin-bottom: 8px;
+  }
+  .light-card-title {
+    font-family: 'Instrument Serif', serif;
+    font-size: 15px;
+    color: #2C1F12;
+    margin-bottom: 6px;
+  }
+  .light-card-body {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: #7A6050;
+    line-height: 1.6;
+  }
+
+  /* DARK MODE PREVIEW */
+  .dark-panel .mode-panel-header {
+    background: #0E1610;
+    color: #4EBF5E;
+    border-bottom-color: #253320;
+  }
+  .dark-panel .mode-panel-body {
+    background: var(--vfc-dark-base);
+    position: relative;
+    overflow: hidden;
+  }
+  .dark-panel .mode-panel-body::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 24px,
+      rgba(78,191,94,0.03) 24px,
+      rgba(78,191,94,0.03) 25px
+    );
+    pointer-events: none;
+  }
+  .dark-nav-preview {
+    background: rgba(14,22,16,0.95);
+    border: 1px solid #253320;
+    padding: 10px 14px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+    position: relative;
+    z-index: 1;
+  }
+  .dark-nav-logo {
+    font-family: 'Syne', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    color: #4EBF5E;
+    letter-spacing: 0.08em;
+  }
+  .dark-nav-status {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 9px;
+    color: #4EBF5E;
+  }
+  .dark-dot {
+    width: 6px; height: 6px;
+    background: #4EBF5E;
+    border-radius: 50%;
+    animation: blink 2s ease-in-out infinite;
+  }
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+  .dark-widget-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 10px;
+    position: relative;
+    z-index: 1;
+  }
+  .dark-widget {
+    flex: 1;
+    background: var(--vfc-dark-surface);
+    border: 1px solid #253320;
+    border-radius: 4px;
+    padding: 10px 12px;
+  }
+  .dark-widget-label {
+    font-size: 8px;
+    letter-spacing: 0.1em;
+    color: #4A6B50;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .dark-widget-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 18px;
+    font-weight: 500;
+    color: #4EBF5E;
+    line-height: 1;
+  }
+  .dark-widget-unit {
+    font-size: 9px;
+    color: #3A5A40;
+  }
+
+  /* ═══════════════════════════════
+     TYPOGRAPHY SPECIMENS
+  ═══════════════════════════════ */
+  .type-specimen {
+    margin-bottom: 32px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--doc-border);
+  }
+  .type-specimen:last-child { border-bottom: none; }
+  .type-meta {
+    display: flex;
+    gap: 24px;
+    margin-bottom: 16px;
+    font-size: 10px;
+    color: var(--doc-muted);
+  }
+  .type-meta span { color: var(--doc-accent); }
+  .type-display {
+    font-family: 'Instrument Serif', serif;
+    color: #C8DCC0;
+    line-height: 1.1;
+  }
+  .type-heading {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    color: #C8DCC0;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+  }
+  .type-body {
+    font-family: 'Syne', sans-serif;
+    font-weight: 400;
+    color: var(--doc-text);
+    line-height: 1.7;
+  }
+  .type-mono {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 400;
+    color: var(--doc-accent);
+    line-height: 1.6;
+  }
+  .type-label-text {
+    font-family: 'Syne', sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--doc-muted);
+  }
+
+  /* ═══════════════════════════════
+     GRID DIAGRAM
+  ═══════════════════════════════ */
+  .grid-diagram {
+    background: #060A07;
+    border: 1px solid var(--doc-border);
+    border-radius: 4px;
+    padding: 24px;
+    margin: 16px 0;
+  }
+  .grid-row {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 4px;
+  }
+  .grid-col {
+    height: 32px;
+    background: rgba(78,191,94,0.08);
+    border: 1px solid rgba(78,191,94,0.2);
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 8px;
+    color: rgba(78,191,94,0.5);
+    letter-spacing: 0.05em;
+  }
+  .grid-col-wide {
+    background: rgba(78,191,94,0.15);
+    border-color: rgba(78,191,94,0.35);
+    color: rgba(78,191,94,0.8);
+  }
+  .grid-col-highlight {
+    background: rgba(200,97,42,0.12);
+    border-color: rgba(200,97,42,0.3);
+    color: rgba(200,97,42,0.6);
+  }
+  .grid-label {
+    font-size: 9px;
+    color: var(--doc-muted);
+    margin-bottom: 8px;
+    letter-spacing: 0.1em;
+  }
+
+  /* ═══════════════════════════════
+     COMPONENT PREVIEWS
+  ═══════════════════════════════ */
+  .component-preview {
+    background: #060A07;
+    border: 1px solid var(--doc-border);
+    border-radius: 4px;
+    padding: 32px;
+    margin: 16px 0;
+    position: relative;
+  }
+  .component-label {
+    position: absolute;
+    top: 8px; left: 12px;
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    color: var(--doc-muted);
+    opacity: 0.5;
+    text-transform: uppercase;
+  }
+
+  /* Card previews */
+  .vfc-card-preview {
+    background: white;
+    border: 1px solid #D9CEBC;
+    border-radius: 4px;
+    overflow: hidden;
+    max-width: 320px;
+    box-shadow: 0 4px 16px rgba(44,31,18,0.08), 0 1px 3px rgba(44,31,18,0.04);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .vfc-card-preview:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 32px rgba(44,31,18,0.14), 0 2px 6px rgba(44,31,18,0.06);
+  }
+  .vfc-card-image {
+    height: 140px;
+    background: linear-gradient(135deg, #1A3328 0%, #2C4A30 50%, #1E3320 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: rgba(168,200,160,0.4);
+    letter-spacing: 0.2em;
+    position: relative;
+    overflow: hidden;
+  }
+  .vfc-card-image::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 40px;
+    background: linear-gradient(to top, rgba(245,240,228,0.1), transparent);
+  }
+  .vfc-card-body-inner {
+    padding: 16px 20px 20px;
+  }
+  .vfc-card-tag-inner {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 8px;
+    background: #E8F2E4;
+    border: 1px solid #C0DDB8;
+    color: #3D6B4A;
+    font-family: 'Syne', sans-serif;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    border-radius: 2px;
+    margin-bottom: 10px;
+  }
+  .vfc-card-h {
+    font-family: 'Instrument Serif', serif;
+    font-size: 18px;
+    color: #2C1F12;
+    line-height: 1.2;
+    margin-bottom: 8px;
+  }
+  .vfc-card-p {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    color: #7A6050;
+    line-height: 1.65;
+    margin-bottom: 14px;
+  }
+  .vfc-card-footer-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 12px;
+    border-top: 1px solid #EDE5D4;
+  }
+  .vfc-card-date {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: #A09080;
+  }
+  .vfc-card-link {
+    font-family: 'Syne', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    color: #3D6B4A;
+    letter-spacing: 0.05em;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  /* Dark card */
+  .vfc-dark-card-preview {
+    background: #0E1610;
+    border: 1px solid #253320;
+    border-radius: 4px;
+    overflow: hidden;
+    max-width: 320px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .vfc-dark-card-preview:hover {
+    border-color: #3A5030;
+    box-shadow: 0 0 0 1px #253320, 0 8px 32px rgba(0,0,0,0.5), 0 0 24px rgba(78,191,94,0.06);
+  }
+  .vfc-dark-card-body {
+    padding: 16px 18px 18px;
+  }
+  .vfc-dark-tag {
+    display: inline-block;
+    padding: 2px 8px;
+    background: rgba(78,191,94,0.1);
+    border: 1px solid rgba(78,191,94,0.25);
+    color: #4EBF5E;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    border-radius: 2px;
+    margin-bottom: 10px;
+  }
+  .vfc-dark-h {
+    font-family: 'Syne', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: #C8D8C0;
+    margin-bottom: 8px;
+    letter-spacing: -0.01em;
+  }
+  .vfc-dark-p {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: #5A7860;
+    line-height: 1.7;
+    margin-bottom: 14px;
+  }
+  .vfc-dark-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 12px;
+    border-top: 1px solid #1A2A1C;
+  }
+  .vfc-dark-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    color: #3A5A40;
+  }
+  .vfc-dark-action {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    color: #4EBF5E;
+    letter-spacing: 0.06em;
+  }
+
+  /* ═══════════════════════════════
+     HERO LAYOUT DIAGRAM
+  ═══════════════════════════════ */
+  .hero-diagram {
+    background: #060A07;
+    border: 1px solid var(--doc-border);
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 16px 0;
+  }
+  .hero-nav-bar {
+    height: 44px;
+    background: rgba(14,22,16,0.9);
+    border-bottom: 1px solid rgba(78,191,94,0.1);
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    gap: 20px;
+  }
+  .h-logo { width: 80px; height: 8px; background: rgba(78,191,94,0.4); border-radius: 1px; }
+  .h-links { display: flex; gap: 12px; margin-left: auto; }
+  .h-link { width: 36px; height: 6px; background: rgba(78,191,94,0.15); border-radius: 1px; }
+  .hero-body {
+    min-height: 240px;
+    background: linear-gradient(135deg, #080E0A 0%, #0D1A10 50%, #080E0A 100%);
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 40px;
+    overflow: hidden;
+  }
+  .hero-body::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg, transparent, transparent 24px,
+      rgba(78,191,94,0.03) 24px, rgba(78,191,94,0.03) 25px
+    ),
+    repeating-linear-gradient(
+      90deg, transparent, transparent 24px,
+      rgba(78,191,94,0.015) 24px, rgba(78,191,94,0.015) 25px
+    );
+  }
+  .hero-content-box {
+    max-width: 55%;
+    position: relative;
+    z-index: 1;
+  }
+  .h-eyebrow {
+    width: 120px; height: 6px;
+    background: rgba(78,191,94,0.3);
+    border-radius: 1px;
+    margin-bottom: 16px;
+  }
+  .h-title-1 { width: 90%; height: 20px; background: rgba(200,220,192,0.6); border-radius: 2px; margin-bottom: 8px; }
+  .h-title-2 { width: 70%; height: 20px; background: rgba(200,220,192,0.4); border-radius: 2px; margin-bottom: 20px; }
+  .h-subtitle { width: 85%; height: 6px; background: rgba(120,160,120,0.3); border-radius: 1px; margin-bottom: 6px; }
+  .h-subtitle-2 { width: 65%; height: 6px; background: rgba(120,160,120,0.2); border-radius: 1px; margin-bottom: 24px; }
+  .h-ctas { display: flex; gap: 10px; }
+  .h-cta-primary {
+    width: 100px; height: 28px;
+    background: rgba(61,107,74,0.6);
+    border: 1px solid rgba(78,191,94,0.4);
+    border-radius: 2px;
+  }
+  .h-cta-secondary {
+    width: 100px; height: 28px;
+    background: transparent;
+    border: 1px solid rgba(78,191,94,0.2);
+    border-radius: 2px;
+  }
+  .hero-visual-box {
+    position: absolute;
+    right: 40px;
+    width: 35%;
+    height: 180px;
+    border: 1px solid rgba(78,191,94,0.15);
+    border-radius: 4px;
+    background: rgba(14,22,16,0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .h-visual-inner {
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    color: rgba(78,191,94,0.3);
+    text-align: center;
+  }
+  .hero-stats-bar {
+    height: 56px;
+    background: #0A140C;
+    border-top: 1px solid rgba(78,191,94,0.08);
+    display: flex;
+    align-items: center;
+    padding: 0 40px;
+    gap: 32px;
+  }
+  .h-stat { display: flex; flex-direction: column; gap: 4px; }
+  .h-stat-num { width: 40px; height: 10px; background: rgba(78,191,94,0.35); border-radius: 1px; }
+  .h-stat-label { width: 56px; height: 5px; background: rgba(120,160,120,0.2); border-radius: 1px; }
+
+  /* ═══════════════════════════════
+     DASHBOARD LAYOUT
+  ═══════════════════════════════ */
+  .dashboard-diagram {
+    background: #060A07;
+    border: 1px solid var(--doc-border);
+    border-radius: 4px;
+    padding: 20px;
+    margin: 16px 0;
+  }
+  .dash-header-bar {
+    height: 36px;
+    background: rgba(14,22,16,0.8);
+    border: 1px solid rgba(78,191,94,0.12);
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+  .dash-status-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+  }
+  .ds-green { background: #4EBF5E; }
+  .ds-amber { background: #C8913A; }
+  .ds-red { background: #C85A3A; }
+  .dash-title-bar { flex: 1; height: 7px; background: rgba(78,191,94,0.2); border-radius: 1px; margin-left: 8px; }
+  .dash-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+  .dash-widget-box {
+    background: rgba(14,22,16,0.7);
+    border: 1px solid rgba(78,191,94,0.1);
+    border-radius: 3px;
+    padding: 12px;
+    height: 72px;
+  }
+  .dw-label { width: 50%; height: 5px; background: rgba(74,107,80,0.5); border-radius: 1px; margin-bottom: 8px; }
+  .dw-value { width: 70%; height: 14px; background: rgba(78,191,94,0.4); border-radius: 1px; margin-bottom: 6px; }
+  .dw-spark { width: 100%; height: 12px; background: rgba(78,191,94,0.1); border-radius: 1px; position: relative; overflow: hidden; }
+  .dw-spark::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 100%;
+    height: 8px;
+    background: linear-gradient(90deg,
+      rgba(78,191,94,0.4) 0%,
+      rgba(78,191,94,0.6) 25%,
+      rgba(78,191,94,0.3) 50%,
+      rgba(78,191,94,0.7) 75%,
+      rgba(78,191,94,0.5) 100%
+    );
+    clip-path: polygon(0 60%, 25% 30%, 50% 50%, 75% 10%, 100% 40%, 100% 100%, 0 100%);
+  }
+  .dash-lower {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 8px;
+  }
+  .dash-main-panel {
+    background: rgba(14,22,16,0.7);
+    border: 1px solid rgba(78,191,94,0.1);
+    border-radius: 3px;
+    padding: 12px;
+    height: 100px;
+  }
+  .dp-header { width: 40%; height: 6px; background: rgba(78,191,94,0.2); border-radius: 1px; margin-bottom: 10px; }
+  .dp-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+  }
+  .dp-dot { width: 5px; height: 5px; border-radius: 50%; }
+  .dp-bar-container { flex: 1; height: 5px; background: rgba(78,191,94,0.05); border-radius: 1px; overflow: hidden; }
+  .dp-bar { height: 100%; background: rgba(78,191,94,0.4); border-radius: 1px; }
+  .dp-val { width: 24px; height: 5px; background: rgba(120,160,120,0.3); border-radius: 1px; }
+
+  /* ═══════════════════════════════
+     ANIMATION EXAMPLES
+  ═══════════════════════════════ */
+  .animation-demo {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 24px;
+    background: #060A07;
+    border: 1px solid var(--doc-border);
+    border-radius: 4px;
+    margin: 16px 0;
+  }
+  .anim-demo-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+  .anim-label {
+    font-size: 9px;
+    color: var(--doc-muted);
+    letter-spacing: 0.1em;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  /* Pulse glow */
+  .demo-pulse {
+    width: 12px; height: 12px;
+    background: #4EBF5E;
+    border-radius: 50%;
+    box-shadow: 0 0 0 0 rgba(78,191,94,0.4);
+    animation: pulse-glow 2.5s ease-in-out infinite;
+  }
+  @keyframes pulse-glow {
+    0% { box-shadow: 0 0 0 0 rgba(78,191,94,0.5); }
+    70% { box-shadow: 0 0 0 12px rgba(78,191,94,0); }
+    100% { box-shadow: 0 0 0 0 rgba(78,191,94,0); }
+  }
+
+  /* Scan line */
+  .demo-scan {
+    width: 80px; height: 60px;
+    background: #0E1610;
+    border: 1px solid #253320;
+    border-radius: 3px;
+    overflow: hidden;
+    position: relative;
+  }
+  .demo-scan::after {
+    content: '';
+    position: absolute;
+    left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(78,191,94,0.8), transparent);
+    animation: scan-line 2s linear infinite;
+    box-shadow: 0 0 8px rgba(78,191,94,0.5);
+  }
+  @keyframes scan-line {
+    0% { top: -1px; }
+    100% { top: 100%; }
+  }
+
+  /* Counter */
+  .demo-counter {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 24px;
+    color: #4EBF5E;
+    animation: counter-flicker 0.1s ease-in-out 4;
+  }
+  @keyframes counter-flicker {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+  }
+
+  /* Fade up */
+  .demo-fadeup {
+    width: 80px; height: 40px;
+    background: #0E1610;
+    border: 1px solid #253320;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fade-up-demo 2s ease-out infinite;
+  }
+  .demo-fadeup-inner {
+    width: 60px; height: 6px;
+    background: rgba(78,191,94,0.5);
+    border-radius: 1px;
+  }
+  @keyframes fade-up-demo {
+    0% { opacity: 0; transform: translateY(6px); }
+    20%, 80% { opacity: 1; transform: translateY(0); }
+    100% { opacity: 0; transform: translateY(6px); }
+  }
+
+  /* Border trace */
+  .demo-border-trace {
+    width: 80px; height: 50px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .demo-border-trace::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 3px;
+    background: linear-gradient(90deg, #4EBF5E, transparent) border-box;
+    -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: destination-out;
+    mask-composite: exclude;
+    border: 1px solid transparent;
+    animation: border-trace 3s linear infinite;
+    background-size: 200% 200%;
+  }
+  .demo-border-inner {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    color: rgba(78,191,94,0.6);
+    letter-spacing: 0.1em;
+  }
+  @keyframes border-trace {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 200% 50%; }
+  }
+
+  /* ═══════════════════════════════
+     NAV PREVIEW
+  ═══════════════════════════════ */
+  .nav-preview-full {
+    background: #0A1A0E;
+    border: 1px solid rgba(78,191,94,0.12);
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 16px 0;
+  }
+  .nav-top-bar {
+    display: flex;
+    align-items: center;
+    padding: 0 32px;
+    height: 60px;
+    border-bottom: 1px solid rgba(78,191,94,0.08);
+    gap: 48px;
+  }
+  .nav-logo-full {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    color: var(--vfc-moss);
+    white-space: nowrap;
+  }
+  .nav-logo-full em {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-size: 11px;
+    color: rgba(168,200,160,0.5);
+    margin-left: 4px;
+  }
+  .nav-links-full {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+  .nav-link-full {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    color: rgba(168,200,160,0.55);
+    text-transform: uppercase;
+    cursor: default;
+    padding: 4px 0;
+    border-bottom: 1px solid transparent;
+    transition: color 0.15s, border-color 0.15s;
+    white-space: nowrap;
+  }
+  .nav-link-full:hover { color: var(--vfc-moss); }
+  .nav-link-full.active {
+    color: #4EBF5E;
+    border-bottom-color: #4EBF5E;
+  }
+  .nav-right {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .nav-status-indicator {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    color: #4EBF5E;
+    padding: 4px 10px;
+    background: rgba(78,191,94,0.08);
+    border: 1px solid rgba(78,191,94,0.2);
+    border-radius: 2px;
+  }
+  .nav-theme-btn {
+    width: 28px; height: 16px;
+    background: rgba(78,191,94,0.15);
+    border: 1px solid rgba(78,191,94,0.25);
+    border-radius: 8px;
+    position: relative;
+    cursor: pointer;
+  }
+  .nav-theme-btn::after {
+    content: '';
+    position: absolute;
+    top: 2px; left: 2px;
+    width: 10px; height: 10px;
+    background: #4EBF5E;
+    border-radius: 50%;
+  }
+
+  /* ═══════════════════════════════
+     MAP STYLING PREVIEW
+  ═══════════════════════════════ */
+  .map-preview {
+    background: #060D08;
+    border: 1px solid var(--doc-border);
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 16px 0;
+    height: 260px;
+    position: relative;
+    display: flex;
+  }
+  .map-canvas-area {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+  }
+  .map-grid-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      repeating-linear-gradient(0deg, transparent, transparent 30px, rgba(78,191,94,0.04) 30px, rgba(78,191,94,0.04) 31px),
+      repeating-linear-gradient(90deg, transparent, transparent 30px, rgba(78,191,94,0.04) 30px, rgba(78,191,94,0.04) 31px);
+  }
+  .map-zone {
+    position: absolute;
+    border: 1px solid rgba(78,191,94,0.25);
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 0.1em;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .map-zone:hover {
+    border-color: rgba(78,191,94,0.7);
+    background: rgba(78,191,94,0.12) !important;
+    z-index: 5;
+  }
+  .mz-nominal { background: rgba(78,191,94,0.06); color: rgba(78,191,94,0.5); }
+  .mz-attention { background: rgba(200,145,58,0.08); color: rgba(200,145,58,0.6); border-color: rgba(200,145,58,0.3); }
+  .mz-active { background: rgba(78,191,94,0.12); color: rgba(78,191,94,0.8); border-color: rgba(78,191,94,0.5); }
+  .mz-fallow { background: rgba(90,100,88,0.08); color: rgba(90,100,88,0.4); border-color: rgba(90,100,88,0.2); }
+
+  .map-side-panel {
+    width: 180px;
+    background: rgba(10,16,11,0.95);
+    border-left: 1px solid rgba(78,191,94,0.12);
+    padding: 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+  }
+  .msp-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: #C8D8C0;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(78,191,94,0.12);
+  }
+  .msp-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    color: #4A6B50;
+  }
+  .msp-val { color: #4EBF5E; }
+  .msp-val.amber { color: #C8913A; }
+  .msp-legend {
+    margin-top: 16px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(78,191,94,0.08);
+  }
+  .msp-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 6px;
+    color: #4A6B50;
+  }
+  .msp-dot { width: 6px; height: 6px; border-radius: 50%; }
+
+  /* ═══════════════════════════════
+     ARTICLE STYLING PREVIEW
+  ═══════════════════════════════ */
+  .article-preview {
+    background: var(--vfc-parchment);
+    border: 1px solid #D9CEBC;
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 16px 0;
+    max-width: 600px;
+  }
+  .ap-header {
+    background: var(--vfc-canopy);
+    padding: 24px 32px;
+  }
+  .ap-category {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--vfc-moss);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .ap-title {
+    font-family: 'Instrument Serif', serif;
+    font-size: 24px;
+    color: var(--vfc-parchment);
+    line-height: 1.25;
+    font-style: italic;
+    margin-bottom: 12px;
+  }
+  .ap-meta {
+    display: flex;
+    gap: 20px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: rgba(168,200,160,0.6);
+  }
+  .ap-body {
+    padding: 28px 32px;
+  }
+  .ap-lede {
+    font-family: 'Instrument Serif', serif;
+    font-size: 16px;
+    font-style: italic;
+    color: #4A3520;
+    line-height: 1.6;
+    margin-bottom: 18px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid #D9CEBC;
+  }
+  .ap-body-text {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    color: #5A4030;
+    line-height: 1.8;
+    margin-bottom: 16px;
+  }
+  .ap-callout {
+    background: #EDE5D4;
+    border-left: 3px solid #3D6B4A;
+    padding: 14px 16px;
+    margin: 16px 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: #3D6B4A;
+    line-height: 1.6;
+    border-radius: 0 3px 3px 0;
+  }
+
+  /* ═══════════════════════════════
+     FOOTER PREVIEW
+  ═══════════════════════════════ */
+  .footer-preview {
+    background: #0A1A0E;
+    border: 1px solid rgba(78,191,94,0.1);
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 16px 0;
+  }
+  .fp-main {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 40px;
+    padding: 40px;
+    border-bottom: 1px solid rgba(78,191,94,0.06);
+  }
+  .fp-brand .fp-logo-text {
+    font-family: 'Syne', sans-serif;
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--vfc-moss);
+    margin-bottom: 8px;
+    letter-spacing: -0.01em;
+  }
+  .fp-brand p {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: rgba(143,175,126,0.5);
+    line-height: 1.7;
+    margin-bottom: 16px;
+  }
+  .fp-coords {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    color: rgba(78,191,94,0.4);
+    letter-spacing: 0.05em;
+    padding: 6px 10px;
+    background: rgba(78,191,94,0.05);
+    border: 1px solid rgba(78,191,94,0.1);
+    border-radius: 2px;
+    display: inline-block;
+  }
+  .fp-col-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(143,175,126,0.5);
+    margin-bottom: 16px;
+  }
+  .fp-links { list-style: none; }
+  .fp-links li {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    color: rgba(143,175,126,0.45);
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: color 0.15s;
+  }
+  .fp-links li:hover { color: var(--vfc-moss); }
+  .fp-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 40px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    color: rgba(78,191,94,0.25);
+  }
+  .fp-oss-badge {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border: 1px solid rgba(78,191,94,0.15);
+    border-radius: 2px;
+    color: rgba(78,191,94,0.4);
+    font-size: 9px;
+  }
+
+  /* ═══════════════════════════════
+     UTILITY CLASSES FOR SPEC
+  ═══════════════════════════════ */
+  .spec-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 11px;
+    margin: 16px 0;
+  }
+  .spec-table th {
+    text-align: left;
+    padding: 8px 12px;
+    background: var(--doc-surface-2);
+    color: var(--doc-accent);
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--doc-border);
+  }
+  .spec-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--doc-surface-2);
+    color: var(--doc-text);
+    vertical-align: top;
+  }
+  .spec-table tr:hover td { background: rgba(78,191,94,0.02); }
+  .spec-table .mono { font-family: 'JetBrains Mono', monospace; color: var(--doc-accent); }
+  .spec-table .dim { color: var(--doc-muted); font-size: 10px; }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+  .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; }
+
+  .note-box {
+    background: rgba(200,97,42,0.06);
+    border: 1px solid rgba(200,97,42,0.2);
+    border-radius: 3px;
+    padding: 12px 16px;
+    font-size: 11px;
+    color: rgba(200,145,100,0.8);
+    margin: 12px 0;
+  }
+  .note-box strong { color: var(--doc-ember); }
+
+  .tag-preview-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 12px 0;
+  }
+  .tag-preview {
+    padding: 4px 12px;
+    border-radius: 2px;
+    font-family: 'Syne', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: default;
+    transition: all 0.15s;
+  }
+  .tag-preview:hover { transform: translateY(-1px); }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: var(--doc-bg); }
+  ::-webkit-scrollbar-thumb { background: var(--doc-border); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--doc-accent); }
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR NAV -->
+<nav class="doc-nav">
+  <div class="doc-nav-logo">
+    <span>VFC Design System</span>
+    <em>Specification v1.0</em>
+  </div>
+  <div class="section-label">Foundations</div>
+  <a href="#colors">Color System</a>
+  <a href="#typography">Typography</a>
+  <a href="#grid">Layout Grid</a>
+  <a href="#spacing">Spacing & Radius</a>
+  <div class="section-label">Components</div>
+  <a href="#navigation">Navigation</a>
+  <a href="#cards">Card Components</a>
+  <a href="#tags">Tags & Badges</a>
+  <a href="#buttons">Buttons</a>
+  <div class="section-label">Page Layouts</div>
+  <a href="#hero">Hero Section</a>
+  <a href="#dashboard">Dashboard</a>
+  <a href="#map">Farm Map</a>
+  <a href="#journal">Article / Journal</a>
+  <a href="#footer">Footer</a>
+  <div class="section-label">Motion</div>
+  <a href="#animation">Animation System</a>
+  <a href="#hover">Hover Effects</a>
+  <a href="#responsive">Responsive</a>
+  <a href="#tokens">CSS Token Reference</a>
+</nav>
+
+<!-- MAIN CONTENT -->
+<main class="doc-main">
+
+  <!-- PAGE HEADER -->
+  <div class="doc-header">
+    <h1>The <em>Verdant Forge</em><br>Collective Design System</h1>
+    <p>Visual language specification for a futuristic regenerative homestead. Bridging open-source research lab aesthetics with organic agricultural warmth — across both light and dark modes.</p>
+    <div class="meta-pills">
+      <span class="meta-pill">HTML / CSS / Vanilla JS</span>
+      <span class="meta-pill">Light + Dark Mode</span>
+      <span class="meta-pill">Mobile Responsive</span>
+      <span class="meta-pill">Accessibility First</span>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       1. COLOR SYSTEM
+  ══════════════════════════════════════════ -->
+  <section class="spec-section" id="colors">
+    <div class="section-header">
+      <span class="section-number">01</span>
+      <h2 class="section-title">Color System</h2>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-label">Design Philosophy</div>
+      <p style="color: var(--doc-muted); font-size: 11px; line-height: 1.8; max-width: 600px; margin-bottom: 24px;">
+        Light mode draws from aged parchment, living canopy, and hammered copper — the textures of a working farm with technological precision. Dark mode is a robotics control interface at midnight: deep green-black, phosphor-green telemetry, amber warnings.
+      </p>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-label">Light Mode Palette</div>
+      <div class="palette-group">
+        <div class="swatches">
+          <div class="swatch">
+            <div class="swatch-color" style="background:#F5F0E4;"></div>
+            <div class="swatch-info">
+              <span class="swatch-name">Parchment</span>
+              <span class="swatch-hex">#F5F0E4</span>
+              <span class="swatch-var">--vfc-parchment</span>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background:#EDE5D4;"></div>
+            <div class="swatch-info">
+              <span class="swatch-name">Parchment Warm</span>
+              <span class="swatch-hex">#EDE5D4</span>
+              <span class="swatch-var">--vfc-parchment-warm</span>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background:#D9CEBC;"></div>
+            <div class="swatch-info">
+              <span class="swatch-name">Parchment Deep</span>
+              <span class="swatch-hex">#D9CEBC</span>
+              <span class="swatch-var">--vfc-parchment-deep</span>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background:#3D6B4A;"></div>
+            <div class="swatch-info">
+              <span class="swatch-name">Leaf</span>
+              <span class="swatch-hex">#3D6B4A</span>
+              <span class="swatch-var">--vfc-leaf</span>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background:#5A8C68;"></div>
+            <div class="swatch-info">
+              <span class="swatch-name">Leaf Light</span>
+              <span class="swatch-hex">#5A8C68</span>
+              <span class="swatch-var">--vfc-leaf-light</span>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background:#8FAF7E;"></div>
+            <div class="swatch-info">
+              <span class="swatch-name">Moss</span>
+              <span class="swatch-hex">#8FAF7E</span>
+              <span class="swatch-var">--vfc-moss</span>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background:#1A3328;"></div>
+            <div class="swatch-info">
+              <span class="swatch-name">Canopy</span>
+              <span class="swatch-hex">#1A3328</span>
+              <span class="swatch-var">--vfc-canopy</span>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background:#C8622A;"></div>
+            <div class="swatch-info">
+              <span class="swatch-name">Ember</span>
+              <span class="swatch-hex">#C8622A</span>
+              <span class="swatch-var">--vfc-ember</span>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background:#8B5E3C;"></div>
+            <div class="swatch-info">
+              <span class="swatch-name">Copper</span>
+              <span class="swatch-hex">#8B5E3C</span>
+              <span class="swatch-var">--vfc-copper</span>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background:#3A6E8A;"></div>
+            <div class="swatch-info">
+              <span class="swatch-name">Sky Deep</span>
+              <span class="swatch-hex">#3A6E8A</span>
+              <span class="swatch-var">--vfc-sky-deep</span>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background:#2C1F12;"></div>
+            <div class="swatch-info">
+              <span class="swatch-name">Soil</span>
+              <span class="swatch-hex">#2C1F12</span>
+              <span class="swatch-var">--vfc-soil</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="subsection-label" style="margin-top: 32px;">Dark Mode Palette — Robotics Lab Interface</div>
+      <div class="palette-group">
+        <div class="swatches">
+          <div class="swatch">
+            <div class="swatch-color" style="background:#080E0A;"></div>
+            <div class="swatch-info">
+              <span class="swatch-name">Dark Base</span>
+              <span class="swatch-hex">#080E0A</span>
+              <span class="swatch-var">--vfc-dark-base</span>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background:#0E1610;"></div>
+            <div class="swatch-info">
+              <span class="swatch-name">Dark Surface</span>
+              <span class="swatch-hex">#0E1610</span>
+              <span class="swatch-var">--vfc-dark-surface</span>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background:#152019;"></div>
+            <div class="swatch-info">
+              <span class="swatch-name">Surface 2</span>
+              <span class="swatch-hex">#152019</span>
+              <span class="swatch-var">--vfc-dark-surface-2</span>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background:#1C2B20;"></div>
+            <div class="swatch-info">
+              <span class="swatch-name">Surface 3</span>
+              <span class="swatch-hex">#1C2B20</span>
+              <span class="swatch-var">--vfc-dark-surface-3</span>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background:#4EBF5E;"></div>
+            <div class="swatch-info">
+              <span class="swatch-name">Phosphor</span>
+              <span class="swatch-hex">#4EBF5E</span>
+              <span class="swatch-var">--vfc-dark-leaf</span>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background:#C8D8C0;"></div>
+            <div class="swatch-info">
+              <span class="swatch-name">Text Primary</span>
+              <span class="swatch-hex">#C8D8C0</span>
+              <span class="swatch-var">--vfc-dark-text</span>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background:#728A68;"></div>
+            <div class="swatch-info">
+              <span class="swatch-name">Text Dim</span>
+              <span class="swatch-hex">#728A68</span>
+              <span class="swatch-var">--vfc-dark-text-dim</span>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background:#E87A3A;"></div>
+            <div class="swatch-info">
+              <span class="swatch-name">Ember Alert</span>
+              <span class="swatch-hex">#E87A3A</span>
+              <span class="swatch-var">--vfc-dark-ember</span>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background:#C8913A;"></div>
+            <div class="swatch-info">
+              <span class="swatch-name">Amber Warn</span>
+              <span class="swatch-hex">#C8913A</span>
+              <span class="swatch-var">--vfc-dark-amber</span>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background:#4A9EC0;"></div>
+            <div class="swatch-info">
+              <span class="swatch-name">Sky Signal</span>
+              <span class="swatch-hex">#4A9EC0</span>
+              <span class="swatch-var">--vfc-dark-sky</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-label">Semantic Color Roles</div>
+      <table class="spec-table">
+        <thead>
+          <tr><th>Role</th><th>Light Value</th><th>Dark Value</th><th>Usage</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Page Background</td><td class="mono">#F5F0E4</td><td class="mono">#080E0A</td><td class="dim">Base canvas for all pages</td></tr>
+          <tr><td>Surface</td><td class="mono">#FFFFFF</td><td class="mono">#0E1610</td><td class="dim">Cards, panels, modals</td></tr>
+          <tr><td>Surface Raised</td><td class="mono">#EDE5D4</td><td class="mono">#152019</td><td class="dim">Nested panels, sidebars</td></tr>
+          <tr><td>Border Default</td><td class="mono">#D9CEBC</td><td class="mono">#253320</td><td class="dim">Card borders, dividers</td></tr>
+          <tr><td>Border Bright</td><td class="mono">#C0DDB8</td><td class="mono">#3A5030</td><td class="dim">Hover, focus states</td></tr>
+          <tr><td>Text Primary</td><td class="mono">#2C1F12</td><td class="mono">#C8D8C0</td><td class="dim">Body copy, headings</td></tr>
+          <tr><td>Text Secondary</td><td class="mono">#7A6050</td><td class="mono">#728A68</td><td class="dim">Captions, metadata</td></tr>
+          <tr><td>Text Muted</td><td class="mono">#A09080</td><td class="mono">#4A6B50</td><td class="dim">Placeholder, disabled</td></tr>
+          <tr><td>Accent Primary</td><td class="mono">#3D6B4A</td><td class="mono">#4EBF5E</td><td class="dim">Links, CTAs, active states</td></tr>
+          <tr><td>Warning</td><td class="mono">#C8622A</td><td class="mono">#C8913A</td><td class="dim">Attention zones, caution</td></tr>
+          <tr><td>Alert/Error</td><td class="mono">#A83220</td><td class="mono">#E87A3A</td><td class="dim">Alerts, sensor errors</td></tr>
+          <tr><td>Info</td><td class="mono">#3A6E8A</td><td class="mono">#4A9EC0</td><td class="dim">Informational callouts</td></tr>
+          <tr><td>Nav Background</td><td class="mono">#1A3328</td><td class="mono">#080E0A</td><td class="dim">Top navigation bar</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-label">Mode Preview</div>
+      <div class="mode-panels">
+        <div class="mode-panel light-panel">
+          <div class="mode-panel-header">☀ Light Mode — Regenerative Homestead</div>
+          <div class="mode-panel-body">
+            <div class="light-nav-preview">
+              <span class="light-nav-logo">VFC</span>
+              <div class="light-nav-links">
+                <span class="light-nav-link active">Home</span>
+                <span class="light-nav-link">Technology</span>
+                <span class="light-nav-link">Journal</span>
+              </div>
+            </div>
+            <div class="light-card-preview">
+              <span class="light-card-tag">Robotics</span>
+              <div class="light-card-title">Soil Sensor Network v3.2</div>
+              <div class="light-card-body">Distributed moisture and pH monitoring across 12 zones with edge compute inference at each node.</div>
+            </div>
+          </div>
+        </div>
+        <div class="mode-panel dark-panel">
+          <div class="mode-panel-header">⬡ Dark Mode — Control Interface</div>
+          <div class="mode-panel-body">
+            <div class="dark-nav-preview">
+              <span class="dark-nav-logo">VERDANT_FORGE</span>
+              <div class="dark-nav-status"><div class="dark-dot"></div>SYS NOMINAL</div>
+            </div>
+            <div class="dark-widget-row">
+              <div class="dark-widget">
+                <div class="dark-widget-label">SOIL_MOIST</div>
+                <div class="dark-widget-value">73<span class="dark-widget-unit">%</span></div>
+              </div>
+              <div class="dark-widget">
+                <div class="dark-widget-label">SOLAR_KWH</div>
+                <div class="dark-widget-value" style="color:#C8913A;">12.4<span class="dark-widget-unit" style="color:#7A5A20;">k</span></div>
+              </div>
+              <div class="dark-widget">
+                <div class="dark-widget-label">BOTS_ACTV</div>
+                <div class="dark-widget-value">7</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       2. TYPOGRAPHY
+  ══════════════════════════════════════════ -->
+  <section class="spec-section" id="typography">
+    <div class="section-header">
+      <span class="section-number">02</span>
+      <h2 class="section-title">Typography System</h2>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-label">Typeface Selection</div>
+      <table class="spec-table">
+        <thead><tr><th>Role</th><th>Family</th><th>Weights</th><th>Usage</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>Display / Editorial</td>
+            <td class="mono">Instrument Serif</td>
+            <td class="dim">400, 400i</td>
+            <td class="dim">Hero headlines, article titles, pull quotes, lede paragraphs</td>
+          </tr>
+          <tr>
+            <td>Interface / UI</td>
+            <td class="mono">Syne</td>
+            <td class="dim">400, 500, 600, 700, 800</td>
+            <td class="dim">Navigation, subheadings, body copy, labels, buttons, card text</td>
+          </tr>
+          <tr>
+            <td>Technical / Data</td>
+            <td class="mono">JetBrains Mono</td>
+            <td class="dim">300, 400, 500</td>
+            <td class="dim">Dashboard values, sensor data, timestamps, code, coordinates, tags</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="note-box">
+        <strong>Import:</strong> All three families from Google Fonts. Self-host for production. Include <code>display=swap</code> to prevent FOIT. Subset to Latin for performance.
+      </div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-label">Type Scale — Specimens</div>
+
+      <div class="type-specimen">
+        <div class="type-meta">
+          <span>Display — Hero</span>
+          <span>Instrument Serif · 400 · <span>clamp(40px, 6vw, 72px)</span></span>
+          <span>line-height: <span>1.05</span></span>
+          <span>letter-spacing: <span>-0.02em</span></span>
+        </div>
+        <div class="type-display" style="font-size: clamp(32px, 5vw, 56px);">Automation<br><em style="color: var(--doc-accent);">in the soil.</em></div>
+      </div>
+
+      <div class="type-specimen">
+        <div class="type-meta">
+          <span>H1 — Page Title</span>
+          <span>Syne · 800 · <span>clamp(28px, 4vw, 44px)</span></span>
+          <span>line-height: <span>1.1</span></span>
+          <span>letter-spacing: <span>-0.025em</span></span>
+        </div>
+        <div class="type-heading" style="font-size: clamp(24px, 3.5vw, 38px);">Community Technology</div>
+      </div>
+
+      <div class="type-specimen">
+        <div class="type-meta">
+          <span>H2 — Section</span>
+          <span>Syne · 700 · <span>24px</span></span>
+          <span>line-height: <span>1.2</span></span>
+          <span>letter-spacing: <span>-0.015em</span></span>
+        </div>
+        <div class="type-heading" style="font-size: 24px; font-weight: 700;">Active Robot Systems</div>
+      </div>
+
+      <div class="type-specimen">
+        <div class="type-meta">
+          <span>H3 — Card / Panel</span>
+          <span>Syne · 600 · <span>18px</span></span>
+          <span>line-height: <span>1.3</span></span>
+        </div>
+        <div class="type-heading" style="font-size: 18px; font-weight: 600;">North Field Irrigation Bot</div>
+      </div>
+
+      <div class="type-specimen">
+        <div class="type-meta">
+          <span>Body — Long Form</span>
+          <span>Syne · 400 · <span>15px</span></span>
+          <span>line-height: <span>1.75</span></span>
+          <span>max-width: <span>68ch</span></span>
+        </div>
+        <div class="type-body" style="font-size: 14px; max-width: 600px;">
+          The collective's approach to soil management integrates real-time sensor data with traditional regenerative practices. Each irrigation decision weighs moisture content, root zone temperature, and historical crop response patterns.
+        </div>
+      </div>
+
+      <div class="type-specimen">
+        <div class="type-meta">
+          <span>Article Lede</span>
+          <span>Instrument Serif · 400i · <span>18px</span></span>
+          <span>line-height: <span>1.6</span></span>
+        </div>
+        <div class="type-display" style="font-size: 17px; font-style: italic; color: var(--doc-muted);">
+          We planted the first autonomous seed bed in March. By June, the machine had learned what the soil wanted before we could measure it.
+        </div>
+      </div>
+
+      <div class="type-specimen">
+        <div class="type-meta">
+          <span>Label / UI Text</span>
+          <span>Syne · 600 · <span>11px</span></span>
+          <span>letter-spacing: <span>0.1em</span></span>
+          <span>text-transform: <span>uppercase</span></span>
+        </div>
+        <div class="type-label-text" style="font-size: 11px;">Soil Moisture · North Field Zone 3</div>
+      </div>
+
+      <div class="type-specimen">
+        <div class="type-meta">
+          <span>Data / Telemetry</span>
+          <span>JetBrains Mono · 500 · <span>32px (values) / 11px (labels)</span></span>
+        </div>
+        <div>
+          <span class="type-mono" style="font-size: 32px; font-weight: 500;">73.4</span>
+          <span class="type-mono" style="font-size: 14px; opacity: 0.5;"> % RH</span>
+          <br>
+          <span class="type-label-text" style="font-size: 10px; font-weight: 500;">SOIL_MOISTURE · ZONE_03 · 14:23:07</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       3. LAYOUT GRID
+  ══════════════════════════════════════════ -->
+  <section class="spec-section" id="grid">
+    <div class="section-header">
+      <span class="section-number">03</span>
+      <h2 class="section-title">Layout Grid System</h2>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-label">Core Grid</div>
+      <table class="spec-table">
+        <thead><tr><th>Property</th><th>Value</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td>Columns</td><td class="mono">12</td><td class="dim">Universal column count across all breakpoints</td></tr>
+          <tr><td>Gutter</td><td class="mono">24px</td><td class="dim">Between all columns; collapses to 16px at mobile</td></tr>
+          <tr><td>Max Content Width</td><td class="mono">1280px</td><td class="dim">Content container max-width; centered</td></tr>
+          <tr><td>Page Padding</td><td class="mono">64px (desk) · 32px (tablet) · 20px (mobile)</td><td class="dim">Horizontal page edge margin</td></tr>
+          <tr><td>Section Padding</td><td class="mono">96px vertical (desk) · 64px (tablet) · 48px (mobile)</td><td class="dim">Between major page sections</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-label">Common Column Patterns</div>
+      <div class="grid-diagram">
+        <div class="grid-label">12 equal columns (base)</div>
+        <div class="grid-row">
+          <div class="grid-col" style="flex: 1;">1</div><div class="grid-col" style="flex: 1;">2</div>
+          <div class="grid-col" style="flex: 1;">3</div><div class="grid-col" style="flex: 1;">4</div>
+          <div class="grid-col" style="flex: 1;">5</div><div class="grid-col" style="flex: 1;">6</div>
+          <div class="grid-col" style="flex: 1;">7</div><div class="grid-col" style="flex: 1;">8</div>
+          <div class="grid-col" style="flex: 1;">9</div><div class="grid-col" style="flex: 1;">10</div>
+          <div class="grid-col" style="flex: 1;">11</div><div class="grid-col" style="flex: 1;">12</div>
+        </div>
+        <div style="height: 16px;"></div>
+        <div class="grid-label">Hero / Full-bleed (12 cols)</div>
+        <div class="grid-row">
+          <div class="grid-col grid-col-wide" style="flex: 12;">12 — Hero, Dashboard, Map</div>
+        </div>
+        <div style="height: 10px;"></div>
+        <div class="grid-label">Content + Sidebar (8 + 4)</div>
+        <div class="grid-row">
+          <div class="grid-col grid-col-wide" style="flex: 8;">8 — Main Content</div>
+          <div class="grid-col grid-col-highlight" style="flex: 4;">4 — Sidebar</div>
+        </div>
+        <div style="height: 10px;"></div>
+        <div class="grid-label">Two-column (6 + 6)</div>
+        <div class="grid-row">
+          <div class="grid-col grid-col-wide" style="flex: 6;">6 — Column A</div>
+          <div class="grid-col grid-col-wide" style="flex: 6;">6 — Column B</div>
+        </div>
+        <div style="height: 10px;"></div>
+        <div class="grid-label">Three-column cards (4 + 4 + 4)</div>
+        <div class="grid-row">
+          <div class="grid-col" style="flex: 4;">4 — Card</div>
+          <div class="grid-col" style="flex: 4;">4 — Card</div>
+          <div class="grid-col" style="flex: 4;">4 — Card</div>
+        </div>
+        <div style="height: 10px;"></div>
+        <div class="grid-label">Four-column stat blocks (3 + 3 + 3 + 3)</div>
+        <div class="grid-row">
+          <div class="grid-col" style="flex: 3;">3</div>
+          <div class="grid-col" style="flex: 3;">3</div>
+          <div class="grid-col" style="flex: 3;">3</div>
+          <div class="grid-col" style="flex: 3;">3</div>
+        </div>
+        <div style="height: 10px;"></div>
+        <div class="grid-label">Centered article column (2 + 8 + 2)</div>
+        <div class="grid-row">
+          <div class="grid-col" style="flex: 2; opacity: 0.3;">2</div>
+          <div class="grid-col grid-col-wide" style="flex: 8;">8 — Article Body (68ch max)</div>
+          <div class="grid-col" style="flex: 2; opacity: 0.3;">2</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-label">Spacing Scale</div>
+      <div style="display: flex; align-items: flex-end; gap: 12px; padding: 20px; background: #060A07; border: 1px solid var(--doc-border); border-radius: 4px;">
+        <div style="text-align: center;">
+          <div style="width: 4px; height: 4px; background: var(--doc-accent); margin: 0 auto 4px;"></div>
+          <div style="font-size: 8px; color: var(--doc-muted);">4</div>
+        </div>
+        <div style="text-align: center;">
+          <div style="width: 8px; height: 8px; background: var(--doc-accent); margin: 0 auto 4px;"></div>
+          <div style="font-size: 8px; color: var(--doc-muted);">8</div>
+        </div>
+        <div style="text-align: center;">
+          <div style="width: 12px; height: 12px; background: var(--doc-accent); margin: 0 auto 4px;"></div>
+          <div style="font-size: 8px; color: var(--doc-muted);">12</div>
+        </div>
+        <div style="text-align: center;">
+          <div style="width: 16px; height: 16px; background: var(--doc-accent); margin: 0 auto 4px;"></div>
+          <div style="font-size: 8px; color: var(--doc-muted);">16</div>
+        </div>
+        <div style="text-align: center;">
+          <div style="width: 24px; height: 24px; background: var(--doc-accent); margin: 0 auto 4px;"></div>
+          <div style="font-size: 8px; color: var(--doc-muted);">24</div>
+        </div>
+        <div style="text-align: center;">
+          <div style="width: 32px; height: 32px; background: var(--doc-accent); margin: 0 auto 4px;"></div>
+          <div style="font-size: 8px; color: var(--doc-muted);">32</div>
+        </div>
+        <div style="text-align: center;">
+          <div style="width: 48px; height: 48px; background: var(--doc-accent); margin: 0 auto 4px;"></div>
+          <div style="font-size: 8px; color: var(--doc-muted);">48</div>
+        </div>
+        <div style="text-align: center;">
+          <div style="width: 64px; height: 64px; background: var(--doc-accent); margin: 0 auto 4px;"></div>
+          <div style="font-size: 8px; color: var(--doc-muted);">64</div>
+        </div>
+        <div style="text-align: center;">
+          <div style="width: 96px; height: 96px; background: var(--doc-accent); margin: 0 auto 4px;"></div>
+          <div style="font-size: 8px; color: var(--doc-muted);">96</div>
+        </div>
+      </div>
+      <p style="font-size: 10px; color: var(--doc-muted); margin-top: 8px;">Base unit: 4px. All spacing values are multiples: 4 · 8 · 12 · 16 · 24 · 32 · 48 · 64 · 96 · 128</p>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-label">Border Radius Scale</div>
+      <table class="spec-table">
+        <thead><tr><th>Token</th><th>Value</th><th>Usage</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">--radius-none</td><td class="mono">0px</td><td class="dim">Structural elements, table cells, hero sections</td></tr>
+          <tr><td class="mono">--radius-sm</td><td class="mono">2px</td><td class="dim">Badges, tags, code snippets, small buttons</td></tr>
+          <tr><td class="mono">--radius-md</td><td class="mono">4px</td><td class="dim">Cards, panels, inputs, modals — primary radius</td></tr>
+          <tr><td class="mono">--radius-lg</td><td class="mono">8px</td><td class="dim">Large image containers, map panel</td></tr>
+          <tr><td class="mono">--radius-pill</td><td class="mono">999px</td><td class="dim">Toggle switches, pill badges only</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       4. NAVIGATION
+  ══════════════════════════════════════════ -->
+  <section class="spec-section" id="navigation">
+    <div class="section-header">
+      <span class="section-number">04</span>
+      <h2 class="section-title">Navigation Design</h2>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-label">Primary Navigation — Dark Mode Preview</div>
+      <div class="nav-preview-full">
+        <div class="nav-top-bar">
+          <div class="nav-logo-full">THE VERDANT FORGE <em>collective</em></div>
+          <ul class="nav-links-full">
+            <li class="nav-link-full active">Home</li>
+            <li class="nav-link-full">Community</li>
+            <li class="nav-link-full">Technology</li>
+            <li class="nav-link-full">Farm Map</li>
+            <li class="nav-link-full">Dashboard</li>
+            <li class="nav-link-full">Journal</li>
+            <li class="nav-link-full">Contact</li>
+          </ul>
+          <div class="nav-right">
+            <div class="nav-status-indicator"><div class="dark-dot"></div>LIVE</div>
+            <div class="nav-theme-btn" title="Toggle theme"></div>
+          </div>
+        </div>
+        <div style="padding: 10px 32px; background: rgba(8,14,10,0.5); border-top: 1px solid rgba(78,191,94,0.04); display: flex; align-items: center; gap: 16px;">
+          <span style="font-family: 'JetBrains Mono'; font-size: 9px; color: rgba(78,191,94,0.2); letter-spacing: 0.1em;">VFC-SYS</span>
+          <span style="font-family: 'JetBrains Mono'; font-size: 9px; color: rgba(78,191,94,0.15); letter-spacing: 0.1em;">·</span>
+          <span style="font-family: 'JetBrains Mono'; font-size: 9px; color: rgba(78,191,94,0.2); letter-spacing: 0.1em;">LAST_SYNC: 14:23:07</span>
+          <span style="font-family: 'JetBrains Mono'; font-size: 9px; color: rgba(78,191,94,0.15); letter-spacing: 0.1em;">·</span>
+          <span style="font-family: 'JetBrains Mono'; font-size: 9px; color: rgba(78,191,94,0.2); letter-spacing: 0.1em;">7 BOTS ACTIVE · 12 ZONES MONITORED</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-label">Navigation Specifications</div>
+      <table class="spec-table">
+        <thead><tr><th>Property</th><th>Specification</th></tr></thead>
+        <tbody>
+          <tr><td>Position</td><td class="dim">Fixed top, full-width. <code class="mono">z-index: 1000</code></td></tr>
+          <tr><td>Height</td><td class="dim">60px primary bar + 28px telemetry strip = 88px total</td></tr>
+          <tr><td>Background (Dark)</td><td class="mono">rgba(8,14,10,0.95) + backdrop-filter: blur(12px)</td></tr>
+          <tr><td>Background (Light)</td><td class="mono">#1A3328 (solid canopy, no blur needed)</td></tr>
+          <tr><td>Logo Type</td><td class="dim">Syne 800 in ALL CAPS + Instrument Serif italic for "collective"</td></tr>
+          <tr><td>Nav Links</td><td class="dim">Syne 500 · 11px · letter-spacing 0.06em · ALL CAPS</td></tr>
+          <tr><td>Active State</td><td class="dim">Phosphor green text + 1px bottom border in green</td></tr>
+          <tr><td>Hover State</td><td class="dim">0.15s ease color transition to moss/phosphor</td></tr>
+          <tr><td>Telemetry Strip</td><td class="dim">JetBrains Mono · 9px · auto-scrolling system stats</td></tr>
+          <tr><td>Scroll Behavior</td><td class="dim">Telemetry strip hides on scroll down, reappears on scroll up</td></tr>
+          <tr><td>Mobile Breakpoint</td><td class="dim">Collapse to hamburger at 768px; drawer slides from right</td></tr>
+          <tr><td>Mobile Drawer</td><td class="dim">Full-screen overlay · stacked links · focus trapped · Esc closes</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       5. CARD COMPONENTS
+  ══════════════════════════════════════════ -->
+  <section class="spec-section" id="cards">
+    <div class="section-header">
+      <span class="section-number">05</span>
+      <h2 class="section-title">Card Components</h2>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-label">Journal / System Card — Light Mode</div>
+      <div class="component-preview">
+        <span class="component-label">light mode · journal card</span>
+        <div style="padding-top: 24px; display: flex; gap: 24px; flex-wrap: wrap;">
+          <div class="vfc-card-preview">
+            <div class="vfc-card-image">[ ZONE PHOTOGRAPH ]</div>
+            <div class="vfc-card-body-inner">
+              <span class="vfc-card-tag-inner">⬡ Soil Systems</span>
+              <div class="vfc-card-h">Moisture Inference at the Edge: Month 4 Results</div>
+              <div class="vfc-card-p">The soil prediction model reduced irrigation waste by 31% without sacrificing yield. Here's what the data actually showed.</div>
+              <div class="vfc-card-footer-inner">
+                <span class="vfc-card-date">2025-10-14</span>
+                <span class="vfc-card-link">Read entry →</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-label">System Card — Dark Mode</div>
+      <div class="component-preview" style="background: #080E0A;">
+        <span class="component-label">dark mode · system card</span>
+        <div style="padding-top: 24px; display: flex; gap: 24px; flex-wrap: wrap;">
+          <div class="vfc-dark-card-preview">
+            <div style="height: 100px; background: linear-gradient(135deg, #0A1A0E, #152019); display: flex; align-items: center; justify-content: center; border-bottom: 1px solid #1A2A1C; position: relative; overflow: hidden;">
+              <span style="font-family: 'JetBrains Mono'; font-size: 9px; color: rgba(78,191,94,0.2); letter-spacing: 0.2em;">BOT_IMG_3.2</span>
+              <div style="position: absolute; bottom: 0; left: 0; right: 0; height: 1px; background: rgba(78,191,94,0.15);"></div>
+            </div>
+            <div class="vfc-dark-card-body">
+              <span class="vfc-dark-tag">ACTIVE · v3.2</span>
+              <div class="vfc-dark-h">North Field Irrigation Bot</div>
+              <div class="vfc-dark-p">Autonomous drip-targeting unit. 6-DOF arm. Soil probe integration. Runs 18h on single charge.</div>
+              <div class="vfc-dark-footer">
+                <span class="vfc-dark-meta">ZONE_01 · ONLINE</span>
+                <span class="vfc-dark-action">INSPECT →</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-label">Card Specification</div>
+      <div class="two-col">
+        <table class="spec-table">
+          <thead><tr><th>Property</th><th>Light Mode</th></tr></thead>
+          <tbody>
+            <tr><td>Background</td><td class="mono">#FFFFFF</td></tr>
+            <tr><td>Border</td><td class="mono">1px solid #D9CEBC</td></tr>
+            <tr><td>Radius</td><td class="mono">4px</td></tr>
+            <tr><td>Shadow</td><td class="mono">0 2px 8px rgba(44,31,18,0.06), 0 1px 3px rgba(44,31,18,0.04)</td></tr>
+            <tr><td>Shadow Hover</td><td class="mono">0 8px 32px rgba(44,31,18,0.14)</td></tr>
+            <tr><td>Transform Hover</td><td class="mono">translateY(-3px)</td></tr>
+            <tr><td>Transition</td><td class="mono">transform 0.2s ease, box-shadow 0.2s ease</td></tr>
+          </tbody>
+        </table>
+        <table class="spec-table">
+          <thead><tr><th>Property</th><th>Dark Mode</th></tr></thead>
+          <tbody>
+            <tr><td>Background</td><td class="mono">#0E1610</td></tr>
+            <tr><td>Border</td><td class="mono">1px solid #253320</td></tr>
+            <tr><td>Radius</td><td class="mono">4px</td></tr>
+            <tr><td>Shadow</td><td class="mono">0 4px 20px rgba(0,0,0,0.4)</td></tr>
+            <tr><td>Border Hover</td><td class="mono">#3A5030</td></tr>
+            <tr><td>Glow Hover</td><td class="mono">0 0 24px rgba(78,191,94,0.06)</td></tr>
+            <tr><td>Transition</td><td class="mono">border-color 0.2s ease, box-shadow 0.2s ease</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-label">Tags & Badges</div>
+      <div class="tag-preview-row">
+        <span class="tag-preview" style="background:#E8F2E4;border:1px solid #C0DDB8;color:#3D6B4A;">Soil Systems</span>
+        <span class="tag-preview" style="background:#FDF0E4;border:1px solid #E8C8A0;color:#8B5E3C;">Robotics</span>
+        <span class="tag-preview" style="background:#E4EEF5;border:1px solid #A0C4D8;color:#3A6E8A;">AI Inference</span>
+        <span class="tag-preview" style="background:#F5EBE4;border:1px solid #DDB8A0;color:#C8622A;">Alert</span>
+        <span class="tag-preview" style="background:#F0EDE4;border:1px solid #D0C8A8;color:#7A7040;">Research</span>
+      </div>
+      <div class="tag-preview-row">
+        <span class="tag-preview" style="background:rgba(78,191,94,0.1);border:1px solid rgba(78,191,94,0.25);color:#4EBF5E;font-family:'JetBrains Mono',monospace;font-size:9px;">ACTIVE</span>
+        <span class="tag-preview" style="background:rgba(200,145,58,0.1);border:1px solid rgba(200,145,58,0.3);color:#C8913A;font-family:'JetBrains Mono',monospace;font-size:9px;">ATTENTION</span>
+        <span class="tag-preview" style="background:rgba(200,90,58,0.1);border:1px solid rgba(200,90,58,0.3);color:#E87A3A;font-family:'JetBrains Mono',monospace;font-size:9px;">ALERT</span>
+        <span class="tag-preview" style="background:rgba(90,100,88,0.08);border:1px solid rgba(90,100,88,0.2);color:#728A68;font-family:'JetBrains Mono',monospace;font-size:9px;">FALLOW</span>
+        <span class="tag-preview" style="background:rgba(74,158,192,0.1);border:1px solid rgba(74,158,192,0.3);color:#4A9EC0;font-family:'JetBrains Mono',monospace;font-size:9px;">EXPERIMENTAL</span>
+        <span class="tag-preview" style="background:rgba(78,191,94,0.06);border:1px solid rgba(78,191,94,0.15);color:#4A6B50;font-family:'JetBrains Mono',monospace;font-size:9px;">RETIRED</span>
+      </div>
+      <p style="font-size: 10px; color: var(--doc-muted); margin-top: 8px;">Light mode: category tags use colored tints. Dark mode: mono-family status codes.</p>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-label">Buttons</div>
+      <div class="component-preview">
+        <span class="component-label">button variants</span>
+        <div style="display: flex; gap: 16px; flex-wrap: wrap; padding-top: 24px; align-items: center;">
+          <button style="padding: 12px 28px; background: #3D6B4A; color: #E8F2E4; border: none; font-family: 'Syne',sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; border-radius: 3px; cursor: pointer;">Explore Farm →</button>
+          <button style="padding: 12px 28px; background: transparent; color: #3D6B4A; border: 1.5px solid #3D6B4A; font-family: 'Syne',sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; border-radius: 3px; cursor: pointer;">Read Journal</button>
+          <button style="padding: 10px 20px; background: rgba(78,191,94,0.1); color: #4EBF5E; border: 1px solid rgba(78,191,94,0.3); font-family: 'JetBrains Mono',monospace; font-size: 11px; letter-spacing: 0.1em; border-radius: 3px; cursor: pointer;">INSPECT_BOT →</button>
+          <button style="padding: 8px 16px; background: transparent; color: #C8913A; border: 1px solid rgba(200,145,58,0.4); font-family: 'JetBrains Mono',monospace; font-size: 10px; letter-spacing: 0.1em; border-radius: 2px; cursor: pointer;">⚠ VIEW ALERT</button>
+        </div>
+      </div>
+      <table class="spec-table" style="margin-top: 16px;">
+        <thead><tr><th>Variant</th><th>Usage</th><th>Font</th></tr></thead>
+        <tbody>
+          <tr><td>Primary (Green fill)</td><td class="dim">Main CTAs: hero, card primary action</td><td class="mono">Syne 700 uppercase</td></tr>
+          <tr><td>Secondary (Outline)</td><td class="dim">Secondary CTAs alongside primary</td><td class="mono">Syne 700 uppercase</td></tr>
+          <tr><td>Ghost Green (Dark mode)</td><td class="dim">Dashboard actions, system commands</td><td class="mono">JetBrains Mono</td></tr>
+          <tr><td>Warning (Amber outline)</td><td class="dim">Alert acknowledgements, caution actions</td><td class="mono">JetBrains Mono</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       6. HERO SECTION
+  ══════════════════════════════════════════ -->
+  <section class="spec-section" id="hero">
+    <div class="section-header">
+      <span class="section-number">06</span>
+      <h2 class="section-title">Hero Section Layout</h2>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-label">Hero Layout Diagram</div>
+      <div class="hero-diagram">
+        <div class="hero-nav-bar">
+          <div class="h-logo"></div>
+          <div class="h-links">
+            <div class="h-link"></div><div class="h-link"></div>
+            <div class="h-link"></div><div class="h-link"></div>
+          </div>
+        </div>
+        <div class="hero-body">
+          <div class="hero-content-box">
+            <div class="h-eyebrow"></div>
+            <div class="h-title-1"></div>
+            <div class="h-title-2"></div>
+            <div class="h-subtitle"></div>
+            <div class="h-subtitle-2"></div>
+            <div class="h-ctas">
+              <div class="h-cta-primary"></div>
+              <div class="h-cta-secondary"></div>
+            </div>
+          </div>
+          <div class="hero-visual-box">
+            <div class="h-visual-inner">FARM MAP<br>PREVIEW<br>or VIDEO</div>
+          </div>
+        </div>
+        <div class="hero-stats-bar">
+          <div class="h-stat"><div class="h-stat-num"></div><div class="h-stat-label"></div></div>
+          <div class="h-stat"><div class="h-stat-num"></div><div class="h-stat-label"></div></div>
+          <div class="h-stat"><div class="h-stat-num"></div><div class="h-stat-label"></div></div>
+          <div class="h-stat"><div class="h-stat-num"></div><div class="h-stat-label"></div></div>
+          <div class="h-stat"><div class="h-stat-num"></div><div class="h-stat-label"></div></div>
+          <div class="h-stat"><div class="h-stat-num"></div><div class="h-stat-label"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-label">Hero Specifications</div>
+      <table class="spec-table">
+        <thead><tr><th>Element</th><th>Specification</th></tr></thead>
+        <tbody>
+          <tr><td>Height</td><td class="dim">min-height: 90vh. Content centered vertically.</td></tr>
+          <tr><td>Background (Dark)</td><td class="dim">Radial gradient from #0D1A10 center → #080E0A edges. Subtle grid overlay at 4% opacity.</td></tr>
+          <tr><td>Background (Light)</td><td class="dim">Linear gradient from #1A3328 top → #0E2218 bottom. Grain texture overlay at 3% opacity.</td></tr>
+          <tr><td>Eyebrow Text</td><td class="mono">JetBrains Mono · 11px · letter-spacing 0.2em · phosphor/moss color</td></tr>
+          <tr><td>Hero Headline</td><td class="mono">Instrument Serif · clamp(40px, 6vw, 72px) · light parchment/white</td></tr>
+          <tr><td>Hero Subheadline</td><td class="mono">Syne 400 · clamp(16px, 2vw, 20px) · 60% opacity text</td></tr>
+          <tr><td>Visual Panel (right)</td><td class="dim">35% width. SVG farm map preview or video loop. Border: 1px leaf/phosphor tinted.</td></tr>
+          <tr><td>Stats Bar</td><td class="dim">56px height below hero. 6 stat blocks. JetBrains Mono values animate on load.</td></tr>
+          <tr><td>Entry Animation</td><td class="dim">Staggered fade-up: eyebrow 0ms, headline 100ms, subhead 200ms, CTAs 350ms, visual 400ms, stats 600ms.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       7. DASHBOARD STYLING
+  ══════════════════════════════════════════ -->
+  <section class="spec-section" id="dashboard">
+    <div class="section-header">
+      <span class="section-number">07</span>
+      <h2 class="section-title">Dashboard Styling</h2>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-label">Dashboard Layout Diagram</div>
+      <div class="dashboard-diagram">
+        <div class="dash-header-bar">
+          <div class="dash-status-dot ds-green"></div>
+          <div class="dash-status-dot ds-green"></div>
+          <div class="dash-status-dot ds-amber"></div>
+          <div class="dash-title-bar"></div>
+          <div style="font-family:'JetBrains Mono';font-size:9px;color:rgba(78,191,94,0.4);margin-left:auto;">LAST_SYNC 14:23:07</div>
+        </div>
+        <div class="dash-grid">
+          <div class="dash-widget-box"><div class="dw-label"></div><div class="dw-value"></div><div class="dw-spark"></div></div>
+          <div class="dash-widget-box"><div class="dw-label"></div><div class="dw-value" style="background:rgba(200,145,58,0.4);"></div><div class="dw-spark"></div></div>
+          <div class="dash-widget-box"><div class="dw-label"></div><div class="dw-value"></div><div class="dw-spark"></div></div>
+          <div class="dash-widget-box"><div class="dw-label"></div><div class="dw-value" style="background:rgba(74,158,192,0.4);"></div><div class="dw-spark"></div></div>
+        </div>
+        <div class="dash-lower">
+          <div class="dash-main-panel">
+            <div class="dp-header"></div>
+            <div class="dp-row"><div class="dp-dot ds-green"></div><div class="dp-bar-container"><div class="dp-bar" style="width:80%;"></div></div><div class="dp-val"></div></div>
+            <div class="dp-row"><div class="dp-dot ds-amber"></div><div class="dp-bar-container"><div class="dp-bar" style="width:55%;background:rgba(200,145,58,0.4);"></div></div><div class="dp-val"></div></div>
+            <div class="dp-row"><div class="dp-dot ds-green"></div><div class="dp-bar-container"><div class="dp-bar" style="width:92%;"></div></div><div class="dp-val"></div></div>
+            <div class="dp-row"><div class="dp-dot ds-green"></div><div class="dp-bar-container"><div class="dp-bar" style="width:68%;"></div></div><div class="dp-val"></div></div>
+          </div>
+          <div class="dash-main-panel">
+            <div class="dp-header"></div>
+            <div style="display:flex;flex-direction:column;gap:5px;margin-top:6px;">
+              <div style="height:6px;background:rgba(78,191,94,0.15);border-radius:1px;"></div>
+              <div style="height:6px;background:rgba(78,191,94,0.08);border-radius:1px;"></div>
+              <div style="height:6px;background:rgba(200,145,58,0.12);border-radius:1px;"></div>
+              <div style="height:6px;background:rgba(78,191,94,0.1);border-radius:1px;"></div>
+              <div style="height:6px;background:rgba(78,191,94,0.06);border-radius:1px;"></div>
+            </div>
+          </div>
+          <div class="dash-main-panel">
+            <div class="dp-header"></div>
+            <div style="display:flex;flex-direction:column;gap:4px;margin-top:6px;">
+              <div style="height:5px;background:rgba(74,158,192,0.2);border-radius:1px;"></div>
+              <div style="height:5px;background:rgba(74,158,192,0.12);border-radius:1px;"></div>
+              <div style="height:5px;background:rgba(74,158,192,0.08);border-radius:1px;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-label">Dashboard Visual Rules</div>
+      <table class="spec-table">
+        <thead><tr><th>Element</th><th>Specification</th></tr></thead>
+        <tbody>
+          <tr><td>Page Background</td><td class="mono">#080E0A — always dark, no light mode on dashboard</td></tr>
+          <tr><td>Background Texture</td><td class="dim">Repeating scanline grid: 1px horizontal lines at 40px intervals, rgba(78,191,94,0.03)</td></tr>
+          <tr><td>Widget Cards</td><td class="mono">background: #0E1610 · border: 1px solid #253320 · radius: 3px</td></tr>
+          <tr><td>Primary Metric Color</td><td class="mono">#4EBF5E (phosphor green)</td></tr>
+          <tr><td>Warning Metric Color</td><td class="mono">#C8913A (amber)</td></tr>
+          <tr><td>Info Metric Color</td><td class="mono">#4A9EC0 (sky blue)</td></tr>
+          <tr><td>Metric Value Font</td><td class="mono">JetBrains Mono 500 · 32–40px · tabular-nums</td></tr>
+          <tr><td>Metric Label Font</td><td class="mono">JetBrains Mono · 9px · letter-spacing 0.12em · ALL CAPS</td></tr>
+          <tr><td>Sparklines</td><td class="dim">Canvas element. Line: 1.5px stroke. Fill: 20% opacity. Smooth curve (bezier). Live update.</td></tr>
+          <tr><td>Status Dots</td><td class="dim">8px circle. Green pulse animation when active. Amber solid when warning.</td></tr>
+          <tr><td>Task Queue</td><td class="dim">Monospace list. New items fade in from top. Old items fade out bottom. Max 8 visible.</td></tr>
+          <tr><td>Update Animation</td><td class="dim">Values morph via JS counter interpolation, 400ms duration. No layout shift.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       8. FARM MAP STYLING
+  ══════════════════════════════════════════ -->
+  <section class="spec-section" id="map">
+    <div class="section-header">
+      <span class="section-number">08</span>
+      <h2 class="section-title">Farm Map Styling</h2>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-label">Interactive Map Preview</div>
+      <div class="map-preview">
+        <div class="map-canvas-area">
+          <div class="map-grid-bg"></div>
+          <!-- Zone mockups -->
+          <div class="map-zone mz-active" style="left:8%;top:10%;width:28%;height:30%;">NORTH<br>FIELD<br><span style="font-size:7px;opacity:0.6;">BOT ACTIVE</span></div>
+          <div class="map-zone mz-nominal" style="left:38%;top:10%;width:18%;height:20%;">GREENHOUSE<br>A</div>
+          <div class="map-zone mz-attention" style="left:58%;top:10%;width:16%;height:20%;">GREENHOUSE<br>B<br><span style="font-size:7px;color:#C8913A;">HUMID+</span></div>
+          <div class="map-zone mz-nominal" style="left:76%;top:10%;width:20%;height:30%;">ORCHARD</div>
+          <div class="map-zone mz-fallow" style="left:8%;top:44%;width:22%;height:22%;">COMPOST<br>YARD</div>
+          <div class="map-zone mz-active" style="left:32%;top:35%;width:24%;height:28%;">AQUAPONICS<br>BAY</div>
+          <div class="map-zone mz-nominal" style="left:58%;top:34%;width:20%;height:20%;">ENERGY<br>GROVE</div>
+          <div class="map-zone mz-nominal" style="left:8%;top:70%;width:68%;height:22%;">COMMONS + PERIMETER TRAIL</div>
+          <div class="map-zone mz-nominal" style="left:78%;top:44%;width:18%;height:48%;">SEED<br>LIBRARY +<br>TOOL BARN</div>
+        </div>
+        <div class="map-side-panel">
+          <div class="msp-title">NORTH FIELD</div>
+          <div class="msp-row"><span>STATUS</span><span class="msp-val">NOMINAL</span></div>
+          <div class="msp-row"><span>MOISTURE</span><span class="msp-val">73%</span></div>
+          <div class="msp-row"><span>TEMP</span><span class="msp-val">18.4°C</span></div>
+          <div class="msp-row"><span>BOT</span><span class="msp-val">IRRIG-01</span></div>
+          <div class="msp-row"><span>CROP</span><span class="msp-val amber">TOMATO</span></div>
+          <div class="msp-row"><span>LAST LOG</span><span class="msp-val">2h ago</span></div>
+          <div class="msp-legend">
+            <div class="msp-legend-item"><div class="msp-dot" style="background:#4EBF5E;"></div>Nominal</div>
+            <div class="msp-legend-item"><div class="msp-dot" style="background:#C8913A;"></div>Attention</div>
+            <div class="msp-legend-item"><div class="msp-dot" style="background:#E87A3A;"></div>Alert</div>
+            <div class="msp-legend-item"><div class="msp-dot" style="background:#4A6B50;"></div>Fallow</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-label">Map Specifications</div>
+      <table class="spec-table">
+        <thead><tr><th>Element</th><th>Specification</th></tr></thead>
+        <tbody>
+          <tr><td>SVG Background</td><td class="mono">#060D08 · grid lines at rgba(78,191,94,0.04)</td></tr>
+          <tr><td>Zone Default</td><td class="mono">fill: rgba(78,191,94,0.06) · stroke: rgba(78,191,94,0.25) · stroke-width: 1</td></tr>
+          <tr><td>Zone Hover</td><td class="mono">fill: rgba(78,191,94,0.12) · stroke: rgba(78,191,94,0.7) · cursor: pointer</td></tr>
+          <tr><td>Zone Active (selected)</td><td class="mono">fill: rgba(78,191,94,0.18) · stroke: #4EBF5E · stroke-width: 1.5</td></tr>
+          <tr><td>Zone Attention</td><td class="mono">fill: rgba(200,145,58,0.08) · stroke: rgba(200,145,58,0.35)</td></tr>
+          <tr><td>Zone Alert</td><td class="mono">fill: rgba(232,122,58,0.1) · stroke: rgba(232,122,58,0.5) · stroke animated pulse</td></tr>
+          <tr><td>Zone Fallow</td><td class="mono">fill: rgba(90,100,88,0.05) · stroke: rgba(90,100,88,0.18)</td></tr>
+          <tr><td>Zone Labels</td><td class="mono">JetBrains Mono · 9–11px · centered in zone · ALL CAPS</td></tr>
+          <tr><td>Detail Panel</td><td class="dim">Fixed right sidebar. Width: 220px. Slides in with translateX transition on zone click.</td></tr>
+          <tr><td>Overlay Modes</td><td class="dim">CSS class toggle on SVG root: .view-crop, .view-bots, .view-moisture. Each changes zone fill function.</td></tr>
+          <tr><td>Mode Switcher</td><td class="dim">Three segmented button control above map. Monospace labels.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       9. ARTICLE / JOURNAL STYLING
+  ══════════════════════════════════════════ -->
+  <section class="spec-section" id="journal">
+    <div class="section-header">
+      <span class="section-number">09</span>
+      <h2 class="section-title">Article / Journal Styling</h2>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-label">Journal Entry Preview — Light Mode</div>
+      <div class="article-preview">
+        <div class="ap-header">
+          <div class="ap-category">⬡ Soil Systems · Experiment Log · Entry #047</div>
+          <div class="ap-title">Moisture Inference at the Edge:<br>What Month Four Actually Showed</div>
+          <div class="ap-meta">
+            <span>Meridian Strauss</span>
+            <span>14 Oct 2025</span>
+            <span>12 min read</span>
+          </div>
+        </div>
+        <div class="ap-body">
+          <div class="ap-lede">We reduced irrigation waste by 31% without losing a single yield point. But the model didn't learn what we expected it to learn.</div>
+          <div class="ap-body-text">
+            Four months ago we deployed twelve soil probe nodes across the north and east fields, each running a lightweight regression model trained on three seasons of collective records. The theory was straightforward: push inference to the edge, reduce cloud dependency, and let the soil tell the bots what it needed before we had to ask.
+          </div>
+          <div class="ap-callout">
+            Key finding: The model prioritized root zone temperature over surface moisture in 7 of 12 zones — directly contradicting our initial hypothesis.
+          </div>
+          <div class="ap-body-text">
+            The contradictions were instructive. Zone 3, which runs the tomato beds, developed a 4-hour predictive lead time on moisture demand...
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-label">Article Typography Specifications</div>
+      <table class="spec-table">
+        <thead><tr><th>Element</th><th>Font</th><th>Size</th><th>Color</th></tr></thead>
+        <tbody>
+          <tr><td>Article Category</td><td class="mono">JetBrains Mono</td><td class="mono">11px · 0.15em spacing</td><td class="dim">Moss / Phosphor</td></tr>
+          <tr><td>Article Title</td><td class="mono">Instrument Serif · italic</td><td class="mono">clamp(24px, 3.5vw, 36px)</td><td class="dim">Parchment on dark header</td></tr>
+          <tr><td>Byline / Meta</td><td class="mono">JetBrains Mono</td><td class="mono">11px</td><td class="dim">Moss 60% opacity</td></tr>
+          <tr><td>Lede Paragraph</td><td class="mono">Instrument Serif · italic</td><td class="mono">18px</td><td class="dim">Soil / Text primary</td></tr>
+          <tr><td>Body Paragraphs</td><td class="mono">Syne 400</td><td class="mono">15px · 1.8 line-height · max 68ch</td><td class="dim">Text primary</td></tr>
+          <tr><td>H2 In Article</td><td class="mono">Syne 700</td><td class="mono">20px</td><td class="dim">Text primary, margin-top: 2em</td></tr>
+          <tr><td>Callout Block</td><td class="mono">JetBrains Mono</td><td class="mono">12px · 1.7 line-height</td><td class="dim">Leaf green · left border 3px</td></tr>
+          <tr><td>Data Table</td><td class="mono">JetBrains Mono</td><td class="mono">11px</td><td class="dim">Header bg: parchment-deep</td></tr>
+          <tr><td>Footnote</td><td class="mono">JetBrains Mono 300</td><td class="mono">10px · italic</td><td class="dim">Muted</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       10. FOOTER
+  ══════════════════════════════════════════ -->
+  <section class="spec-section" id="footer">
+    <div class="section-header">
+      <span class="section-number">10</span>
+      <h2 class="section-title">Footer Layout</h2>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-label">Footer Preview</div>
+      <div class="footer-preview">
+        <div class="fp-main">
+          <div class="fp-brand">
+            <div class="fp-logo-text">VERDANT FORGE</div>
+            <p>A community of 40 documenting the intersection of regenerative agriculture and autonomous systems. Open source. Open farm.</p>
+            <span class="fp-coords">28.7041° N · 77.1025° E</span>
+          </div>
+          <div>
+            <div class="fp-col-title">Navigate</div>
+            <ul class="fp-links">
+              <li>Home</li><li>Community</li><li>Technology</li>
+              <li>Farm Map</li><li>Dashboard</li><li>Journal</li>
+            </ul>
+          </div>
+          <div>
+            <div class="fp-col-title">Resources</div>
+            <ul class="fp-links">
+              <li>GitHub Org</li><li>Build Docs</li><li>Data Archive</li>
+              <li>Open API</li><li>Press Kit</li>
+            </ul>
+          </div>
+          <div>
+            <div class="fp-col-title">Community</div>
+            <ul class="fp-links">
+              <li>Mastodon</li><li>Mailing List</li><li>Apply to Join</li>
+              <li>Visit Request</li><li>Contact</li>
+            </ul>
+          </div>
+        </div>
+        <div class="fp-bottom">
+          <span>© 2025 The Verdant Forge Collective · Creative Commons BY-SA 4.0</span>
+          <div class="fp-oss-badge">⬡ Open Source · All code on GitHub</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-label">Footer Specifications</div>
+      <table class="spec-table">
+        <thead><tr><th>Property</th><th>Specification</th></tr></thead>
+        <tbody>
+          <tr><td>Background</td><td class="mono">#0A1A0E (always dark canopy, both modes)</td></tr>
+          <tr><td>Top Border</td><td class="mono">2px solid #3D6B4A</td></tr>
+          <tr><td>Grid</td><td class="dim">4 columns: 2fr · 1fr · 1fr · 1fr with 40px gap</td></tr>
+          <tr><td>Brand Column</td><td class="dim">Logo + mission blurb (max 60 words) + coordinates badge</td></tr>
+          <tr><td>Link Columns</td><td class="dim">3 columns: Navigate · Resources · Community</td></tr>
+          <tr><td>Column Labels</td><td class="mono">Syne 700 · 10px · letter-spacing 0.12em · moss 50% opacity</td></tr>
+          <tr><td>Footer Links</td><td class="mono">Syne 400 · 12px · moss 45% · hover → moss 100% · 0.15s</td></tr>
+          <tr><td>Bottom Bar</td><td class="dim">flex space-between · copyright left · OSS badge right · monospace 9px</td></tr>
+          <tr><td>Coordinates</td><td class="dim">JetBrains Mono badge, phosphor green 40%. Hover → tooltip with map link.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       11. ANIMATION SYSTEM
+  ══════════════════════════════════════════ -->
+  <section class="spec-section" id="animation">
+    <div class="section-header">
+      <span class="section-number">11</span>
+      <h2 class="section-title">Animation System</h2>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-label">Animation Demonstrations</div>
+      <div class="animation-demo">
+        <div class="anim-demo-item">
+          <div class="demo-pulse"></div>
+          <div class="anim-label">Status Pulse<br>(2.5s infinite)</div>
+        </div>
+        <div class="anim-demo-item">
+          <div class="demo-scan"></div>
+          <div class="anim-label">Scan Line<br>(2s linear)</div>
+        </div>
+        <div class="anim-demo-item">
+          <div class="demo-counter" id="counter">73.4</div>
+          <div class="anim-label">Data Flicker<br>(value update)</div>
+        </div>
+        <div class="anim-demo-item">
+          <div class="demo-fadeup"><div class="demo-fadeup-inner"></div></div>
+          <div class="anim-label">Fade Up<br>(entry animation)</div>
+        </div>
+        <div class="anim-demo-item">
+          <div class="demo-border-trace"><div class="demo-border-inner">ZONE_03</div></div>
+          <div class="anim-label">Border Trace<br>(hover state)</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-label">Easing Functions</div>
+      <table class="spec-table">
+        <thead><tr><th>Name</th><th>Value</th><th>Usage</th></tr></thead>
+        <tbody>
+          <tr><td>ease-smooth</td><td class="mono">cubic-bezier(0.16, 1, 0.3, 1)</td><td class="dim">Panel slides, drawer open, modal enter — snappy feel</td></tr>
+          <tr><td>ease-in-soft</td><td class="mono">cubic-bezier(0.4, 0, 1, 1)</td><td class="dim">Exit transitions, elements leaving screen</td></tr>
+          <tr><td>ease-organic</td><td class="mono">cubic-bezier(0.34, 1.56, 0.64, 1)</td><td class="dim">Card hover lift, button press — slight overshoot</td></tr>
+          <tr><td>ease-data</td><td class="mono">linear</td><td class="dim">Telemetry values, counter ticks, scan lines</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-label">Named Animations</div>
+      <table class="spec-table">
+        <thead><tr><th>Animation</th><th>Duration</th><th>Usage</th></tr></thead>
+        <tbody>
+          <tr><td>fade-up-in</td><td class="mono">0.5s ease-smooth</td><td class="dim">Page load stagger for hero content, cards entering viewport</td></tr>
+          <tr><td>scan-line</td><td class="mono">2s linear infinite</td><td class="dim">Dashboard panels, map overlay — green phosphor sweep</td></tr>
+          <tr><td>status-pulse</td><td class="mono">2.5s ease-in-out infinite</td><td class="dim">Active robot indicators, live status dots</td></tr>
+          <tr><td>counter-tick</td><td class="mono">400ms linear</td><td class="dim">Telemetry value update — brief opacity flicker</td></tr>
+          <tr><td>border-trace</td><td class="mono">3s linear infinite</td><td class="dim">Focused/hovered SVG zones — border glow travels perimeter</td></tr>
+          <tr><td>slide-in-right</td><td class="mono">0.3s ease-smooth</td><td class="dim">Map detail panel, mobile nav drawer</td></tr>
+          <tr><td>task-appear</td><td class="mono">0.4s ease-smooth</td><td class="dim">New dashboard queue items fading in from top</td></tr>
+          <tr><td>alert-flash</td><td class="mono">0.8s ease-in-out 3</td><td class="dim">Zone alert state — brief border flash before settling</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-label">Page Load Entry Sequence</div>
+      <div class="code-block">
+        <span class="code-label">CSS</span>
+<span class="comment">/* Stagger delay classes for hero content */</span>
+<span class="property">.entry-1</span> { animation-delay: <span class="value">0ms</span> }    <span class="comment">/* Nav */</span>
+<span class="property">.entry-2</span> { animation-delay: <span class="value">80ms</span> }   <span class="comment">/* Eyebrow */</span>
+<span class="property">.entry-3</span> { animation-delay: <span class="value">160ms</span> }  <span class="comment">/* Hero Headline */</span>
+<span class="property">.entry-4</span> { animation-delay: <span class="value">240ms</span> }  <span class="comment">/* Subheadline */</span>
+<span class="property">.entry-5</span> { animation-delay: <span class="value">340ms</span> }  <span class="comment">/* CTA Buttons */</span>
+<span class="property">.entry-6</span> { animation-delay: <span class="value">420ms</span> }  <span class="comment">/* Hero Visual */</span>
+<span class="property">.entry-7</span> { animation-delay: <span class="value">560ms</span> }  <span class="comment">/* Stats Bar */</span>
+
+<span class="comment">/* Elements start invisible, animate-in applies the reveal */</span>
+<span class="property">[data-animate]</span> {
+  opacity: <span class="value">0</span>;
+  transform: translateY(<span class="value">16px</span>);
+}
+<span class="property">[data-animate].animated</span> {
+  animation: fade-up-in <span class="value">0.5s</span> <span class="value">cubic-bezier(0.16, 1, 0.3, 1)</span> forwards;
+}
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       12. HOVER EFFECTS
+  ══════════════════════════════════════════ -->
+  <section class="spec-section" id="hover">
+    <div class="section-header">
+      <span class="section-number">12</span>
+      <h2 class="section-title">Hover Effects & Micro-interactions</h2>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-label">Hover Effect Matrix</div>
+      <table class="spec-table">
+        <thead><tr><th>Element</th><th>Default</th><th>Hover</th><th>Active/Click</th></tr></thead>
+        <tbody>
+          <tr><td>Nav Link</td><td class="dim">moss 55% opacity</td><td class="dim">moss 100% + border-bottom</td><td class="dim">same as hover</td></tr>
+          <tr><td>Card (Light)</td><td class="dim">2px shadow</td><td class="dim">translateY(-3px) + 8px shadow</td><td class="dim">translateY(-1px)</td></tr>
+          <tr><td>Card (Dark)</td><td class="dim">border #253320</td><td class="dim">border #3A5030 + subtle glow</td><td class="dim">border #4EBF5E</td></tr>
+          <tr><td>Button Primary</td><td class="dim">leaf green bg</td><td class="dim">leaf-light bg + translateY(-1px)</td><td class="dim">translateY(0) scale(0.99)</td></tr>
+          <tr><td>Button Ghost</td><td class="dim">transparent</td><td class="dim">phosphor bg 15% fill</td><td class="dim">bg 25% fill</td></tr>
+          <tr><td>Tag / Badge</td><td class="dim">static</td><td class="dim">translateY(-1px) + border brighten</td><td class="dim">scale(0.98)</td></tr>
+          <tr><td>SVG Zone</td><td class="dim">fill 6% green</td><td class="dim">fill 12% + stroke brighten + tooltip</td><td class="dim">fill 18% + panel open</td></tr>
+          <tr><td>Journal Card</td><td class="dim">static</td><td class="dim">image zone darkens + arrow shifts right</td><td class="dim">—</td></tr>
+          <tr><td>Footer Link</td><td class="dim">moss 45%</td><td class="dim">moss 100% + translateX(3px)</td><td class="dim">moss 70%</td></tr>
+          <tr><td>Stat Block</td><td class="dim">static number</td><td class="dim">counter ticks ±1% · underline appears</td><td class="dim">—</td></tr>
+          <tr><td>Member Portrait</td><td class="dim">grayscale(30%)</td><td class="dim">grayscale(0) + scale(1.03)</td><td class="dim">—</td></tr>
+          <tr><td>Accordion Item</td><td class="dim">closed</td><td class="dim">header bg tint + cursor pointer</td><td class="dim">expand with height animation</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-label">Focus States (Accessibility)</div>
+      <div class="note-box">
+        <strong>Required:</strong> All interactive elements must have a visible focus ring. Use <code>outline: 2px solid #4EBF5E; outline-offset: 3px;</code> in dark mode and <code>outline: 2px solid #3D6B4A; outline-offset: 3px;</code> in light mode. Never use <code>outline: none</code> without a styled replacement. Keyboard navigation must be fully functional.
+      </div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-label">Transition Defaults</div>
+      <div class="code-block">
+        <span class="code-label">CSS tokens</span>
+<span class="property">--transition-fast</span>:   <span class="value">0.12s</span> ease;       <span class="comment">/* Color changes, opacity, border */</span>
+<span class="property">--transition-base</span>:   <span class="value">0.20s</span> ease;       <span class="comment">/* Transform, background, shadow */</span>
+<span class="property">--transition-slow</span>:   <span class="value">0.35s</span> ease;       <span class="comment">/* Panel slides, drawer, modals */</span>
+<span class="property">--transition-smooth</span>: <span class="value">0.50s</span> cubic-bezier(<span class="value">0.16, 1, 0.3, 1</span>); <span class="comment">/* Entry animations */</span>
+
+<span class="comment">/* Apply consistently */</span>
+<span class="property">a, button</span>         { transition: color <span class="value">var(--transition-fast)</span>, background <span class="value">var(--transition-base)</span> }
+<span class="property">.card</span>             { transition: transform <span class="value">var(--transition-base)</span>, box-shadow <span class="value">var(--transition-base)</span> }
+<span class="property">.panel-slide</span>      { transition: transform <span class="value">var(--transition-slow)</span> cubic-bezier(<span class="value">0.16, 1, 0.3, 1</span>) }
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       13. RESPONSIVE BEHAVIOR
+  ══════════════════════════════════════════ -->
+  <section class="spec-section" id="responsive">
+    <div class="section-header">
+      <span class="section-number">13</span>
+      <h2 class="section-title">Responsive Behavior</h2>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-label">Breakpoint System</div>
+      <table class="spec-table">
+        <thead><tr><th>Name</th><th>Range</th><th>Columns</th><th>Gutter</th></tr></thead>
+        <tbody>
+          <tr><td>Mobile</td><td class="mono">320–767px</td><td class="mono">4 col</td><td class="mono">16px</td></tr>
+          <tr><td>Tablet</td><td class="mono">768–1023px</td><td class="mono">8 col</td><td class="mono">20px</td></tr>
+          <tr><td>Desktop</td><td class="mono">1024–1279px</td><td class="mono">12 col</td><td class="mono">24px</td></tr>
+          <tr><td>Wide</td><td class="mono">1280px+</td><td class="mono">12 col (max 1280px)</td><td class="mono">24px</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-label">Component Responsive Rules</div>
+      <table class="spec-table">
+        <thead><tr><th>Component</th><th>Desktop</th><th>Tablet</th><th>Mobile</th></tr></thead>
+        <tbody>
+          <tr><td>Navigation</td><td class="dim">Full horizontal bar + telemetry strip</td><td class="dim">Full bar, strip hidden</td><td class="dim">Logo + hamburger → full-screen drawer</td></tr>
+          <tr><td>Hero</td><td class="dim">Side-by-side: text 55% + visual 35%</td><td class="dim">Text full width, visual below</td><td class="dim">Text only, visual hidden, 75vh height</td></tr>
+          <tr><td>Stats Bar</td><td class="dim">6 stats horizontal</td><td class="dim">2 rows × 3</td><td class="dim">2 rows × 3, smaller type</td></tr>
+          <tr><td>Card Grid</td><td class="dim">3 columns</td><td class="dim">2 columns</td><td class="dim">1 column</td></tr>
+          <tr><td>Dashboard</td><td class="dim">4-col widgets + 3-col lower</td><td class="dim">2-col widgets, stack lower</td><td class="dim">1-col, all stacked, scroll</td></tr>
+          <tr><td>Farm Map</td><td class="dim">Full canvas + fixed side panel</td><td class="dim">Canvas full, panel slides over</td><td class="dim">Canvas scrollable, panel bottom sheet</td></tr>
+          <tr><td>Article</td><td class="dim">Centered 8-col (max 68ch)</td><td class="dim">8-col full width</td><td class="dim">Full width, 20px padding</td></tr>
+          <tr><td>Footer</td><td class="dim">4 columns</td><td class="dim">2 columns (brand + nav merge)</td><td class="dim">Stacked, brand first</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-label">Touch Considerations</div>
+      <p style="color: var(--doc-muted); font-size: 11px; line-height: 1.8; max-width: 640px;">
+        All tap targets minimum 44×44px. Hover states replaced by active states on touch. SVG map zones use touch events with tap-to-select behavior. Dashboard widgets show last 5 values on tap. No hover-dependent information — all tooltips accessible via tap.
+      </p>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-label">Reduced Motion</div>
+      <div class="code-block">
+        <span class="code-label">CSS</span>
+<span class="keyword">@media</span> (prefers-reduced-motion: reduce) {
+  <span class="comment">/* Disable all decorative animations */</span>
+  <span class="property">*</span> {
+    animation-duration: <span class="value">0.01ms</span> !important;
+    animation-iteration-count: <span class="value">1</span> !important;
+    transition-duration: <span class="value">0.01ms</span> !important;
+  }
+  <span class="comment">/* Keep functional transitions (panel slides) at reduced speed */</span>
+  <span class="property">.panel-slide, .drawer</span> {
+    transition-duration: <span class="value">0.1ms</span> !important;
+  }
+  <span class="comment">/* Scanline and pulse animations off */</span>
+  <span class="property">.demo-scan::after, .status-pulse</span> {
+    animation: <span class="value">none</span> !important;
+  }
+}
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       14. FULL CSS TOKEN REFERENCE
+  ══════════════════════════════════════════ -->
+  <section class="spec-section" id="tokens">
+    <div class="section-header">
+      <span class="section-number">14</span>
+      <h2 class="section-title">CSS Token Reference</h2>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-label">Complete tokens.css</div>
+      <div class="code-block">
+        <span class="code-label">tokens.css</span>
+<span class="property">:root</span> {
+  <span class="comment">/* ── COLOR: Light Mode ───────────────────── */</span>
+  <span class="property">--color-bg</span>:              <span class="value">#F5F0E4</span>;
+  <span class="property">--color-bg-warm</span>:         <span class="value">#EDE5D4</span>;
+  <span class="property">--color-bg-deep</span>:         <span class="value">#D9CEBC</span>;
+  <span class="property">--color-surface</span>:         <span class="value">#FFFFFF</span>;
+  <span class="property">--color-surface-raised</span>:  <span class="value">#EDE5D4</span>;
+  <span class="property">--color-border</span>:          <span class="value">#D9CEBC</span>;
+  <span class="property">--color-border-bright</span>:   <span class="value">#C0DDB8</span>;
+  <span class="property">--color-text</span>:            <span class="value">#2C1F12</span>;
+  <span class="property">--color-text-secondary</span>:  <span class="value">#7A6050</span>;
+  <span class="property">--color-text-muted</span>:      <span class="value">#A09080</span>;
+  <span class="property">--color-accent</span>:          <span class="value">#3D6B4A</span>;
+  <span class="property">--color-accent-hover</span>:    <span class="value">#5A8C68</span>;
+  <span class="property">--color-accent-pale</span>:     <span class="value">#A8C8A0</span>;
+  <span class="property">--color-nav-bg</span>:          <span class="value">#1A3328</span>;
+  <span class="property">--color-nav-text</span>:        <span class="value">#8FAF7E</span>;
+  <span class="property">--color-warning</span>:         <span class="value">#C8622A</span>;
+  <span class="property">--color-alert</span>:           <span class="value">#A83220</span>;
+  <span class="property">--color-info</span>:            <span class="value">#3A6E8A</span>;
+  <span class="property">--color-tag-bg</span>:          <span class="value">#E8F2E4</span>;
+  <span class="property">--color-tag-border</span>:      <span class="value">#C0DDB8</span>;
+  <span class="property">--color-tag-text</span>:        <span class="value">#3D6B4A</span>;
+
+  <span class="comment">/* ── TYPOGRAPHY ──────────────────────────── */</span>
+  <span class="property">--font-display</span>:   <span class="string">'Instrument Serif'</span>, Georgia, serif;
+  <span class="property">--font-ui</span>:        <span class="string">'Syne'</span>, system-ui, sans-serif;
+  <span class="property">--font-mono</span>:      <span class="string">'JetBrains Mono'</span>, 'Courier New', monospace;
+
+  <span class="property">--text-xs</span>:  <span class="value">10px</span>;
+  <span class="property">--text-sm</span>:  <span class="value">12px</span>;
+  <span class="property">--text-base</span>: <span class="value">15px</span>;
+  <span class="property">--text-lg</span>:  <span class="value">18px</span>;
+  <span class="property">--text-xl</span>:  <span class="value">24px</span>;
+  <span class="property">--text-2xl</span>: <span class="value">32px</span>;
+  <span class="property">--text-3xl</span>: clamp(<span class="value">28px, 4vw, 44px</span>);
+  <span class="property">--text-hero</span>: clamp(<span class="value">40px, 6vw, 72px</span>);
+
+  <span class="comment">/* ── SPACING ─────────────────────────────── */</span>
+  <span class="property">--space-1</span>:  <span class="value">4px</span>;
+  <span class="property">--space-2</span>:  <span class="value">8px</span>;
+  <span class="property">--space-3</span>:  <span class="value">12px</span>;
+  <span class="property">--space-4</span>:  <span class="value">16px</span>;
+  <span class="property">--space-6</span>:  <span class="value">24px</span>;
+  <span class="property">--space-8</span>:  <span class="value">32px</span>;
+  <span class="property">--space-12</span>: <span class="value">48px</span>;
+  <span class="property">--space-16</span>: <span class="value">64px</span>;
+  <span class="property">--space-24</span>: <span class="value">96px</span>;
+
+  <span class="comment">/* ── RADIUS ──────────────────────────────── */</span>
+  <span class="property">--radius-sm</span>:   <span class="value">2px</span>;
+  <span class="property">--radius-md</span>:   <span class="value">4px</span>;
+  <span class="property">--radius-lg</span>:   <span class="value">8px</span>;
+  <span class="property">--radius-pill</span>: <span class="value">999px</span>;
+
+  <span class="comment">/* ── TRANSITIONS ─────────────────────────── */</span>
+  <span class="property">--ease-fast</span>:   <span class="value">0.12s ease</span>;
+  <span class="property">--ease-base</span>:   <span class="value">0.20s ease</span>;
+  <span class="property">--ease-slow</span>:   <span class="value">0.35s ease</span>;
+  <span class="property">--ease-smooth</span>: <span class="value">0.50s cubic-bezier(0.16, 1, 0.3, 1)</span>;
+  <span class="property">--ease-organic</span>: <span class="value">0.30s cubic-bezier(0.34, 1.56, 0.64, 1)</span>;
+
+  <span class="comment">/* ── SHADOWS ─────────────────────────────── */</span>
+  <span class="property">--shadow-card</span>: <span class="value">0 2px 8px rgba(44,31,18,0.06), 0 1px 3px rgba(44,31,18,0.04)</span>;
+  <span class="property">--shadow-card-hover</span>: <span class="value">0 8px 32px rgba(44,31,18,0.14), 0 2px 6px rgba(44,31,18,0.06)</span>;
+  <span class="property">--shadow-panel</span>: <span class="value">4px 0 24px rgba(0,0,0,0.15)</span>;
+
+  <span class="comment">/* ── Z-INDEX ─────────────────────────────── */</span>
+  <span class="property">--z-below</span>:    <span class="value">-1</span>;
+  <span class="property">--z-base</span>:      <span class="value">0</span>;
+  <span class="property">--z-raised</span>:   <span class="value">10</span>;
+  <span class="property">--z-panel</span>:    <span class="value">100</span>;
+  <span class="property">--z-nav</span>:      <span class="value">1000</span>;
+  <span class="property">--z-modal</span>:    <span class="value">2000</span>;
+  <span class="property">--z-toast</span>:    <span class="value">3000</span>;
+}
+
+<span class="comment">/* ── DARK MODE OVERRIDES ─────────────────── */</span>
+<span class="keyword">@media</span> (prefers-color-scheme: dark) {
+  <span class="property">:root</span> {
+    <span class="property">--color-bg</span>:             <span class="value">#080E0A</span>;
+    <span class="property">--color-bg-warm</span>:        <span class="value">#0E1610</span>;
+    <span class="property">--color-surface</span>:        <span class="value">#0E1610</span>;
+    <span class="property">--color-surface-raised</span>: <span class="value">#152019</span>;
+    <span class="property">--color-border</span>:         <span class="value">#253320</span>;
+    <span class="property">--color-border-bright</span>:  <span class="value">#3A5030</span>;
+    <span class="property">--color-text</span>:           <span class="value">#C8D8C0</span>;
+    <span class="property">--color-text-secondary</span>: <span class="value">#728A68</span>;
+    <span class="property">--color-text-muted</span>:     <span class="value">#4A6B50</span>;
+    <span class="property">--color-accent</span>:         <span class="value">#4EBF5E</span>;
+    <span class="property">--color-accent-hover</span>:   <span class="value">#6EDF7E</span>;
+    <span class="property">--color-nav-bg</span>:         <span class="value">#080E0A</span>;
+    <span class="property">--color-nav-text</span>:       <span class="value">#4EBF5E</span>;
+    <span class="property">--color-warning</span>:        <span class="value">#C8913A</span>;
+    <span class="property">--color-alert</span>:          <span class="value">#E87A3A</span>;
+    <span class="property">--color-info</span>:           <span class="value">#4A9EC0</span>;
+    <span class="property">--color-tag-bg</span>:         <span class="value">rgba(78,191,94,0.1)</span>;
+    <span class="property">--color-tag-border</span>:     <span class="value">rgba(78,191,94,0.25)</span>;
+    <span class="property">--color-tag-text</span>:       <span class="value">#4EBF5E</span>;
+    <span class="property">--shadow-card</span>:          <span class="value">0 4px 20px rgba(0,0,0,0.4)</span>;
+    <span class="property">--shadow-card-hover</span>:    <span class="value">0 8px 40px rgba(0,0,0,0.6), 0 0 24px rgba(78,191,94,0.06)</span>;
+  }
+}
+
+<span class="comment">/* ── MANUAL TOGGLE OVERRIDE ──────────────── */</span>
+<span class="comment">/* Apply [data-theme="dark"] or [data-theme="light"] on &lt;html&gt; */</span>
+<span class="comment">/* to override OS preference — stored in localStorage */</span>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  // Live counter demo
+  const counter = document.getElementById('counter');
+  setInterval(() => {
+    const val = (72 + Math.random() * 4).toFixed(1);
+    counter.style.opacity = '0.5';
+    setTimeout(() => {
+      counter.textContent = val;
+      counter.style.opacity = '1';
+    }, 60);
+  }, 2200);
+
+  // Highlight active nav on scroll
+  const sections = document.querySelectorAll('.spec-section[id]');
+  const navLinks = document.querySelectorAll('.doc-nav a[href^="#"]');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(l => l.style.color = '');
+        const active = document.querySelector(`.doc-nav a[href="#${entry.target.id}"]`);
+        if (active) {
+          active.style.color = 'var(--doc-accent)';
+          active.style.borderLeftColor = 'var(--doc-accent)';
+        }
+      }
+    });
+  }, { threshold: 0.3 });
+  sections.forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>

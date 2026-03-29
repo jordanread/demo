@@ -1,0 +1,140 @@
+{
+  "journal_index": [
+    {
+      "id": "entry-001",
+      "slug": "building-harvest-rover-v1-what-we-got-wrong",
+      "title": "Building the Harvest Rover: What v1 Got Wrong and Why v2 Works",
+      "subtitle": "A post-mortem on our first autonomous field platform, and the redesign that finally works",
+      "author_id": "tobias-kellenbrink",
+      "author_name": "Tobias Kellenbrink",
+      "date": "2024-03-18",
+      "category": "Robotics",
+      "tags": ["Harvest Rover", "Mobile Robotics", "Field Lessons", "Mechanical Design"],
+      "read_time_min": 11,
+      "excerpt": "The first version of Bramble worked exactly as designed. That was the problem. We had designed the wrong thing.",
+      "file": "journal-entry-001.json"
+    },
+    {
+      "id": "entry-002",
+      "slug": "mapping-soil-health-distributed-sensors-year-two",
+      "title": "Two Years of Distributed Soil Sensing: What the Data Actually Tells Us",
+      "subtitle": "68 nodes, 2.4 million readings, and a few things we thought we understood that we didn't",
+      "author_id": "meridian-strauss",
+      "author_name": "Meridian Strauss",
+      "date": "2024-06-04",
+      "category": "Soil Systems",
+      "tags": ["Soil Sensing", "Distributed Systems", "Data Analysis", "Rhizome Network"],
+      "read_time_min": 12,
+      "excerpt": "After two years of continuous soil monitoring across 68 sensor nodes, the most important thing I've learned is that our soil is not behaving the way we assumed it was.",
+      "pinned": true,
+      "file": "journal-entry-002.json"
+    },
+    {
+      "id": "entry-003",
+      "slug": "designing-livestock-monitoring-drone-ethics-first",
+      "title": "Designing the Flock Monitoring Drone: Why We Started with Ethics, Not Engineering",
+      "subtitle": "Before we asked what we could measure, we asked what we were allowed to measure",
+      "author_id": "felix-oduya",
+      "author_name": "Felix Oduya",
+      "date": "2024-08-21",
+      "category": "Livestock Systems",
+      "tags": ["UAV", "Livestock Welfare", "Computer Vision", "Ethics"],
+      "read_time_min": 10,
+      "excerpt": "The first design question we asked about the flock monitoring drone wasn't about sensors, flight paths, or computer vision models. It was: do the chickens get a say in this?",
+      "file": "journal-entry-003.json"
+    },
+    {
+      "id": "entry-004",
+      "slug": "ai-irrigation-experiments-what-the-model-gets-wrong",
+      "title": "What Our Irrigation AI Gets Wrong (And Why We're Keeping It Anyway)",
+      "subtitle": "18 months of inference-based irrigation scheduling: the wins, the failures, and the confidently wrong answers",
+      "author_id": "priya-nandakumar",
+      "author_name": "Priya Nandakumar",
+      "date": "2024-09-11",
+      "category": "AI Systems",
+      "tags": ["Machine Learning", "Irrigation", "XGBoost", "Field Data"],
+      "read_time_min": 13,
+      "excerpt": "I keep a paper notebook that contains, in my own handwriting, a log of every time the Drip inference engine was wrong in a way I think is worth understanding. It has 47 entries.",
+      "pinned": true,
+      "file": "journal-entries-4-6.json",
+      "array_index": 0
+    },
+    {
+      "id": "entry-005",
+      "slug": "greenhouse-climate-automation-humidity-is-the-hard-part",
+      "title": "Automating Greenhouse Climate: Everything Works Except Humidity",
+      "subtitle": "Temperature, CO2, and lighting are solved problems for us. Humidity has humbled us repeatedly.",
+      "author_id": "yuki-tanigawa",
+      "author_name": "Yuki Tanigawa",
+      "date": "2024-07-03",
+      "category": "Greenhouse Systems",
+      "tags": ["Greenhouse", "Climate Control", "PID", "HVAC", "Horticulture"],
+      "read_time_min": 11,
+      "excerpt": "Temperature control in Greenhouse A is genuinely solved. CO2 supplementation works. Supplemental lighting works. Humidity does not work.",
+      "file": "journal-entries-4-6.json",
+      "array_index": 1
+    },
+    {
+      "id": "entry-006",
+      "slug": "mobile-chicken-coop-robot-speed-is-everything",
+      "title": "The Mobile Coop Robot: Speed Was the Only Thing That Mattered",
+      "subtitle": "We got the engineering right on the first try and the animal behavior wrong on the first three.",
+      "author_id": "tobias-kellenbrink",
+      "author_name": "Tobias Kellenbrink",
+      "date": "2024-04-29",
+      "category": "Livestock Systems",
+      "tags": ["Mobile Robotics", "Livestock", "Animal Behavior", "Pasture Rotation"],
+      "read_time_min": 9,
+      "excerpt": "Wanderer is the most mechanically boring robot on the property. The interesting part was entirely about chicken behavior, and we had to get burned three times before we understood it.",
+      "file": "journal-entries-4-6.json",
+      "array_index": 2
+    },
+    {
+      "id": "entry-007",
+      "slug": "aquaponics-monitoring-when-sensors-save-fish",
+      "title": "The Night the Sensors Saved the Fish",
+      "subtitle": "A near-miss oxygen crash, a 3am Telegram alert, and what we learned about acting on data",
+      "author_id": "domingo-altamirano",
+      "author_name": "Domingo Altamirano",
+      "date": "2024-10-08",
+      "category": "Water Systems",
+      "tags": ["Aquaponics", "Water Quality", "Monitoring", "Incident Report"],
+      "read_time_min": 9,
+      "excerpt": "At 3:17am, my phone sent me a message: DO ALERT — dissolved oxygen 4.1 ppm, threshold 5.0. I stared at it, convinced it was a false positive, then got up and went to the bay.",
+      "file": "journal-entries-7-8.json",
+      "array_index": 0
+    },
+    {
+      "id": "entry-008",
+      "slug": "first-year-what-we-expected-what-we-found",
+      "title": "Four Years In: What We Expected, What We Found",
+      "subtitle": "A collective reflection on the gaps between our original assumptions and reality",
+      "author_id": "nkechi-obi-solomon",
+      "author_name": "Nkechi Obi-Solomon",
+      "date": "2024-07-20",
+      "category": "Community",
+      "tags": ["Community", "Reflection", "Governance", "Four-Year Review"],
+      "read_time_min": 12,
+      "excerpt": "We thought technology would be the hard part. We were wrong in a specific way: the technology is hard, but tractable. The community dynamics have been harder, in ways that are less visible.",
+      "pinned": true,
+      "file": "journal-entries-7-8.json",
+      "array_index": 1
+    }
+  ],
+
+  "all_tags": [
+    "Harvest Rover", "Mobile Robotics", "Field Lessons", "Mechanical Design",
+    "Soil Sensing", "Distributed Systems", "Data Analysis", "Rhizome Network",
+    "UAV", "Livestock Welfare", "Computer Vision", "Ethics",
+    "Machine Learning", "Irrigation", "XGBoost", "Field Data",
+    "Greenhouse", "Climate Control", "PID", "HVAC", "Horticulture",
+    "Livestock", "Animal Behavior", "Pasture Rotation",
+    "Aquaponics", "Water Quality", "Monitoring", "Incident Report",
+    "Community", "Reflection", "Governance", "Four-Year Review"
+  ],
+
+  "all_categories": [
+    "Robotics", "Soil Systems", "Livestock Systems", "AI Systems",
+    "Greenhouse Systems", "Water Systems", "Community"
+  ]
+}

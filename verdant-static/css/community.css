@@ -1,0 +1,83 @@
+/* css/pages/community.css */
+.story-layout {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: var(--sp-16);
+  align-items: start;
+}
+.story-headline {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(22px, 3vw, 32px);
+  color: var(--text);
+  margin: var(--sp-3) 0 var(--sp-6);
+  line-height: 1.2;
+}
+.story-text p {
+  color: var(--text-secondary);
+  line-height: 1.8;
+  margin-bottom: var(--sp-4);
+  font-size: 15px;
+}
+.mission-block { margin-bottom: var(--sp-12); }
+.mission-quote {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(18px, 2.5vw, 26px);
+  color: var(--text);
+  line-height: 1.5;
+  border-left: 3px solid var(--accent);
+  padding: var(--sp-4) var(--sp-8);
+  margin: var(--sp-6) 0;
+  max-width: 760px;
+}
+.values-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: var(--sp-6);
+}
+.value-card { padding: var(--sp-6); }
+.value-card__icon {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--accent);
+  letter-spacing: 0.2em;
+  margin-bottom: var(--sp-4);
+  opacity: 0.6;
+}
+.value-card h3 {
+  font-family: var(--font-ui);
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: var(--sp-3);
+}
+.value-card p { font-size: 13px; color: var(--text-secondary); line-height: 1.7; }
+.accordion-list { max-width: 760px; }
+.join-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-16);
+  align-items: start;
+}
+.join-steps { display: flex; flex-direction: column; gap: var(--sp-6); }
+.join-step {
+  display: flex;
+  gap: var(--sp-6);
+  align-items: flex-start;
+}
+.join-step__num {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--accent);
+  letter-spacing: 0.15em;
+  opacity: 0.6;
+  flex-shrink: 0;
+  margin-top: 3px;
+  min-width: 24px;
+}
+.join-step strong { display: block; font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+.join-step p { font-size: 13px; color: var(--text-secondary); line-height: 1.6; }
+@media (max-width: 900px) {
+  .story-layout { grid-template-columns: 1fr; }
+  .join-layout { grid-template-columns: 1fr; gap: var(--sp-8); }
+}

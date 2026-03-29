@@ -1,0 +1,69 @@
+{
+  "snapshot_timestamp": "2024-10-14T14:23:07",
+  "metrics": {
+    "soil_moisture_avg": { "value": 73.4, "unit": "%", "drift_range": 0.8, "trend": "stable" },
+    "solar_output_kw": { "value": 12.4, "unit": "kW", "drift_range": 1.2, "trend": "declining", "note": "Afternoon sun angle" },
+    "battery_soc": { "value": 87.2, "unit": "%", "drift_range": 0.3, "trend": "stable" },
+    "active_bots": { "value": 7, "unit": "", "drift_range": 0, "trend": "stable", "note": "Bramble, Wren x2, Ridge, Tide, Heap x2" },
+    "harvest_today_kg": { "value": 43.2, "unit": "kg", "drift_range": 0.5, "trend": "increasing", "note": "Tomato and pepper harvest ongoing" },
+    "water_used_liters": { "value": 2840, "unit": "L", "drift_range": 20, "trend": "increasing" },
+    "ambient_temp_c": { "value": 19.3, "unit": "°C", "drift_range": 0.4, "trend": "declining" },
+    "compost_temp_c": { "value": 58.1, "unit": "°C", "drift_range": 0.6, "trend": "stable", "note": "Batch 41 active phase" }
+  },
+  "system_health": {
+    "power": { "status": "nominal", "note": "All 48 panels operational" },
+    "comms": { "status": "nominal", "note": "68/68 Rhizome nodes responding" },
+    "water": { "status": "nominal", "note": "All valves operational" },
+    "climate": { "status": "attention", "note": "GH-B shade cloth actuator fault" },
+    "mobile": { "status": "nominal", "note": "7 platforms active, 0 in error" }
+  },
+  "robot_tasks": [
+    { "id": "task-001", "bot": "BRAMBLE-01", "task": "Following harvest team, North Field row 7", "status": "active", "eta": "ongoing" },
+    { "id": "task-002", "bot": "WREN-01", "task": "Morning survey circuit, Poultry Pasture", "status": "complete", "completed": "08:42" },
+    { "id": "task-003", "bot": "WREN-02", "task": "Afternoon survey scheduled", "status": "queued", "eta": "16:00" },
+    { "id": "task-004", "bot": "RIDGE-01", "task": "Daytime charging, perimeter patrol 22:00", "status": "charging", "eta": "22:00" },
+    { "id": "task-005", "bot": "WANDERER-01", "task": "Coop rotation complete, standby", "status": "standby", "completed": "07:15" },
+    { "id": "task-006", "bot": "TIDE-01", "task": "Continuous monitoring, Aquaponics Bay", "status": "active", "eta": "ongoing" },
+    { "id": "task-007", "bot": "HEAP-01", "task": "Monitoring Batch 41 active phase", "status": "active", "eta": "ongoing" },
+    { "id": "task-008", "bot": "HEAP-02", "task": "Monitoring Batches 39+40 cure phase", "status": "active", "eta": "ongoing" }
+  ],
+  "weather": {
+    "current": {
+      "condition": "Partly Cloudy",
+      "temp_c": 19.3,
+      "humidity_pct": 58,
+      "wind_kmh": 12,
+      "wind_dir": "SW",
+      "solar_irradiance": 680
+    },
+    "forecast": [
+      { "day": "Tomorrow", "high_c": 21, "low_c": 11, "condition": "Clear", "precip_pct": 5 },
+      { "day": "Wednesday", "high_c": 18, "low_c": 10, "condition": "Overcast", "precip_pct": 35 },
+      { "day": "Thursday", "high_c": 15, "low_c": 9, "condition": "Rain", "precip_pct": 80 }
+    ]
+  },
+  "event_log": [
+    { "timestamp": "14:18:02", "level": "info", "source": "WREN-02", "message": "Afternoon survey mission armed, awaiting 16:00 start" },
+    { "timestamp": "14:12:44", "level": "warn", "source": "GH-B CLIMATE", "message": "Shade cloth actuator position mismatch — manual check required" },
+    { "timestamp": "13:58:11", "level": "info", "source": "DRIP-01", "message": "Irrigation schedule issued: Zone 02 East Field, 22 min" },
+    { "timestamp": "13:31:07", "level": "info", "source": "RHIZOME", "message": "68/68 nodes reported in last sync cycle" },
+    { "timestamp": "12:45:00", "level": "info", "source": "TIDE-01", "message": "DO 6.4 ppm nominal; NH3 0.12 ppm nominal; pH 7.1 nominal" },
+    { "timestamp": "11:20:33", "level": "info", "source": "SOLAR", "message": "Peak generation 15.2kW at 11:15 — battery bank at 91% SOC" },
+    { "timestamp": "09:30:17", "level": "info", "source": "WREN-01", "message": "Morning survey complete — flock count 178/180, 2 individuals inside coop" },
+    { "timestamp": "08:42:01", "level": "info", "source": "WREN-01", "message": "Survey mission complete" },
+    { "timestamp": "07:15:30", "level": "info", "source": "WANDERER-01", "message": "Coop rotation complete — moved to grid sector E7" }
+  ],
+  "zone_overview": {
+    "nominal_count": 10,
+    "attention_count": 1,
+    "alert_count": 0,
+    "fallow_count": 0,
+    "offline_count": 1
+  },
+  "sparkline_history": {
+    "soil_moisture": [72.1, 72.4, 72.8, 73.0, 73.2, 73.4, 73.3, 73.5, 73.4],
+    "solar_output": [0, 0, 2.1, 6.4, 10.8, 14.2, 15.2, 13.8, 12.4],
+    "battery_soc": [78, 80, 83, 85, 87, 89, 91, 89, 87],
+    "ambient_temp": [12.1, 11.8, 12.4, 14.2, 16.8, 18.4, 19.8, 20.1, 19.3]
+  }
+}

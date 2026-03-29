@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact & Visits — The Verdant Forge Collective</title>
+  <meta name="description" content="Get in touch about research visits, collaboration, membership, or questions about our work.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/pages/contact.css">
+</head>
+<body>
+<a href="#main" class="skip-link">Skip to main content</a>
+<div class="page-wrapper">
+
+  <div class="page-hero">
+    <div class="container">
+      <span class="section-eyebrow">Get in touch</span>
+      <h1 class="section-title" style="color:#C8DCC0;">We answer questions.<br>We host visitors.<br>We collaborate.</h1>
+      <p class="section-subtitle">If you're building something similar, working on adjacent research, or writing about what we're doing — reach out. We respond to everything, usually within a week.</p>
+    </div>
+  </div>
+
+  <main id="main">
+    <section class="section">
+      <div class="container">
+        <div class="contact-layout">
+
+          <!-- FORM -->
+          <div class="contact-form-col" data-animate>
+            <div class="form-success" id="formSuccess" style="display:none;">
+              <div class="form-success__icon">✓</div>
+              <h3>Message sent.</h3>
+              <p>We'll respond within a week. If your inquiry is time-sensitive, mention that in the message.</p>
+            </div>
+            <form id="contactForm" novalidate>
+              <!-- Honeypot -->
+              <div style="display:none;" aria-hidden="true">
+                <input type="text" name="website" tabindex="-1" autocomplete="off">
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label" for="fieldName">Name *</label>
+                  <input type="text" id="fieldName" name="name" class="form-input" placeholder="Your name" required>
+                  <span class="form-error">Please enter your name</span>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="fieldEmail">Email *</label>
+                  <input type="email" id="fieldEmail" name="email" class="form-input" placeholder="you@example.com" required>
+                  <span class="form-error">Please enter a valid email</span>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="fieldAffiliation">Affiliation</label>
+                <input type="text" id="fieldAffiliation" name="affiliation" class="form-input" placeholder="Institution, project, or independent">
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="fieldType">Inquiry type *</label>
+                <select id="fieldType" name="type" class="form-select" required>
+                  <option value="">Select type…</option>
+                  <option value="research">Research &amp; Data</option>
+                  <option value="visit">Farm Visit</option>
+                  <option value="membership">Membership Inquiry</option>
+                  <option value="press">Press &amp; Media</option>
+                  <option value="technical">Technical Question</option>
+                  <option value="other">Other</option>
+                </select>
+                <span class="form-error">Please select an inquiry type</span>
+              </div>
+
+              <!-- Visit sub-form -->
+              <div id="visitSubform" style="display:none;" class="visit-subform">
+                <div class="form-row">
+                  <div class="form-group">
+                    <label class="form-label" for="fieldDates">Preferred dates</label>
+                    <input type="text" id="fieldDates" name="dates" class="form-input" placeholder="e.g. mid-March 2025">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="fieldGroupSize">Group size</label>
+                    <input type="number" id="fieldGroupSize" name="group_size" class="form-input" placeholder="1" min="1" max="20">
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="fieldMessage">Message *</label>
+                <textarea id="fieldMessage" name="message" class="form-textarea" placeholder="Tell us about your project, what you're looking for, and what you've already read in our journal. Longer is fine." required minlength="50" rows="6"></textarea>
+                <span class="form-error">Please write at least a sentence or two</span>
+              </div>
+
+              <div class="form-actions">
+                <button type="submit" class="btn btn-primary" id="submitBtn">Send message</button>
+                <span class="form-note">No backend — simulated submission only.</span>
+              </div>
+            </form>
+          </div>
+
+          <!-- SIDEBAR -->
+          <div class="contact-sidebar" data-animate data-delay="100">
+
+            <!-- Inquiry types -->
+            <div class="sidebar-info">
+              <h3 class="sidebar-info__title">Types of inquiries</h3>
+              <div class="inquiry-types">
+                <div class="inquiry-type">
+                  <strong>Research &amp; Data</strong>
+                  <p>We share datasets, host visiting researchers, and collaborate on publications. We publish all data regardless of outcome.</p>
+                </div>
+                <div class="inquiry-type">
+                  <strong>Farm Visit</strong>
+                  <p>2–5 day structured visits for researchers, students, journalists, and builders. Read the journal before visiting.</p>
+                </div>
+                <div class="inquiry-type">
+                  <strong>Membership</strong>
+                  <p>Considering 2–4 applicants for the spring cohort. Review the Community page first.</p>
+                </div>
+                <div class="inquiry-type">
+                  <strong>Press &amp; Media</strong>
+                  <p>Happy to talk to journalists. We ask for the opportunity to review technical claims — not for approval, to correct errors.</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Location -->
+            <div class="sidebar-info">
+              <h3 class="sidebar-info__title">Location</h3>
+              <p>Albemarle County, Virginia<br>
+              Nearest town: Staunton, VA (~40 min)<br>
+              Precise location shared with confirmed visitors only.</p>
+              <div class="coord-block">38.0293° N · 78.4767° W</div>
+            </div>
+
+            <!-- Elsewhere -->
+            <div class="sidebar-info">
+              <h3 class="sidebar-info__title">Elsewhere</h3>
+              <div class="elsewhere-links">
+                <a href="https://github.com/verdant-forge-collective" target="_blank" class="elsewhere-link">GitHub — Open source code &amp; hardware</a>
+                <a href="journal.html" class="elsewhere-link">Journal — 300+ research entries</a>
+                <a href="technology.html" class="elsewhere-link">Technology — System specs &amp; docs</a>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- FAQ -->
+        <div class="faq-section" data-animate>
+          <h2 class="section-title" style="margin-bottom:var(--sp-8);">Frequently Asked</h2>
+          <div class="accordion-list faq-list">
+            <div class="accordion-item">
+              <button class="accordion-trigger">Can I volunteer for a season without committing to membership? <span class="accordion-icon">+</span></button>
+              <div class="accordion-body"><div class="accordion-body-inner">Yes. We have a seasonal contributor program running March–November. Contributors commit to 20+ hours per week of farm work in exchange for accommodation and food. This differs from a membership process, though some seasonal contributors go on to apply.</div></div>
+            </div>
+            <div class="accordion-item">
+              <button class="accordion-trigger">Do you license your technology? <span class="accordion-icon">+</span></button>
+              <div class="accordion-body"><div class="accordion-body-inner">Everything is licensed under Creative Commons or MIT — no permission needed to use it. If you're building on our work commercially, we appreciate knowing, and ask that you maintain the open-source character of any modifications.</div></div>
+            </div>
+            <div class="accordion-item">
+              <button class="accordion-trigger">Can I bring students for a class visit? <span class="accordion-icon">+</span></button>
+              <div class="accordion-body"><div class="accordion-body-inner">Yes, with at least 6 weeks advance notice. We've hosted university agricultural engineering classes, high school STEM programs, and graduate seminars. Groups above 8 require a full day commitment from multiple community members.</div></div>
+            </div>
+            <div class="accordion-item">
+              <button class="accordion-trigger">Is your sensor data publicly available? <span class="accordion-icon">+</span></button>
+              <div class="accordion-body"><div class="accordion-body-inner">Annual archives of the full Rhizome soil sensor dataset are published on this site. Real-time data is available via our API to registered research users. Email us with a brief description of your project.</div></div>
+            </div>
+            <div class="accordion-item">
+              <button class="accordion-trigger">What happened to Harvest Rover v1? <span class="accordion-icon">+</span></button>
+              <div class="accordion-body"><div class="accordion-body-inner">We wrote a whole journal article about this. Short version: v1 failed instructively — picked 31 tomatoes in 4 hours vs 680 for two human pickers. v2 works by doing much less than v1 tried to do. v3 is in planning stages.</div></div>
+            </div>
+            <div class="accordion-item">
+              <button class="accordion-trigger">Do you consult on farm automation projects? <span class="accordion-icon">+</span></button>
+              <div class="accordion-body"><div class="accordion-body-inner">Occasionally, for projects aligned with our values. We don't do paid consulting on commercial agricultural operations. We sometimes do pro-bono technical advising for community-scale projects, small farms, and research institutions.</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+<script src="js/components.js"></script>
+<script src="js/utils.js"></script>
+<script src="js/contact.js"></script>
+</body>
+</html>

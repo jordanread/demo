@@ -1,0 +1,106 @@
+/* ═══════════════════════════════════════════════════════
+   VERDANT FORGE COLLECTIVE — DESIGN TOKENS
+   tokens.css
+═══════════════════════════════════════════════════════ */
+
+:root {
+  /* ── LIGHT MODE (default) ──────────────────────── */
+  --bg:              #F5F0E4;
+  --bg-warm:         #EDE5D4;
+  --bg-deep:         #D9CEBC;
+  --surface:         #FFFFFF;
+  --surface-raised:  #EDE5D4;
+  --border:          #D9CEBC;
+  --border-bright:   #B8D4B0;
+  --text:            #2C1F12;
+  --text-secondary:  #7A6050;
+  --text-muted:      #A09080;
+  --accent:          #3D6B4A;
+  --accent-hover:    #5A8C68;
+  --accent-pale:     #A8C8A0;
+  --accent-dim:      #E8F2E4;
+  --nav-bg:          #1A3328;
+  --nav-text:        #8FAF7E;
+  --nav-active:      #A8C8A0;
+  --warning:         #C8622A;
+  --warning-dim:     #FDF0E4;
+  --alert:           #A83220;
+  --info:            #3A6E8A;
+  --info-dim:        #E4EEF5;
+  --tag-bg:          #E8F2E4;
+  --tag-border:      #B8D4B0;
+  --tag-text:        #3D6B4A;
+  --shadow-card:     0 2px 8px rgba(44,31,18,0.07), 0 1px 3px rgba(44,31,18,0.04);
+  --shadow-hover:    0 8px 32px rgba(44,31,18,0.14), 0 2px 6px rgba(44,31,18,0.06);
+  --shadow-panel:    4px 0 24px rgba(0,0,0,0.12);
+  --scanline:        none;
+  --grid-line:       rgba(61,107,74,0.05);
+  --hero-bg-start:   #1A3328;
+  --hero-bg-end:     #0E2218;
+
+  /* ── TYPOGRAPHY ──────────────────────────────────── */
+  --font-display:  'Instrument Serif', Georgia, serif;
+  --font-ui:       'Syne', system-ui, sans-serif;
+  --font-mono:     'JetBrains Mono', 'Courier New', monospace;
+
+  /* ── SPACING (4px base) ──────────────────────────── */
+  --sp-1: 4px;  --sp-2: 8px;   --sp-3: 12px;  --sp-4: 16px;
+  --sp-6: 24px; --sp-8: 32px;  --sp-12: 48px; --sp-16: 64px;
+  --sp-24: 96px;
+
+  /* ── RADIUS ──────────────────────────────────────── */
+  --r-sm: 2px; --r-md: 4px; --r-lg: 8px; --r-pill: 999px;
+
+  /* ── TRANSITIONS ─────────────────────────────────── */
+  --t-fast:   0.12s ease;
+  --t-base:   0.20s ease;
+  --t-slow:   0.35s ease;
+  --t-smooth: 0.50s cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* ── Z-INDEX ─────────────────────────────────────── */
+  --z-below: -1; --z-base: 0; --z-raised: 10;
+  --z-panel: 100; --z-nav: 1000; --z-modal: 2000;
+
+  /* ── LAYOUT ──────────────────────────────────────── */
+  --max-w: 1280px;
+  --page-px: 64px;
+  --nav-h: 60px;
+  --strip-h: 28px;
+  --nav-total: 88px;
+}
+
+/* ── DARK MODE ────────────────────────────────────── */
+[data-theme="dark"] {
+  --bg:              #080E0A;
+  --bg-warm:         #0E1610;
+  --bg-deep:         #152019;
+  --surface:         #0E1610;
+  --surface-raised:  #152019;
+  --border:          #253320;
+  --border-bright:   #3A5030;
+  --text:            #C8D8C0;
+  --text-secondary:  #728A68;
+  --text-muted:      #4A6B50;
+  --accent:          #4EBF5E;
+  --accent-hover:    #6EDF7E;
+  --accent-pale:     #2A6B38;
+  --accent-dim:      rgba(78,191,94,0.08);
+  --nav-bg:          rgba(8,14,10,0.95);
+  --nav-text:        rgba(143,175,126,0.6);
+  --nav-active:      #4EBF5E;
+  --warning:         #C8913A;
+  --warning-dim:     rgba(200,145,58,0.1);
+  --alert:           #E87A3A;
+  --info:            #4A9EC0;
+  --info-dim:        rgba(74,158,192,0.1);
+  --tag-bg:          rgba(78,191,94,0.08);
+  --tag-border:      rgba(78,191,94,0.22);
+  --tag-text:        #4EBF5E;
+  --shadow-card:     0 4px 20px rgba(0,0,0,0.5);
+  --shadow-hover:    0 8px 40px rgba(0,0,0,0.7), 0 0 24px rgba(78,191,94,0.06);
+  --shadow-panel:    4px 0 32px rgba(0,0,0,0.5);
+  --scanline:        repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(78,191,94,0.018) 3px, rgba(78,191,94,0.018) 4px);
+  --grid-line:       rgba(78,191,94,0.03);
+  --hero-bg-start:   #080E0A;
+  --hero-bg-end:     #0A1510;
+}

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Night the Sensors Saved the Fish: Aquaponics Monitoring in Practice — Verdant Forge Journal</title>
+  <meta name="description" content="At 3:17am, my phone sent me a message: DO ALERT — dissolved oxygen 4.1 ppm, threshold 5.0. I stared at it, convinced it was a false positive, then got up and went to the bay.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/tokens.css">
+  <link rel="stylesheet" href="../css/reset.css">
+  <link rel="stylesheet" href="../css/layout.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/pages/article.css">
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to main content</a>
+  <div class="page-wrapper">
+
+    <div class="article-hero">
+      <div class="container">
+        <div class="article-hero__back">
+          <a href="../journal.html" class="back-link">← Journal</a>
+        </div>
+        <div class="article-category-row">
+          <span class="tag">Water Systems</span>
+          <span class="tag" style="font-size:9px;">Aquaponics</span> <span class="tag" style="font-size:9px;">Water Quality</span> <span class="tag" style="font-size:9px;">Monitoring</span>
+        </div>
+        <h1 class="article-title">The Night the Sensors Saved the Fish: Aquaponics Monitoring in Practice</h1>
+        <p class="article-subtitle">A near-miss oxygen crash, a 3am Telegram alert, and what we learned about the difference between logging data and acting on it</p>
+        <div class="article-meta">
+          <div class="article-meta__author">
+            <div class="article-avatar">DA</div>
+            <div>
+              <span class="article-meta__name">Domingo Altamirano</span>
+              <span class="article-meta__role">Water Systems & Aquaponics</span>
+            </div>
+          </div>
+          <div class="article-meta__details">
+            <span class="article-meta__date">2024-10-08</span>
+            <span class="article-meta__read">9 min read</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <main id="main">
+      <div class="article-layout">
+        <div class="article-sidebar">
+          <div class="sidebar-section">
+            <div class="sidebar-label">Filed under</div>
+            <div class="sidebar-tags">
+              <span class="tag">Aquaponics</span> <span class="tag">Water Quality</span> <span class="tag">Monitoring</span> <span class="tag">Incident Report</span>
+            </div>
+          </div>
+          <div class="sidebar-section">
+            <div class="sidebar-label">Author</div>
+            <div class="sidebar-author-name">Domingo Altamirano</div>
+            <div class="sidebar-author-role">Water Systems & Aquaponics</div>
+          </div>
+          <div class="sidebar-section">
+            <div class="sidebar-label">Published</div>
+            <div class="sidebar-date">2024-10-08</div>
+          </div>
+          <div class="sidebar-section">
+            <a href="../journal.html" class="btn btn-secondary btn-sm">← All entries</a>
+          </div>
+        </div>
+        <article class="article-body" id="articleBody">
+          <p>On the night of August 14th, at 3:17am, my phone sent me a Telegram message that said: DO ALERT: Zone Aquaponics Bay — dissolved oxygen 4.1 ppm, threshold 5.0. The alert had been configured for about six months but had never triggered. I stared at it for a moment, convinced it was a false positive from the sensor, then got up and went to the bay.</p>
+<p>The water was milky. Not dramatically — you had to look for it — but turbid in a way it wasn't supposed to be. The aerator was running. The circulation pump sounded normal. But the DO probe was reading 4.0 and dropping.</p>
+<p>I spent the next 90 minutes running a second aerator from the equipment room, checking the primary aerator diffuser (partially fouled — I cleaned it), doing a manual DO check with our handheld meter (confirmed: 3.9 at its lowest, sensor was correct), and watching the numbers come back up. By 5am we were at 5.8 and climbing.</p>
+<p>220 tilapia almost died. They didn't, because a sensor sent me a message.</p>
+<p>I want to document this incident carefully, not because it was a triumph of our monitoring system — though it was that — but because the 90 minutes I spent in the bay that night exposed some gaps in our monitoring design that I think are worth examining publicly.</p>
+<h2>What We Had</h2>
+<p>The Tide monitoring system tracks seven water quality parameters in the aquaponics bay. Everything logs to InfluxDB every 5 minutes. We have a Grafana dashboard that anyone with our local network access can view. We had configured Telegram alerts for pH outside 6.5–7.8 and DO below 5.0 ppm. Beyond that, we had mostly assumed that as long as the pump was running and the aerator was running, things were fine.</p>
+<p>This is the wrong mental model for aquaponics. The system is biological, not mechanical. The biofilter is a living community of nitrifying bacteria. The fish are breathing. The plants are transpiring. A system where the equipment is running can still be failing biologically.</p>
+<h2>What We Didn't Have (Until That Night)</h2>
+<p>We had no alert for rapid rate-of-change. Looking at the logs after the fact, the DO had been declining for approximately 3.5 hours before it hit the threshold. The decline was gradual enough that each individual 5-minute reading looked reasonable compared to the one before it. But the 3.5-hour trend was obvious. If we'd had a rate-of-change alert — flag if DO drops more than X ppm over Y hours — we'd have had a two-hour earlier warning.</p>
+<p>We also had no alert for the combination of conditions that preceded the crash. The turbidity reading had been elevated for almost 6 hours (a bacterial bloom — we think from a high-protein feed batch that decomposed faster than normal). High turbidity implies high biological oxygen demand. Our individual-parameter alerting couldn't see that combination as meaningful.</p>
+<p>And we had no overnight staffing protocol. What if I hadn't woken up? What if I'd ignored the message? We rely on a single person receiving an alert and acting on it in the middle of the night. That is not a robust system.</p>
+<h2>Changes We Made</h2>
+<p>Rate-of-change alerts: We now alert on any DO drop greater than 0.8 ppm in a 2-hour window, regardless of absolute level. This is a leading indicator rather than a lagging one. Since implementation, it's triggered twice — once for real (a partial pump failure that we caught and fixed before crisis) and once for a sensor recalibration event that looked like a real decline.</p>
+<p>Combined condition monitoring: Priya helped us build a simple rule-based monitor that checks for conditions that together are higher risk than any one of them alone: elevated turbidity + declining DO + recent feeding event. It's not ML, it's just an OR gate on three conditions. But it would have flagged our August event four hours earlier.</p>
+<p>Notification redundancy: Critical alerts now go to a three-person rotation, not just me. If the primary doesn't acknowledge within 15 minutes, it escalates to the next. We tested this protocol and discovered that two of the three people's phones were in Do Not Disturb overnight modes that would have silenced the original alert. We changed that.</p>
+<p>Backup aeration: We now have a second aerator plumbed and ready to run immediately, triggered manually by a wall switch next to the bay door. Before, the backup aerator was in the equipment room on a shelf, requiring me to find it, find the hosing, and connect it. Ninety seconds versus fifteen minutes in an emergency.</p>
+<h2>The Philosophical Part</h2>
+<p>I think a lot about the difference between monitoring and operational readiness. We had excellent monitoring. We had mediocre operational readiness. The monitoring told us there was a problem; the operational readiness determined whether we could respond effectively to that knowledge.</p>
+<p>The sensor system did its job. Everything else — the alert design, the notification protocol, the response procedure — was our job, and it was partially incomplete. We got lucky that the gap was covered by me waking up at 3am and taking a message seriously.</p>
+<p>The 220 tilapia are fine. They've been fed and counted daily since the incident. They don't know anything happened. I remain grateful for that, and for the somewhat overbuilt sensor array that Anouk and I argued over in the original system design — she wanted fewer sensors and simpler logging; I wanted more sensors and richer data. In this case, the richer data would have given us earlier warning if we'd been using it correctly. Neither of us was fully right. We're both right now.</p>
+        </article>
+      </div>
+
+      <div class="article-related-section">
+        <div class="container">
+          <h2 class="section-title" style="margin-bottom:var(--sp-8);">More from the journal</h2>
+          <div class="grid-3" id="relatedEntries"></div>
+        </div>
+      </div>
+    </main>
+
+  </div>
+  <script src="../js/components.js"></script>
+  <script src="../js/utils.js"></script>
+  <script>
+  // Fix nav links for subdirectory
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.nav-link, .nav-logo').forEach(link => {
+      const href = link.getAttribute('href');
+      if (href && !href.startsWith('http') && !href.startsWith('#') && !href.startsWith('../')) {
+        link.setAttribute('href', '../' + href);
+      }
+    });
+    document.querySelectorAll('.footer-link, .footer-oss').forEach(link => {
+      const href = link.getAttribute('href');
+      if (href && !href.startsWith('http') && !href.startsWith('#') && !href.startsWith('../')) {
+        link.setAttribute('href', '../' + href);
+      }
+    });
+  });
+  </script>
+  <script>
+  // Load related entries
+  document.addEventListener('DOMContentLoaded', async () => {
+    try {
+      const res = await fetch('../data/journal.json');
+      const data = await res.json();
+      const current = 'entry-007';
+      const related = data.journal_index.filter(e => e.id !== current).slice(0, 3);
+      const container = document.getElementById('relatedEntries');
+      if (container) {
+        container.innerHTML = related.map(e => `
+          <a href="${e.slug}.html" class="card journal-card" style="text-decoration:none;color:inherit;">
+            <div class="journal-card__image"><span>${e.category}</span></div>
+            <div class="journal-card__body">
+              <div class="journal-card__tag"><span class="tag">${e.category}</span></div>
+              <h3 class="journal-card__title">${e.title}</h3>
+              <p class="journal-card__excerpt">${e.excerpt}</p>
+              <div class="journal-card__footer">
+                <span>${new Date(e.date).toLocaleDateString('en-US',{year:'numeric',month:'short',day:'numeric'})}</span>
+                <span class="journal-card__link">Read <span>→</span></span>
+              </div>
+            </div>
+          </a>
+        `).join('');
+      }
+    } catch(e) {}
+  });
+  </script>
+</body>
+</html>

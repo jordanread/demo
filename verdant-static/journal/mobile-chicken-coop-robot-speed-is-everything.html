@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Mobile Coop Robot: Speed Was the Only Thing That Mattered — Verdant Forge Journal</title>
+  <meta name="description" content="Wanderer is the most mechanically boring robot on the property. The interesting part was entirely about chicken behavior, and we had to get burned three times before we understood it.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/tokens.css">
+  <link rel="stylesheet" href="../css/reset.css">
+  <link rel="stylesheet" href="../css/layout.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/pages/article.css">
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to main content</a>
+  <div class="page-wrapper">
+
+    <div class="article-hero">
+      <div class="container">
+        <div class="article-hero__back">
+          <a href="../journal.html" class="back-link">← Journal</a>
+        </div>
+        <div class="article-category-row">
+          <span class="tag">Livestock Systems</span>
+          <span class="tag" style="font-size:9px;">Mobile Robotics</span> <span class="tag" style="font-size:9px;">Livestock</span> <span class="tag" style="font-size:9px;">Animal Behavior</span>
+        </div>
+        <h1 class="article-title">The Mobile Coop Robot: Speed Was the Only Thing That Mattered</h1>
+        <p class="article-subtitle">We built a robot to move a chicken coop. We got the engineering right on the first try and the animal behavior wrong on the first three.</p>
+        <div class="article-meta">
+          <div class="article-meta__author">
+            <div class="article-avatar">TK</div>
+            <div>
+              <span class="article-meta__name">Tobias Kellenbrink</span>
+              <span class="article-meta__role">Robotics Engineering Lead</span>
+            </div>
+          </div>
+          <div class="article-meta__details">
+            <span class="article-meta__date">2024-04-29</span>
+            <span class="article-meta__read">9 min read</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <main id="main">
+      <div class="article-layout">
+        <div class="article-sidebar">
+          <div class="sidebar-section">
+            <div class="sidebar-label">Filed under</div>
+            <div class="sidebar-tags">
+              <span class="tag">Mobile Robotics</span> <span class="tag">Livestock</span> <span class="tag">Animal Behavior</span> <span class="tag">Pasture Rotation</span>
+            </div>
+          </div>
+          <div class="sidebar-section">
+            <div class="sidebar-label">Author</div>
+            <div class="sidebar-author-name">Tobias Kellenbrink</div>
+            <div class="sidebar-author-role">Robotics Engineering Lead</div>
+          </div>
+          <div class="sidebar-section">
+            <div class="sidebar-label">Published</div>
+            <div class="sidebar-date">2024-04-29</div>
+          </div>
+          <div class="sidebar-section">
+            <a href="../journal.html" class="btn btn-secondary btn-sm">← All entries</a>
+          </div>
+        </div>
+        <article class="article-body" id="articleBody">
+          <p>Wanderer — our mobile coop platform — is the most mechanically boring robot on the property. Four-wheel drive electric vehicle, buried wire guidance system, simple PLC control logic, load cell on the hitch for safety cutoff. There is nothing interesting about it from an engineering standpoint. I say this without embarrassment. The interesting part was entirely about chicken behavior, and we had to get burned three times before we understood it.</p>
+<h2>The Problem We Were Solving</h2>
+<p>We run a rotational grazing system with our poultry flock. The coop moves along a defined grid across the pasture, allowing each section to recover before the birds return. When we were doing this manually, the move happened twice a week — someone would hitch a tractor to the coop, drive 6 meters, unhitch, and go do something else. Twenty-minute task, twice a week. Not burdensome.</p>
+<p>But 'not burdensome' and 'actually done consistently' are different things on a farm with 40 people, variable schedules, and a long task list. The coop moves were getting skipped, delayed, or done at irregular intervals that compromised the rotation timing. The pasture recovery data showed it.</p>
+<p>The automation brief was to move the coop daily, 4–6 meters, without requiring any human decision-making or physical labor. Get the timing consistent.</p>
+<h2>The First Version: It Worked. The Chickens Hated It.</h2>
+<p>Prototype v1 moved at what I considered a reasonable working speed: 1.5 meters per second. The coop covers 6 meters in about four seconds at that speed. Quick, efficient, done.</p>
+<p>The chickens were in the coop during the first test. We always move the coop with the birds inside — this is standard practice in rotational systems, moving them to fresh pasture rather than opening the door and hoping they follow.</p>
+<p>At 1.5m/s, the interior of the coop lurches forward. Water nipples slosh. Feed spills. The perches vibrate. The birds went into complete alarm behavior. They piled into the corners, which in a full coop of 180 birds creates dangerous crowding. We stopped immediately.</p>
+<p>Okay, we thought. Slower.</p>
+<p>v1.1 moved at 0.8m/s. Better, but still significant distress. Clustering behavior, alarm vocalizations, reduced laying rates for two days following each move. Felix was clear that this was unacceptable as a routine practice.</p>
+<p>v1.2 moved at 0.4m/s. The birds tolerated it. No alarm clustering. Laying rates unaffected. We thought we had it.</p>
+<h2>The Second Problem: The Birds Wanted to Walk</h2>
+<p>We had been thinking about the coop move as a transportation event — move the structure, birds inside, to the new location. This is how it works with a tractor: the move is fast, the birds are in the coop, they can't do anything about it.</p>
+<p>At 0.4m/s on a daily move, the birds can absolutely do something about it. They can walk alongside the coop and enter through the pop holes rather than riding inside it.</p>
+<p>Within a week of deploying v1.2, a significant portion of the flock had figured this out. The coop would start moving, the birds inside would feel the motion, pop out through the doors, and join the ones who were already walking alongside. This was, behaviorally, much calmer and apparently preferred by the birds.</p>
+<p>But it created a management problem: we needed all the birds inside the coop at night when the move finished, and we had no way to ensure that. Some birds were following the coop all the way to the new location. Others were drifting. By the time the coop stopped at its new position, we had a distributed flock that needed mustering.</p>
+<p>Not what we wanted to automate.</p>
+<h2>The Third Problem: They Associated the Sound with Movement</h2>
+<p>Before we'd figured out the walking-alongside problem, we hit another one. The Wanderer motor system makes a distinctive low hum when engaged. The birds learned this within two weeks. Before the coop had moved a centimeter, any bird near the coop would register the motor sound and begin exiting or showing pre-alarm behavior.</p>
+<p>This is actually not a bad thing from a welfare standpoint — predictable cues give animals agency, which reduces stress. But it meant that the flock was moving before the coop was moving, which complicated our fence management (we use temporary poultry net that needs to be repositioned ahead of the move).</p>
+<h2>The Design That Actually Works</h2>
+<p>Current Wanderer, v2.1, works as follows: it moves at 0.28m/s maximum. The motor sound cue happens naturally and consistently (we stopped trying to muffle it — it's a useful signal for the birds). Fence repositioning happens 20 minutes before the scheduled move time, which we learned is about when the birds start anticipating based on morning light levels plus the fence crew's presence. When the coop starts moving, we open all pop holes — both the usual exit doors and two additional low-side hatches we added specifically for walk-alongside birds. The floor of the coop has been modified so that the motion at 0.28m/s creates minimal internal disturbance.</p>
+<p>Result: about 60% of the flock rides the coop; 40% walks alongside. Both groups arrive at the new location within a few minutes of each other. The pop holes close on a timer after full arrival, confirmed by a simple count from a camera we installed over the coop entrance.</p>
+<p>The automation is real. The move now happens daily, at consistent times, with no human involvement beyond occasionally checking the camera count. Felix reports that flock health metrics — laying rates, behavior indicators, weight gain in the broilers — are the best they've been since we started the rotational system.</p>
+<p>But the design came from watching the birds, not from engineering. Every substantive change we made was driven by observing what the chickens actually did with the system we'd built, and adjusting. This is, I suppose, the recurring theme from this year: build for the biology first, build the robot second.</p>
+        </article>
+      </div>
+
+      <div class="article-related-section">
+        <div class="container">
+          <h2 class="section-title" style="margin-bottom:var(--sp-8);">More from the journal</h2>
+          <div class="grid-3" id="relatedEntries"></div>
+        </div>
+      </div>
+    </main>
+
+  </div>
+  <script src="../js/components.js"></script>
+  <script src="../js/utils.js"></script>
+  <script>
+  // Fix nav links for subdirectory
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.nav-link, .nav-logo').forEach(link => {
+      const href = link.getAttribute('href');
+      if (href && !href.startsWith('http') && !href.startsWith('#') && !href.startsWith('../')) {
+        link.setAttribute('href', '../' + href);
+      }
+    });
+    document.querySelectorAll('.footer-link, .footer-oss').forEach(link => {
+      const href = link.getAttribute('href');
+      if (href && !href.startsWith('http') && !href.startsWith('#') && !href.startsWith('../')) {
+        link.setAttribute('href', '../' + href);
+      }
+    });
+  });
+  </script>
+  <script>
+  // Load related entries
+  document.addEventListener('DOMContentLoaded', async () => {
+    try {
+      const res = await fetch('../data/journal.json');
+      const data = await res.json();
+      const current = 'entry-006';
+      const related = data.journal_index.filter(e => e.id !== current).slice(0, 3);
+      const container = document.getElementById('relatedEntries');
+      if (container) {
+        container.innerHTML = related.map(e => `
+          <a href="${e.slug}.html" class="card journal-card" style="text-decoration:none;color:inherit;">
+            <div class="journal-card__image"><span>${e.category}</span></div>
+            <div class="journal-card__body">
+              <div class="journal-card__tag"><span class="tag">${e.category}</span></div>
+              <h3 class="journal-card__title">${e.title}</h3>
+              <p class="journal-card__excerpt">${e.excerpt}</p>
+              <div class="journal-card__footer">
+                <span>${new Date(e.date).toLocaleDateString('en-US',{year:'numeric',month:'short',day:'numeric'})}</span>
+                <span class="journal-card__link">Read <span>→</span></span>
+              </div>
+            </div>
+          </a>
+        `).join('');
+      }
+    } catch(e) {}
+  });
+  </script>
+</body>
+</html>

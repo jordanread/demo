@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Automating Greenhouse Climate: Everything Works Except Humidity — Verdant Forge Journal</title>
+  <meta name="description" content="Temperature control in Greenhouse A is genuinely solved. CO2 supplementation works. Supplemental lighting works. Humidity does not work.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/tokens.css">
+  <link rel="stylesheet" href="../css/reset.css">
+  <link rel="stylesheet" href="../css/layout.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/pages/article.css">
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to main content</a>
+  <div class="page-wrapper">
+
+    <div class="article-hero">
+      <div class="container">
+        <div class="article-hero__back">
+          <a href="../journal.html" class="back-link">← Journal</a>
+        </div>
+        <div class="article-category-row">
+          <span class="tag">Greenhouse Systems</span>
+          <span class="tag" style="font-size:9px;">Greenhouse</span> <span class="tag" style="font-size:9px;">Climate Control</span> <span class="tag" style="font-size:9px;">PID</span>
+        </div>
+        <h1 class="article-title">Automating Greenhouse Climate: Everything Works Except Humidity</h1>
+        <p class="article-subtitle">Temperature, CO2, and lighting are solved problems for us. Humidity has humbled us repeatedly.</p>
+        <div class="article-meta">
+          <div class="article-meta__author">
+            <div class="article-avatar">YT</div>
+            <div>
+              <span class="article-meta__name">Yuki Tanigawa</span>
+              <span class="article-meta__role">Greenhouse Systems</span>
+            </div>
+          </div>
+          <div class="article-meta__details">
+            <span class="article-meta__date">2024-07-03</span>
+            <span class="article-meta__read">11 min read</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <main id="main">
+      <div class="article-layout">
+        <div class="article-sidebar">
+          <div class="sidebar-section">
+            <div class="sidebar-label">Filed under</div>
+            <div class="sidebar-tags">
+              <span class="tag">Greenhouse</span> <span class="tag">Climate Control</span> <span class="tag">PID</span> <span class="tag">HVAC</span> <span class="tag">Horticulture</span>
+            </div>
+          </div>
+          <div class="sidebar-section">
+            <div class="sidebar-label">Author</div>
+            <div class="sidebar-author-name">Yuki Tanigawa</div>
+            <div class="sidebar-author-role">Greenhouse Systems</div>
+          </div>
+          <div class="sidebar-section">
+            <div class="sidebar-label">Published</div>
+            <div class="sidebar-date">2024-07-03</div>
+          </div>
+          <div class="sidebar-section">
+            <a href="../journal.html" class="btn btn-secondary btn-sm">← All entries</a>
+          </div>
+        </div>
+        <article class="article-body" id="articleBody">
+          <p>I want to be careful about how I frame this, because I don't want to sound dismissive of what the Canopy system does well. Temperature control in Greenhouse A is genuinely solved — we maintain setpoint within ±0.5°C continuously, across a 35°C swing in outdoor conditions, with good energy efficiency. CO2 supplementation runs on a timed schedule with sensor validation that keeps us at target within ±50ppm. Supplemental lighting follows a sophisticated photoperiod model that Priya and I built together over two growing seasons. These things work.</p>
+<p>Humidity does not work. Or rather, it works in the easy cases and fails in ways that are expensive and frustrating in the hard ones.</p>
+<p>Let me explain why humidity is harder than it looks.</p>
+<h2>Why Humidity Control Is Harder Than Temperature</h2>
+<p>Temperature is a single variable with straightforward physics. You heat or cool, and the system responds predictably. You can build a PID controller for temperature in an afternoon and have it working well within a week of tuning.</p>
+<p>Humidity is not a single variable. Relative humidity (RH) is a function of both actual moisture content in the air and temperature. When the temperature changes, the RH changes, even if no moisture has entered or left the system. This coupling means your humidity control loop and your temperature control loop interact in ways that require careful coordination.</p>
+<p>Beyond the physics, greenhouses have moisture sources that temperature-controlled rooms do not: transpiring plants. A mature cucumber canopy in high-production summer conditions moves a remarkable amount of water vapor. This is a distributed, variable, biologically-driven moisture source that changes with plant growth stage, light levels, temperature, and health. You cannot measure it directly. You can only manage its effects.</p>
+<h2>What The Current System Does</h2>
+<p>Canopy v3 runs separate PID control loops for temperature and humidity, with a coordination layer that resolves conflicts (you can't simultaneously heat and dehumidify efficiently, for example). Humidity control uses a combination of roof vent actuation, circulation fans, and — when needed — an electric dehumidifier as a high-cost last resort.</p>
+<p>The architecture is sound. The tuning is where we've spent most of our effort.</p>
+<p>The main failure mode is what I've started calling transition instability — the period between day and night setpoints (or any other transition event) where the system oscillates before settling. At night, we drop the temperature setpoint by 6–8°C, which causes a corresponding RH increase. The system responds by trying to reduce humidity, which requires ventilation, which also drops temperature faster than intended, which triggers heating, which changes humidity dynamics, and so on. In a well-designed, well-insulated climate chamber, these dynamics are predictable enough to tune for. In a working greenhouse with plants, uneven air distribution, and a permeable structure, they're harder.</p>
+<p>We've had nights where the humidity oscillation during the day-to-night transition caused RH to spike above 90% for 15–20 minutes before the system corrected. That's not catastrophic, but it's a recurring Botrytis risk on susceptible crops.</p>
+<h2>Three Things We've Tried</h2>
+<p>Model predictive control (MPC) instead of pure PID: We implemented an MPC approach that uses weather forecast data to pre-condition the greenhouse before transitions — starting to adjust humidity before the temperature setpoint change rather than reacting to it. This helped significantly. Transition instability is now about half as severe as it was. We haven't fully replaced the PID approach, though — the MPC is used only for predictable transitions and the PID handles unexpected events.</p>
+<p>Spatial averaging with zone weighting: We found that our single-point humidity sensors were inadequate for representing a greenhouse with significant air stratification. We added 8 humidity sensors per greenhouse at different heights and positions, and the control loop now operates on a weighted average that accounts for the sensor positions relative to the crops. This caught some systematic errors we'd been living with.</p>
+<p>Plant growth stage compensation: Yuki-specific addition to Canopy v3. Because I track plant phenology for the cultivar trials, I wrote a small adjustment module that modifies the humidity setpoints slightly based on growth stage. Young transplants and mature fruiting plants want different VPD regimes. Having these as explicit inputs to the control system rather than implicit assumptions has helped, mostly in the seedling stage where our previous system was keeping conditions too dry.</p>
+<h2>What I Don't Know Yet</h2>
+<p>Whether our current approach to nighttime humidity management is actually optimal, or whether we've just found a local optimum we've become comfortable with. The literature suggests that dynamic night humidity targets (higher early night, lower late night) might perform better than our current fixed target, but I haven't built that experiment yet.</p>
+<p>Whether the residual humidity spikes we still get are causing measurable plant health impacts. We have some correlational evidence that our Botrytis incidence is lower in years with better humidity control, but we can't isolate it from other variables cleanly.</p>
+<p>The honest summary: the automation makes our greenhouse climate more consistent and less labor-intensive than manual management. It also exposes clearly how complex greenhouse climate actually is — things we previously attributed to 'the vagaries of the weather' are now attributable to specific control failures we can work on. I find that progress, even though it means the to-do list never gets shorter.</p>
+        </article>
+      </div>
+
+      <div class="article-related-section">
+        <div class="container">
+          <h2 class="section-title" style="margin-bottom:var(--sp-8);">More from the journal</h2>
+          <div class="grid-3" id="relatedEntries"></div>
+        </div>
+      </div>
+    </main>
+
+  </div>
+  <script src="../js/components.js"></script>
+  <script src="../js/utils.js"></script>
+  <script>
+  // Fix nav links for subdirectory
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.nav-link, .nav-logo').forEach(link => {
+      const href = link.getAttribute('href');
+      if (href && !href.startsWith('http') && !href.startsWith('#') && !href.startsWith('../')) {
+        link.setAttribute('href', '../' + href);
+      }
+    });
+    document.querySelectorAll('.footer-link, .footer-oss').forEach(link => {
+      const href = link.getAttribute('href');
+      if (href && !href.startsWith('http') && !href.startsWith('#') && !href.startsWith('../')) {
+        link.setAttribute('href', '../' + href);
+      }
+    });
+  });
+  </script>
+  <script>
+  // Load related entries
+  document.addEventListener('DOMContentLoaded', async () => {
+    try {
+      const res = await fetch('../data/journal.json');
+      const data = await res.json();
+      const current = 'entry-005';
+      const related = data.journal_index.filter(e => e.id !== current).slice(0, 3);
+      const container = document.getElementById('relatedEntries');
+      if (container) {
+        container.innerHTML = related.map(e => `
+          <a href="${e.slug}.html" class="card journal-card" style="text-decoration:none;color:inherit;">
+            <div class="journal-card__image"><span>${e.category}</span></div>
+            <div class="journal-card__body">
+              <div class="journal-card__tag"><span class="tag">${e.category}</span></div>
+              <h3 class="journal-card__title">${e.title}</h3>
+              <p class="journal-card__excerpt">${e.excerpt}</p>
+              <div class="journal-card__footer">
+                <span>${new Date(e.date).toLocaleDateString('en-US',{year:'numeric',month:'short',day:'numeric'})}</span>
+                <span class="journal-card__link">Read <span>→</span></span>
+              </div>
+            </div>
+          </a>
+        `).join('');
+      }
+    } catch(e) {}
+  });
+  </script>
+</body>
+</html>

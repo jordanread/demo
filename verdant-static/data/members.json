@@ -1,0 +1,134 @@
+[
+  {
+    "id": "meridian-strauss",
+    "name": "Meridian Strauss",
+    "role": "Soil Systems Lead",
+    "pronouns": "they/them",
+    "joined": "2021-03",
+    "background": "Former soil science PhD candidate (ABD) who left academia to build things that actually touch dirt. Specializes in electrochemical sensing and distributed edge compute.",
+    "current_projects": ["soil-sensor-network", "moisture-inference-model"],
+    "tags": ["Soil Science", "Edge Compute", "Sensor Fusion"],
+    "fun_fact": "Can identify most soil types by smell alone."
+  },
+  {
+    "id": "tobias-kellenbrink",
+    "name": "Tobias Kellenbrink",
+    "role": "Robotics Engineering Lead",
+    "pronouns": "he/him",
+    "joined": "2020-07",
+    "background": "Industrial robotics background, 8 years in automotive manufacturing. Came to VFC after deciding he'd rather fix living systems than assembly lines. Designed our first three autonomous platforms.",
+    "current_projects": ["harvest-rover-v2", "mobile-coop-bot", "perimeter-patrol"],
+    "tags": ["Mechanical Engineering", "ROS2", "Actuator Design"],
+    "fun_fact": "Maintains a personal graveyard of failed prototype parts. 'You have to honor the failures.'"
+  },
+  {
+    "id": "priya-nandakumar",
+    "name": "Priya Nandakumar",
+    "role": "AI & Inference Systems",
+    "pronouns": "she/her",
+    "joined": "2021-09",
+    "background": "ML research background at two climate-tech startups. Frustrated by how rarely ML work connects with physical outcomes. Runs all model training pipelines and edge deployment infrastructure.",
+    "current_projects": ["irrigation-inference", "crop-health-vision", "pest-detection"],
+    "tags": ["Machine Learning", "Computer Vision", "TensorFlow Lite"],
+    "fun_fact": "Keeps a handwritten log of every model prediction that turned out wrong, annotated with what the plants actually did."
+  },
+  {
+    "id": "cassius-wade",
+    "name": "Cassius Wade",
+    "role": "Energy & Infrastructure",
+    "pronouns": "he/him",
+    "joined": "2020-07",
+    "background": "Co-founder. Former off-grid homesteader who realized the grid independence problem and the automation problem were the same problem. Designed our entire power architecture from solar to storage to load balancing.",
+    "current_projects": ["battery-v3", "solar-tracking-array", "energy-dashboard"],
+    "tags": ["Electrical Engineering", "Off-Grid Power", "BMS Design"],
+    "fun_fact": "Has never paid a utility bill in 11 years."
+  },
+  {
+    "id": "yuki-tanigawa",
+    "name": "Yuki Tanigawa",
+    "role": "Greenhouse Systems",
+    "pronouns": "she/they",
+    "joined": "2022-01",
+    "background": "Trained horticulturalist who taught herself embedded systems. Bridges the gap between plant biology and control logic better than anyone here. Responsible for both greenhouse A and B climate automation.",
+    "current_projects": ["greenhouse-climate-v3", "nutrient-dosing-auto", "germination-env"],
+    "tags": ["Horticulture", "Climate Control", "PLC Programming"],
+    "fun_fact": "Has propagated over 200 tomato varieties from seed. Currently growing 14 of them."
+  },
+  {
+    "id": "felix-oduya",
+    "name": "Felix Oduya",
+    "role": "Livestock Integration",
+    "pronouns": "he/him",
+    "joined": "2021-06",
+    "background": "Veterinary background with a side interest in telemetry systems. Designed our livestock health monitoring approach from first principles — starting with what matters to the animals, not what's easy to measure.",
+    "current_projects": ["flock-monitoring-drone", "pasture-rotation-bot", "water-quality-sensors"],
+    "tags": ["Animal Husbandry", "UAV Systems", "Health Telemetry"],
+    "fun_fact": "The chickens have learned to associate his presence with moving day. They now follow him around voluntarily."
+  },
+  {
+    "id": "anouk-verschooten",
+    "name": "Anouk Verschooten",
+    "role": "Data Systems & Documentation",
+    "pronouns": "she/her",
+    "joined": "2021-11",
+    "background": "Information architect and technical writer who got tired of systems that couldn't explain themselves. Runs our data pipeline, this website, and makes sure every experiment gets documented whether it worked or not.",
+    "current_projects": ["data-warehouse", "journal-platform", "public-api"],
+    "tags": ["Data Engineering", "Technical Writing", "PostgreSQL"],
+    "fun_fact": "Has documented 312 experiments in 4 years. Estimates about 40% of them failed in interesting ways."
+  },
+  {
+    "id": "domingo-altamirano",
+    "name": "Domingo Altamirano",
+    "role": "Water Systems & Aquaponics",
+    "pronouns": "he/him",
+    "joined": "2022-04",
+    "background": "Permaculture designer who became obsessed with automating water decisions after watching a drought kill a year of careful planning. Now runs the aquaponics bay and all irrigation infrastructure.",
+    "current_projects": ["aquaponics-monitoring", "rainwater-harvest-auto", "drip-scheduling"],
+    "tags": ["Permaculture", "Water Systems", "pH/EC Monitoring"],
+    "fun_fact": "Can describe the water cycle of this property in more detail than most hydrologists could for their study sites."
+  },
+  {
+    "id": "nkechi-obi-solomon",
+    "name": "Nkechi Obi-Solomon",
+    "role": "Community & Governance",
+    "pronouns": "she/her",
+    "joined": "2020-07",
+    "background": "Co-founder. Community organizer and facilitator who keeps 40 people with strong opinions moving in roughly the same direction. Designed our governance model, conflict resolution process, and onboarding systems.",
+    "current_projects": ["governance-v4", "visitor-program", "community-documentation"],
+    "tags": ["Facilitation", "Sociocracy", "Community Design"],
+    "fun_fact": "Conducted 180+ onboarding conversations. Says the interview process teaches her as much about VFC as it teaches applicants."
+  },
+  {
+    "id": "rahul-venkataraman",
+    "name": "Rahul Venkataraman",
+    "role": "Computer Vision & Mapping",
+    "pronouns": "he/him",
+    "joined": "2022-08",
+    "background": "Robotics perception engineer with SLAM and photogrammetry background. Built the 3D models of our entire property and designed our autonomous navigation approach from scratch.",
+    "current_projects": ["property-mapping", "rover-navigation", "aerial-survey"],
+    "tags": ["SLAM", "Photogrammetry", "Drone Survey"],
+    "fun_fact": "Has flown over 400 survey missions over the property. The drone path planning software has memorized our orchard better than some of us have."
+  },
+  {
+    "id": "saoirse-mcbride",
+    "name": "Saoirse McBride",
+    "role": "Fermentation & Soil Biology",
+    "pronouns": "she/her",
+    "joined": "2023-02",
+    "background": "Microbial ecologist who came to VFC to study whether our automation decisions were improving or harming soil biology. Spoiler: it's complicated. Now runs our biological monitoring program.",
+    "current_projects": ["microbial-sampling", "compost-telemetry", "mycorrhizal-mapping"],
+    "tags": ["Microbial Ecology", "Compost Systems", "Biological Monitoring"],
+    "fun_fact": "Has named over 40 compost batches. Insists this is methodologically necessary."
+  },
+  {
+    "id": "willem-dejong",
+    "name": "Willem de Jong",
+    "role": "Hardware Fabrication",
+    "pronouns": "he/him",
+    "joined": "2021-04",
+    "background": "Machinist and welder who can build anything Tobias designs and half the things he hasn't thought of yet. Runs the Tool Barn fabrication shop. The person who actually makes things exist in the physical world.",
+    "current_projects": ["custom-chassis", "sensor-enclosures", "tool-repair"],
+    "tags": ["Fabrication", "Welding", "CNC Machining"],
+    "fun_fact": "Refuses to use CAD software for anything under 4 components. 'If you need a computer to design it, you haven't understood it.'"
+  }
+]

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Verdant Forge Collective</title>
+  <meta name="description" content="40 people. 18 acres. 9 autonomous systems. An open-ended experiment in what technology can and can't do for regenerative agriculture.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/pages/home.css">
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to main content</a>
+
+  <!-- HERO -->
+  <section class="hero" id="hero" aria-label="Hero section">
+    <canvas id="heroCanvas" aria-hidden="true"></canvas>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <div class="container">
+        <span class="hero-eyebrow" data-animate data-delay="0">Albemarle County · Est. 2020</span>
+        <h1 class="hero-headline" data-animate data-delay="100">
+          Automation<br>in the <em>soil.</em>
+        </h1>
+        <p class="hero-subhead" data-animate data-delay="220">
+          40 people. 18 acres. 9 autonomous systems.<br>
+          An open-ended experiment in what technology can and can't do for regenerative agriculture.
+        </p>
+        <div class="hero-ctas" data-animate data-delay="360">
+          <a href="farm-map.html" class="btn btn-primary">Explore the Farm</a>
+          <a href="journal.html"  class="btn btn-secondary">Read the Journal</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats bar -->
+    <div class="hero-stats" data-animate data-delay="500">
+      <div class="container">
+        <div class="stats-row" id="statsRow">
+          <div class="stat-block"><span class="stat-value" data-count="18">18</span><span class="stat-unit"> acres</span><span class="stat-label">Under management</span></div>
+          <div class="stat-block"><span class="stat-value" data-count="9">9</span><span class="stat-unit"></span><span class="stat-label">Autonomous platforms</span></div>
+          <div class="stat-block"><span class="stat-value" data-count="68">68</span><span class="stat-unit"></span><span class="stat-label">Soil sensor nodes</span></div>
+          <div class="stat-block"><span class="stat-value" data-count="312">312</span><span class="stat-unit"></span><span class="stat-label">Experiments documented</span></div>
+          <div class="stat-block"><span class="stat-value" data-count="31">31</span><span class="stat-unit">%</span><span class="stat-label">Water use reduction</span></div>
+          <div class="stat-block"><span class="stat-value" data-count="40">40</span><span class="stat-unit"></span><span class="stat-label">Community members</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAIN CONTENT -->
+  <main id="main" class="page-wrapper" style="padding-top:0;">
+
+    <!-- MISSION -->
+    <section class="section" id="mission">
+      <div class="container">
+        <div class="mission-layout" data-animate>
+          <div class="mission-text">
+            <span class="section-eyebrow">Our approach</span>
+            <h2 class="mission-headline">We're not trying to remove humans from farming.</h2>
+            <p class="mission-body">We're trying to remove the parts that consume human attention without requiring human judgment — the routine carrying, the 3am system checks, the field measurements that someone has to take even when everything is fine.</p>
+            <p class="mission-body">What's left when those tasks are automated is farming work we think is better: observation, decision-making, tending, learning. We're testing whether that's true.</p>
+            <a href="community.html" class="btn btn-secondary" style="margin-top:var(--sp-6);">Read our story</a>
+          </div>
+          <div class="mission-values">
+            <div class="value-item" data-animate data-delay="0">
+              <span class="value-icon">⬡</span>
+              <div>
+                <strong>Radical transparency</strong>
+                <p>We document what doesn't work at least as carefully as what does.</p>
+              </div>
+            </div>
+            <div class="value-item" data-animate data-delay="80">
+              <span class="value-icon">⬡</span>
+              <div>
+                <strong>Biology first</strong>
+                <p>Efficiency that degrades soil or animal health is not efficiency.</p>
+              </div>
+            </div>
+            <div class="value-item" data-animate data-delay="160">
+              <span class="value-icon">⬡</span>
+              <div>
+                <strong>Open by default</strong>
+                <p>All designs, code, models, and data are published under open licenses.</p>
+              </div>
+            </div>
+            <div class="value-item" data-animate data-delay="240">
+              <span class="value-icon">⬡</span>
+              <div>
+                <strong>Human judgment in the loop</strong>
+                <p>Automation makes tasks consistent. Human judgment makes them right.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURED SYSTEMS -->
+    <section class="section" style="background:var(--bg-warm);">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-eyebrow">Active platforms</span>
+          <h2 class="section-title">What's running in the field</h2>
+          <p class="section-subtitle">A selection of the autonomous systems currently operating on the property. All designs are open-source.</p>
+        </div>
+        <div class="grid-3" id="featuredSystems">
+          <!-- Loaded by JS -->
+          <div class="card system-card-skeleton"></div>
+          <div class="card system-card-skeleton"></div>
+          <div class="card system-card-skeleton"></div>
+        </div>
+        <div style="text-align:center;margin-top:var(--sp-8);">
+          <a href="technology.html" class="btn btn-secondary">View all systems →</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- RECENT JOURNAL -->
+    <section class="section">
+      <div class="container">
+        <div class="section-header" style="display:flex;align-items:flex-end;justify-content:space-between;gap:var(--sp-6);">
+          <div>
+            <span class="section-eyebrow">Latest entries</span>
+            <h2 class="section-title">From the journal</h2>
+            <p class="section-subtitle">We document everything — the experiments that worked, the ones that didn't, and the ones we're still not sure about.</p>
+          </div>
+          <a href="journal.html" class="btn btn-secondary" style="white-space:nowrap;flex-shrink:0;">All entries →</a>
+        </div>
+        <div class="grid-3" id="recentJournal">
+          <!-- Loaded by JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- OPEN SOURCE BANNER -->
+    <section class="section oss-banner">
+      <div class="container">
+        <div class="oss-inner" data-animate>
+          <div class="oss-text">
+            <span class="section-eyebrow">Open source</span>
+            <h2 class="oss-headline">Everything here is open.</h2>
+            <p>All hardware designs, firmware, model weights, and documentation are publicly available under open licenses. If you fork something and improve it, tell us — we want to run the better version.</p>
+            <a href="https://github.com/verdant-forge-collective" target="_blank" class="btn btn-primary" style="margin-top:var(--sp-6);">Browse on GitHub</a>
+          </div>
+          <div class="oss-graphic" aria-hidden="true">
+            <div class="oss-code-block">
+              <div class="oss-code-line"><span class="oc-comment"># Rhizome soil node firmware</span></div>
+              <div class="oss-code-line"><span class="oc-keyword">git clone</span> <span class="oc-string">github.com/vfc/rhizome</span></div>
+              <div class="oss-code-line oc-blank"></div>
+              <div class="oss-code-line"><span class="oc-comment"># Harvest rover ROS2 package</span></div>
+              <div class="oss-code-line"><span class="oc-keyword">git clone</span> <span class="oc-string">github.com/vfc/bramble</span></div>
+              <div class="oss-code-line oc-blank"></div>
+              <div class="oss-code-line"><span class="oc-comment"># Irrigation inference engine</span></div>
+              <div class="oss-code-line"><span class="oc-keyword">git clone</span> <span class="oc-string">github.com/vfc/drip</span></div>
+              <div class="oss-code-line oc-blank"></div>
+              <div class="oss-code-line"><span class="oc-accent">MIT · CC-BY-SA · CERN-OHL</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VISIT CTA -->
+    <section class="section visit-cta-section">
+      <div class="container">
+        <div class="visit-cta" data-animate>
+          <span class="section-eyebrow">Research visits</span>
+          <h2 class="section-title">We host researchers, students, and builders.</h2>
+          <p class="section-subtitle">Come spend time with the actual systems and the people running them. We ask that you read the journal first so we can have substantive conversations.</p>
+          <a href="contact.html" class="btn btn-primary" style="margin-top:var(--sp-6);">Request a visit</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Three.js CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="js/components.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/hero3d.js"></script>
+  <script src="js/home.js"></script>
+</body>
+</html>

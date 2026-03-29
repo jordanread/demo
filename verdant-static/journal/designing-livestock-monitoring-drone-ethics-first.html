@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Designing the Flock Monitoring Drone: Why We Started with Ethics, Not Engineering — Verdant Forge Journal</title>
+  <meta name="description" content="The first design question we asked about the flock monitoring drone wasn't about sensors, flight paths, or computer vision models. It was: do the chickens get a say in this?">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/tokens.css">
+  <link rel="stylesheet" href="../css/reset.css">
+  <link rel="stylesheet" href="../css/layout.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/pages/article.css">
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to main content</a>
+  <div class="page-wrapper">
+
+    <div class="article-hero">
+      <div class="container">
+        <div class="article-hero__back">
+          <a href="../journal.html" class="back-link">← Journal</a>
+        </div>
+        <div class="article-category-row">
+          <span class="tag">Livestock Systems</span>
+          <span class="tag" style="font-size:9px;">UAV</span> <span class="tag" style="font-size:9px;">Livestock Welfare</span> <span class="tag" style="font-size:9px;">Computer Vision</span>
+        </div>
+        <h1 class="article-title">Designing the Flock Monitoring Drone: Why We Started with Ethics, Not Engineering</h1>
+        <p class="article-subtitle">Before we asked what we could measure, we asked what we were allowed to measure — and it changed everything</p>
+        <div class="article-meta">
+          <div class="article-meta__author">
+            <div class="article-avatar">FO</div>
+            <div>
+              <span class="article-meta__name">Felix Oduya</span>
+              <span class="article-meta__role">Livestock Integration</span>
+            </div>
+          </div>
+          <div class="article-meta__details">
+            <span class="article-meta__date">2024-08-21</span>
+            <span class="article-meta__read">10 min read</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <main id="main">
+      <div class="article-layout">
+        <div class="article-sidebar">
+          <div class="sidebar-section">
+            <div class="sidebar-label">Filed under</div>
+            <div class="sidebar-tags">
+              <span class="tag">UAV</span> <span class="tag">Livestock Welfare</span> <span class="tag">Computer Vision</span> <span class="tag">Ethics</span>
+            </div>
+          </div>
+          <div class="sidebar-section">
+            <div class="sidebar-label">Author</div>
+            <div class="sidebar-author-name">Felix Oduya</div>
+            <div class="sidebar-author-role">Livestock Integration</div>
+          </div>
+          <div class="sidebar-section">
+            <div class="sidebar-label">Published</div>
+            <div class="sidebar-date">2024-08-21</div>
+          </div>
+          <div class="sidebar-section">
+            <a href="../journal.html" class="btn btn-secondary btn-sm">← All entries</a>
+          </div>
+        </div>
+        <article class="article-body" id="articleBody">
+          <p class="article-lede">The first design question we asked about the flock monitoring drone wasn't about sensors, flight paths, or computer vision models. It was: do the chickens get a say in this?</p>
+<p>I realize that sounds a bit much. Bear with me.</p>
+<p>I have a veterinary background. The first thing veterinary training instills — or should instill — is that monitoring is not neutral. Observation changes the observed. This is true for people and it is true for animals. A monitoring approach that causes chronic stress to the animals it monitors is not a welfare tool. It's just surveillance with good intentions.</p>
+<p>When we started talking about aerial monitoring for the poultry flock in late 2023, the initial enthusiasm was about what we could see. Daily headcounts without manual mustering. Behavioral pattern analysis. Predator incursion detection. Heat stress early warning. These are real welfare benefits. But the mechanism — a drone flying over animals that evolved a strong fear response to aerial predators — introduced an obvious potential problem that we needed to take seriously before we started soldering anything.</p>
+<h2>The Acclimation Question</h2>
+<p>The scientific literature on avian responses to UAVs is genuinely thin, and what exists is mostly about wild bird species. We found a few studies on commercial poultry operations, but those involved completely different animal densities, breed types, and management contexts than ours. We couldn't just cite a paper and proceed.</p>
+<p>So we designed an acclimation protocol before we designed the drone. For eight weeks before our first monitoring flight, we flew a small off-the-shelf quadcopter over the pasture during feeding time, at progressively lower altitudes, starting at 40 meters and working down to 8 meters. We measured clustering behavior — birds bunching together is a stress indicator — and vocalization rates. We also measured feeding interruption time.</p>
+<p>Week one, the birds went into full alarm response at 40 meters altitude. Bunching, distress calls, complete feeding interruption for 4–7 minutes after each flight. We flew for exactly 90 seconds and left. Then did it again 24 hours later.</p>
+<p>By week four, at 25 meters, the response was a brief heads-up look from most birds and a return to feeding within 30–60 seconds. By week seven, at 12 meters, most of the flock ignored the drone entirely. A few individuals — we've identified at least three that remain reliably drone-averse — still show some response, but the flock-level effect is within the range of other routine disturbances like feed deliveries.</p>
+<div class="callout">Baseline stress response at week 1: 4–7 minutes feeding interruption, flock-wide clustering. Week 8 response: 30–45 seconds, ~20% of birds. The acclimation worked. But we needed 8 weeks, not 8 days.</div>
+<p>The lesson here is that acclimation works, but it requires patience and a willingness to stop if it isn't working. We set explicit criteria in advance: if flock-level stress response wasn't declining at week six, we would pause the program and consult with an avian behaviorist before continuing. It did decline, so we didn't have to make that call. But having the criteria written down before we started mattered.</p>
+<h2>Building Wren: What We Actually Measure and Why</h2>
+<p>Once we'd established that acclimated daily drone flights were acceptable from a welfare standpoint, we started designing the monitoring system. The key decision was what to measure and, importantly, what not to measure.</p>
+<p>Individual identification was tempting. With a high-resolution camera and a good object detection model, you can technically identify individual birds by their plumage patterns. This would let you track individual animals' health trajectories over time, which has obvious welfare benefits.</p>
+<p>We decided not to implement it, at least not yet. The compute and storage requirements are significant, but the bigger issue is that individual tracking creates a false sense of precision that can lead to over-intervention. If the system tells you that Bird #47 spent 12% less time at the water station today, you need to be sure that's signal and not noise before you act on it. We don't have enough data to know what normal variation looks like for individual birds in our conditions. We're not ready for that level of apparent precision.</p>
+<p>Instead, Wren measures four things: total individual count (±5% accuracy), flock spatial distribution (clustering vs. spread, with zone mapping), thermal anomalies from the FLIR sensor (identifying individuals with abnormal surface temperatures), and unusual perimeter activity (birds massed near fence lines, which can indicate predator pressure or water/feed location issues).</p>
+<h2>Where We Are Now</h2>
+<p>Wren has been running twice-daily flights for four months. Individual count accuracy is consistently 80–88% depending on lighting and bird distribution. Flock distribution mapping is working well. We've had two genuine welfare detections: one case where abnormal clustering near the water station correlates (we believe, based on timing) with a partial valve closure that reduced flow, and one thermal outlier that corresponded to a bird with early-stage respiratory infection.</p>
+<p>In both cases, the drone flagged something a manual inspection would have caught eventually. Did it catch it earlier? Probably the water issue, yes. The respiratory case, possibly not — we do manual health checks three times weekly and might have spotted it the next day anyway.</p>
+<p>This is where I have to be honest about what automation does and doesn't do in a livestock welfare context: it doesn't replace skilled observation. It augments consistent low-level monitoring. The value proposition is not 'the drone sees things you can't see.' It's 'the drone looks when you're asleep, when you're busy, when you're tired, when it's been a long week.' It's about frequency and consistency, not superiority.</p>
+<h2>The Three Reliably Drone-Averse Birds</h2>
+<p>I want to end with the three birds that never fully acclimated. They are consistent. They are real. They are, by any measure we have, experiencing mild stress twice a day that their flockmates are not experiencing.</p>
+<p>We have not found a management solution that fully addresses this. We can sometimes time the flights to when these individuals are inside the coop (they can be identified by behavior). We're considering whether partial flight path modification to avoid their usual locations is worth the coverage trade-off.</p>
+<p>I raise this not to suggest we should abandon the program — I don't think we should, given the welfare benefits it provides to the flock overall. I raise it because I think it's important to document the costs alongside the benefits. The three birds who still flinch every time Wren takes off are part of this system's honest accounting.</p>
+        </article>
+      </div>
+
+      <div class="article-related-section">
+        <div class="container">
+          <h2 class="section-title" style="margin-bottom:var(--sp-8);">More from the journal</h2>
+          <div class="grid-3" id="relatedEntries"></div>
+        </div>
+      </div>
+    </main>
+
+  </div>
+  <script src="../js/components.js"></script>
+  <script src="../js/utils.js"></script>
+  <script>
+  // Fix nav links for subdirectory
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.nav-link, .nav-logo').forEach(link => {
+      const href = link.getAttribute('href');
+      if (href && !href.startsWith('http') && !href.startsWith('#') && !href.startsWith('../')) {
+        link.setAttribute('href', '../' + href);
+      }
+    });
+    document.querySelectorAll('.footer-link, .footer-oss').forEach(link => {
+      const href = link.getAttribute('href');
+      if (href && !href.startsWith('http') && !href.startsWith('#') && !href.startsWith('../')) {
+        link.setAttribute('href', '../' + href);
+      }
+    });
+  });
+  </script>
+  <script>
+  // Load related entries
+  document.addEventListener('DOMContentLoaded', async () => {
+    try {
+      const res = await fetch('../data/journal.json');
+      const data = await res.json();
+      const current = 'entry-003';
+      const related = data.journal_index.filter(e => e.id !== current).slice(0, 3);
+      const container = document.getElementById('relatedEntries');
+      if (container) {
+        container.innerHTML = related.map(e => `
+          <a href="${e.slug}.html" class="card journal-card" style="text-decoration:none;color:inherit;">
+            <div class="journal-card__image"><span>${e.category}</span></div>
+            <div class="journal-card__body">
+              <div class="journal-card__tag"><span class="tag">${e.category}</span></div>
+              <h3 class="journal-card__title">${e.title}</h3>
+              <p class="journal-card__excerpt">${e.excerpt}</p>
+              <div class="journal-card__footer">
+                <span>${new Date(e.date).toLocaleDateString('en-US',{year:'numeric',month:'short',day:'numeric'})}</span>
+                <span class="journal-card__link">Read <span>→</span></span>
+              </div>
+            </div>
+          </a>
+        `).join('');
+      }
+    } catch(e) {}
+  });
+  </script>
+</body>
+</html>

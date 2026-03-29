@@ -1,0 +1,318 @@
+{
+  "home": {
+    "meta": {
+      "title": "The Verdant Forge Collective",
+      "description": "A community of 40 people on a regenerative robotics-enabled homestead, documenting our experiments with automation, AI farming systems, and autonomous agriculture."
+    },
+    "hero": {
+      "eyebrow": "Albemarle County · Est. 2020",
+      "headline_line1": "Automation in",
+      "headline_line2": "the soil.",
+      "subheadline": "40 people. 18 acres. 9 autonomous systems. An open-ended experiment in what technology can and can't do for regenerative agriculture.",
+      "cta_primary": { "label": "Explore the Farm", "href": "/farm-map.html" },
+      "cta_secondary": { "label": "Read the Journal", "href": "/journal.html" }
+    },
+    "stats": [
+      { "value": "18", "unit": "acres", "label": "Under management" },
+      { "value": "9", "unit": "systems", "label": "Autonomous platforms" },
+      { "value": "68", "unit": "nodes", "label": "Soil sensors deployed" },
+      { "value": "312", "unit": "entries", "label": "Experiments documented" },
+      { "value": "31", "unit": "%", "label": "Water use reduction" },
+      { "value": "40", "unit": "members", "label": "In the community" }
+    ],
+    "mission": {
+      "heading": "We're not trying to remove humans from farming.",
+      "body": "We're trying to remove the parts of farming that consume human attention without requiring human judgment — the routine carrying, the 3am system checks, the field measurements that someone has to take even when everything is fine. What's left when those tasks are automated is a kind of farming work that we think is better: observation, decision-making, tending, learning. We're testing whether that's true."
+    },
+    "featured_systems": {
+      "heading": "What's running in the field",
+      "items": ["harvest-rover-v2", "soil-sensor-network", "greenhouse-climate-v3"]
+    },
+    "recent_journal": {
+      "heading": "Latest from the journal",
+      "description": "We document everything — the experiments that worked, the ones that didn't, and the ones we're still not sure about."
+    },
+    "open_source": {
+      "heading": "Everything here is open.",
+      "body": "All hardware designs, firmware, model weights, and documentation are publicly available under open licenses. We believe the problems we're working on are too important to solve in private. If you fork something and improve it, tell us — we want to run the better version.",
+      "github_url": "https://github.com/verdant-forge-collective",
+      "cta": "Browse on GitHub"
+    },
+    "visit_callout": {
+      "heading": "We host research visits.",
+      "body": "Researchers, students, journalists, and people building similar projects are welcome to visit and spend time with the actual systems and the people running them. We ask that you read the journal first.",
+      "cta": "Request a visit",
+      "href": "/contact.html"
+    }
+  },
+
+  "community": {
+    "meta": {
+      "title": "Community — The Verdant Forge Collective",
+      "description": "40 people living and working on a regenerative robotics homestead. How we started, how we make decisions, and who is here now."
+    },
+    "hero": {
+      "eyebrow": "Who we are",
+      "headline": "Forty people with good questions and some power tools.",
+      "subheadline": "We are engineers, farmers, ecologists, fabricators, and a few people who don't fit those categories. What we have in common is that we wanted to work on a problem that was real and physical and hard."
+    },
+    "founding_story": {
+      "heading": "How This Started",
+      "paragraphs": [
+        "In the winter of 2019, Cassius Wade and Nkechi Obi-Solomon were having a recurring argument about automation. Cassius believed that the tools of industrial robotics could be adapted for small-scale regenerative agriculture in ways that researchers and companies weren't pursuing seriously. Nkechi believed that even if the technology worked, you'd need a fundamentally different kind of organization to use it well — one where the people operating the systems were also the people making decisions about what to grow and why.",
+        "They were both right. In early 2020, they put out a call to people working on adjacent problems — roboticists, soil scientists, permaculture designers, fabricators — and proposed something unusual: come live on a farm and build this together. Not as employees, not as researchers with a grant timeline, but as a community with a long-term stake in whether it works.",
+        "Seven people moved onto the property in Albemarle County in July 2020. The first season, most of the technology was aspirational. The farm ran mostly on manual labor, planning sessions, and a significant amount of improvisation. We broke things we couldn't afford to break and fixed them anyway. We had three serious disagreements in the first six months that required facilitated resolution processes we hadn't built yet.",
+        "Four years later: 40 members, 9 autonomous systems, 18 acres under active management, and a governance structure that has held up through three major disagreements, two significant technical failures, one season where the harvest was poor, and one season where it was better than we'd ever projected. We don't think we've figured this out. We think we're getting somewhere."
+      ]
+    },
+    "mission_statement": {
+      "heading": "Mission Statement",
+      "text": "The Verdant Forge Collective exists to explore, document, and share what happens when you apply serious technical capability to regenerative agriculture — operated by the people who live with the results. We are not neutral observers of an experiment. We are participants in one.",
+      "values": [
+        {
+          "label": "Radical transparency",
+          "description": "We document what doesn't work at least as carefully as what does. Failure is information. Unpublished failure is waste."
+        },
+        {
+          "label": "Biology first",
+          "description": "Every technical decision gets tested against the question: is this good for the soil, the plants, and the animals? Efficiency that degrades biological health is not efficiency."
+        },
+        {
+          "label": "Open by default",
+          "description": "All designs, code, models, and data are published under open licenses. If we've figured something out, other people should be able to use it."
+        },
+        {
+          "label": "Human judgment in the loop",
+          "description": "Automation makes tasks consistent. Human judgment makes them right. We do not build systems that remove people from consequential decisions."
+        },
+        {
+          "label": "Long time horizons",
+          "description": "We are building soil that will be better in ten years than it is now. We optimize for that, not for this season's yield."
+        }
+      ]
+    },
+    "governance": {
+      "heading": "How We Make Decisions",
+      "intro": "40 people with strong opinions about farming and technology require a governance structure that can handle real disagreement without either avoiding it or destroying the community. We use a modified sociocratic consent model.",
+      "sections": [
+        {
+          "question": "How are major decisions made?",
+          "answer": "Major decisions — land use changes, significant capital expenditure, new member acceptance, changes to the mission — require consent from all circle members. Consent means 'I can work with this' rather than 'I love this.' We distinguish explicitly between consent and enthusiasm. You can consent to a decision you disagree with if you believe the process was fair and you'll be heard if problems emerge."
+        },
+        {
+          "question": "What are the working circles?",
+          "answer": "We operate in six working circles: Food Production, Technical Systems, Energy & Infrastructure, Community & Governance, Documentation & Outreach, and Finance. Each circle has operational authority over its domain and a designated link person who participates in the full community coordination meeting."
+        },
+        {
+          "question": "How is conflict handled?",
+          "answer": "We have a three-stage conflict resolution process: direct conversation between parties, facilitated conversation with a designated community mediator (a rotating role), and full circle review if the first two stages don't resolve the issue. We have used all three stages. Stage three is rare and difficult, but it has worked."
+        },
+        {
+          "question": "Who can become a member?",
+          "answer": "Membership is open to people who want to live on the property full-time, contribute meaningfully to farm operations, participate in governance, and commit to at least one full growing season before making a longer-term decision either way. We accept new members in cohorts of 2–4 per year, typically in spring. Prospective members spend 2 weeks on the property before any decisions are made by either side."
+        },
+        {
+          "question": "How are technical decisions different from community decisions?",
+          "answer": "Technical decisions within a circle's domain (which sensor firmware to run, what crop to trial in zone 4) are made by the relevant circle without full community input. Decisions that affect community labor, change the nature of members' work, or have significant cost implications require the full process. We learned to draw this line from getting it wrong: one direction loses agility, the other direction loses trust."
+        }
+      ]
+    },
+    "timeline": [
+      { "date": "Winter 2019", "event": "Cassius and Nkechi begin planning conversations with early collaborators" },
+      { "date": "April 2020", "event": "Property secured in Albemarle County, VA; founding cohort of 7 commits" },
+      { "date": "July 2020", "event": "Move-in. First season begins. Everything is manual. Lots of planning." },
+      { "date": "March 2021", "event": "First autonomous system deployed: soil sensor network v1 (12 nodes)" },
+      { "date": "September 2021", "event": "Community grows to 18 members. Governance structure formalized." },
+      { "date": "May 2022", "event": "Rhizome soil network expands to 68 nodes. Aquaponics bay opens." },
+      { "date": "August 2023", "event": "Harvest Rover v1 deployed and evaluated. v2 redesign begins immediately." },
+      { "date": "January 2024", "event": "Greenhouse Climate v3 deployed. Canopy system covers both greenhouses." },
+      { "date": "June 2024", "event": "Community reaches 40 members. Visitor program formally launched." },
+      { "date": "October 2024", "event": "Fourth full growing season complete. Public journal passes 300 entries." }
+    ],
+    "join": {
+      "heading": "Joining the Collective",
+      "body": "We accept 2–4 new members per year. We are not looking for any particular technical background — we are looking for people who are serious, curious, willing to be wrong, and genuinely interested in spending time outdoors doing physical work alongside intellectual work. What we have turned away applicants for: an interest in the outputs of the project without willingness to participate in the day-to-day; technical expertise offered in exchange for avoiding the non-technical work; an expectation of being an employee rather than a member.",
+      "process": [
+        "Submit a written introduction: who you are, what you'd bring, what you want to learn",
+        "A 60-minute conversation with two community members",
+        "2-week in-person trial visit (we cover accommodation)",
+        "Decision by both the applicant and the community within 2 weeks of the trial"
+      ],
+      "cta": "Get in touch",
+      "href": "/contact.html"
+    }
+  },
+
+  "technology": {
+    "meta": {
+      "title": "Technology — The Verdant Forge Collective",
+      "description": "The autonomous systems, sensors, and AI infrastructure running on a regenerative homestead. Open hardware, open software, open data."
+    },
+    "hero": {
+      "eyebrow": "The systems",
+      "headline": "What runs here, and what we learned building it.",
+      "subheadline": "Nine active platforms. Four in experimental status. Two retired with lessons documented. All of it open-source."
+    },
+    "philosophy": {
+      "heading": "Our Build Philosophy",
+      "principles": [
+        {
+          "label": "Right-sized compute",
+          "description": "We run the smallest compute platform that can do the job reliably. Raspberry Pi Zero for logging, Jetson Orin for perception, ESP32 for sensing. Overprovisioned compute is wasted energy and heat, which matters on a farm running on solar."
+        },
+        {
+          "label": "Repair-first design",
+          "description": "Every system we build can be diagnosed and repaired with tools in the Tool Barn. We don't use parts that require proprietary calibration equipment or factory service. If Willem can't fix it on-site, we rethink the design."
+        },
+        {
+          "label": "Soil-safe operation",
+          "description": "No hydraulic fluids. No synthetic lubricants that could contaminate soil. Electric drive systems only. Biodegradable or food-safe materials anywhere that contacts soil or crop."
+        },
+        {
+          "label": "Fail quiet",
+          "description": "When a system fails, it should stop doing what it was doing and alert a human — not continue in a degraded state that causes downstream problems. A stopped irrigation pump is recoverable. An irrigation pump that runs for 6 hours incorrectly is an expensive problem."
+        },
+        {
+          "label": "Open stack",
+          "description": "Linux, ROS2, Python, open hardware. We don't use proprietary platforms where open alternatives exist. This is partly principle, partly practical — vendor lock-in on a farm with a 20-year horizon is a genuine risk."
+        }
+      ]
+    },
+    "stack_overview": {
+      "heading": "The Technology Stack",
+      "layers": [
+        {
+          "name": "Physical Layer",
+          "description": "Mobile platforms (wheeled and aerial), sensor nodes, actuators, and the property network infrastructure. Powered primarily from our 19.2kW solar array with 80kWh battery storage."
+        },
+        {
+          "name": "Communication Layer",
+          "description": "LoRa 868/915MHz mesh for low-power sensor nodes. 802.11ax WiFi across the property (9 access points) for mobile platforms in range. LTE backup for critical alerts."
+        },
+        {
+          "name": "Data Layer",
+          "description": "InfluxDB for time-series telemetry. PostgreSQL for structured records. MQTT broker for real-time message passing between systems. All data retained indefinitely and published to our public archive annually."
+        },
+        {
+          "name": "Inference Layer",
+          "description": "Centralized inference server for models requiring significant compute. Edge inference on Coral TPU and Jetson devices for latency-sensitive applications. Models trained on our own data and retrained each season."
+        },
+        {
+          "name": "Human Interface Layer",
+          "description": "This website. Physical controls in the field (e-stop buttons, override switches). Telegram alerts for time-sensitive notifications. A principle: no alert that doesn't require human action."
+        }
+      ]
+    }
+  },
+
+  "contact": {
+    "meta": {
+      "title": "Contact & Visits — The Verdant Forge Collective",
+      "description": "Get in touch about research visits, collaboration, membership, or questions about our work."
+    },
+    "hero": {
+      "eyebrow": "Get in touch",
+      "headline": "We answer questions. We host visitors. We collaborate.",
+      "subheadline": "If you're building something similar, working on adjacent research, or writing about what we're doing — reach out. We respond to everything, usually within a week."
+    },
+    "contact_types": [
+      {
+        "type": "research",
+        "label": "Research & Data",
+        "description": "We share data, host visiting researchers, and collaborate on publications. We ask for co-authorship credit where we contribute substantially, and we publish all data regardless of outcome."
+      },
+      {
+        "type": "visit",
+        "label": "Farm Visit",
+        "description": "We host structured visits for researchers, students, journalists, and builders. Visits are 2–5 days. We ask that you read the journal before visiting so we can have substantive conversations rather than introductory ones."
+      },
+      {
+        "type": "membership",
+        "label": "Membership Inquiry",
+        "description": "We're considering applications for the 2025 spring cohort (2–4 openings). Review the Community page before reaching out."
+      },
+      {
+        "type": "press",
+        "label": "Press & Media",
+        "description": "We're happy to talk to journalists. We ask for the opportunity to review technical claims before publication — not for approval, but to correct errors."
+      },
+      {
+        "type": "technical",
+        "label": "Technical Questions",
+        "description": "Questions about specific systems, help with similar builds, or issues with our published hardware and code. These often get routed to the relevant system lead."
+      },
+      {
+        "type": "other",
+        "label": "Other",
+        "description": "Something else. We'll figure it out."
+      }
+    ],
+    "location": {
+      "region": "Albemarle County, Virginia",
+      "nearest_town": "Staunton, VA (~40 min)",
+      "access_notes": "We share precise location with confirmed visitors only. The property is not publicly accessible without prior arrangement — we have livestock and active autonomous systems operating in the field.",
+      "coordinates_public": "38.0293° N, 78.4767° W (general area)"
+    },
+    "visit_info": {
+      "heading": "About Research Visits",
+      "duration": "2–5 days, occasionally longer for established collaborators",
+      "accommodation": "We have 3 guest rooms in the Commons building and 2 additional sleeping spaces for overflow. All accommodation is provided at no cost for research and press visits. Members handle their own arrangements.",
+      "what_to_expect": "You'll participate in morning farm work (optional but encouraged). You'll have access to all systems, all data, and all community members for conversations. We don't stage visits — you see the farm as it is, including whatever is broken or under repair that week.",
+      "what_we_ask": "Read the journal. Come with questions. Write up what you learned afterward, whatever form that takes."
+    },
+    "faq": [
+      {
+        "question": "Can I volunteer for a season without committing to membership?",
+        "answer": "Yes. We have a seasonal contributor program that runs March–November. Contributors are expected to commit to 20+ hours per week of farm work in exchange for accommodation and food. This is different from a membership process, though some seasonal contributors have gone on to apply for membership."
+      },
+      {
+        "question": "Do you license your technology?",
+        "answer": "Everything is licensed under Creative Commons or MIT licenses — you don't need to ask permission to use it. If you're building on our work commercially, we'd appreciate knowing about it and we ask that you maintain the open-source character of any modifications to our designs."
+      },
+      {
+        "question": "Can I bring students for a class visit?",
+        "answer": "Yes, with advance notice of at least 6 weeks. We've hosted university agricultural engineering classes, high school STEM programs, and graduate seminars. Group sizes above 8 require a full day commitment from multiple community members to host properly."
+      },
+      {
+        "question": "Do you consult on farm automation projects?",
+        "answer": "Occasionally, for projects aligned with our values and approach. We don't do paid consulting on commercial agricultural operations. We sometimes do pro-bono technical advising for community-scale projects, small farms, and research institutions."
+      },
+      {
+        "question": "Is the data from your sensors publicly available?",
+        "answer": "Annual archives of the full Rhizome soil sensor dataset are published on our website. Real-time data is available via our API to registered research users. Email us with a brief description of your project."
+      },
+      {
+        "question": "What happened to the harvest rover?",
+        "answer": "We wrote a whole journal article about this. Short version: v1 failed instructively, v2 works by doing much less than v1 tried to do, v3 is in planning."
+      }
+    ]
+  },
+
+  "dashboard_labels": {
+    "page_title": "Live System Dashboard",
+    "page_description": "Simulated real-time telemetry from farm systems. Values animate from seed data with realistic drift. Last sync updates on each tick.",
+    "system_health": {
+      "heading": "System Health",
+      "subsystems": [
+        { "id": "power", "label": "Power Grid" },
+        { "id": "comms", "label": "Comms Network" },
+        { "id": "water", "label": "Water Systems" },
+        { "id": "climate", "label": "Climate Control" },
+        { "id": "mobile", "label": "Mobile Platforms" }
+      ]
+    },
+    "primary_metrics": [
+      { "id": "soil_moisture", "label": "AVG SOIL MOISTURE", "unit": "%", "source": "Rhizome Network", "color": "green" },
+      { "id": "solar_output", "label": "SOLAR OUTPUT", "unit": "kW", "source": "Energy Grove", "color": "amber" },
+      { "id": "battery_soc", "label": "BATTERY SOC", "unit": "%", "source": "Bank A+B", "color": "green" },
+      { "id": "active_bots", "label": "BOTS ACTIVE", "unit": "", "source": "All zones", "color": "green" },
+      { "id": "harvest_today", "label": "HARVEST TODAY", "unit": "kg", "source": "Rover + Manual", "color": "green" },
+      { "id": "water_used", "label": "WATER USED", "unit": "L", "source": "Today", "color": "sky" },
+      { "id": "ambient_temp", "label": "AMBIENT TEMP", "unit": "°C", "source": "Weather Station", "color": "sky" },
+      { "id": "compost_temp", "label": "COMPOST TEMP", "unit": "°C", "source": "Batch 41 Core", "color": "amber" }
+    ],
+    "event_log_header": "System Event Log",
+    "task_queue_header": "Robot Task Queue",
+    "weather_header": "Weather Station"
+  }
+}

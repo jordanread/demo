@@ -1,0 +1,108 @@
+/* css/pages/technology.css */
+.tech-stats-row {
+  display: flex;
+  gap: var(--sp-8);
+  flex-wrap: wrap;
+}
+.tech-stat { display: flex; flex-direction: column; gap: 4px; }
+.tech-stat__n {
+  font-family: var(--font-mono);
+  font-size: 28px;
+  font-weight: 500;
+  color: var(--accent);
+  line-height: 1;
+}
+.tech-stat__l {
+  font-family: var(--font-ui);
+  font-size: 11px;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.tech-filters {
+  display: flex;
+  gap: var(--sp-2);
+  flex-wrap: wrap;
+  margin-bottom: var(--sp-8);
+}
+.philosophy-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: var(--sp-6);
+}
+.philosophy-item {
+  padding: var(--sp-6);
+  border: 1px solid rgba(78,191,94,0.12);
+  border-radius: var(--r-md);
+  background: rgba(78,191,94,0.03);
+}
+.philosophy-item__num {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  color: rgba(78,191,94,0.4);
+  margin-bottom: var(--sp-3);
+}
+.philosophy-item h3 {
+  font-family: var(--font-ui);
+  font-size: 14px;
+  font-weight: 700;
+  color: #8FAF7E;
+  margin-bottom: var(--sp-3);
+}
+.philosophy-item p { font-size: 13px; color: rgba(143,175,126,0.5); line-height: 1.7; }
+.stack-diagram {
+  max-width: 680px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.stack-layer {
+  display: grid;
+  grid-template-columns: 100px 1fr;
+  gap: var(--sp-6);
+  padding: var(--sp-4) var(--sp-6);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  align-items: center;
+  background: var(--surface);
+  transition: border-color var(--t-base), background var(--t-base);
+}
+.stack-layer:hover { border-color: var(--accent); background: var(--accent-dim); }
+.stack-layer--top { border-color: var(--border-bright); }
+.stack-layer__label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.stack-layer__content { font-size: 13px; color: var(--text-secondary); line-height: 1.6; }
+.stack-arrow {
+  text-align: center;
+  color: var(--border-bright);
+  font-size: 18px;
+  padding: 4px 0;
+  align-self: center;
+}
+/* System card expanded */
+.system-card__lessons {
+  padding: 0 var(--sp-6) var(--sp-6);
+  font-size: 12px;
+  color: var(--text-muted);
+  font-style: italic;
+  line-height: 1.65;
+  border-top: 1px solid var(--border);
+  padding-top: var(--sp-4);
+  margin-top: 0;
+}
+.system-card__lessons::before {
+  content: 'Lesson: ';
+  font-style: normal;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+  display: block;
+  margin-bottom: 4px;
+}

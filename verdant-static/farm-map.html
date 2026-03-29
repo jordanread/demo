@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Farm Map — The Verdant Forge Collective</title>
+  <meta name="description" content="Interactive map of the Verdant Forge Collective property — 12 zones, active robot positions, live sensor readings.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/pages/farm-map.css">
+</head>
+<body>
+<a href="#main" class="skip-link">Skip to main content</a>
+<div class="page-wrapper map-page">
+
+  <!-- MAP HEADER BAR -->
+  <div class="map-topbar">
+    <div class="map-topbar__left">
+      <span class="map-topbar__title">Farm Map</span>
+      <div class="map-topbar__status">
+        <span class="dot" style="width:6px;height:6px;background:var(--accent);border-radius:50%;animation:pulse-dot 2s infinite;display:inline-block;"></span>
+        <span id="mapStatusText">Loading zones…</span>
+      </div>
+    </div>
+    <div class="map-topbar__controls">
+      <div class="overlay-toggle" id="overlayToggle">
+        <button class="overlay-btn active" data-overlay="status">Status</button>
+        <button class="overlay-btn" data-overlay="crop">Crops</button>
+        <button class="overlay-btn" data-overlay="bots">Robots</button>
+      </div>
+      <button class="theme-toggle" aria-label="Toggle theme" title="Toggle theme"></button>
+    </div>
+  </div>
+
+  <!-- MAP LAYOUT -->
+  <main id="main" class="map-layout">
+    <!-- Leaflet map -->
+    <div id="farmMap" class="farm-map-canvas" aria-label="Interactive farm map"></div>
+
+    <!-- Detail panel -->
+    <aside class="zone-panel" id="zonePanel" aria-label="Zone details" aria-hidden="true">
+      <div class="zone-panel__header">
+        <div>
+          <div class="zone-panel__eyebrow">Zone Details</div>
+          <div class="zone-panel__name" id="panelName">Select a zone</div>
+        </div>
+        <button class="zone-panel__close" id="panelClose" aria-label="Close panel">✕</button>
+      </div>
+      <div class="zone-panel__body" id="panelBody">
+        <div class="panel-empty">Click any zone on the map to view details, live readings, and active robot assignments.</div>
+      </div>
+    </aside>
+  </main>
+
+  <!-- LEGEND -->
+  <div class="map-legend">
+    <div class="legend-title">Zone Status</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#4EBF5E;"></span> Nominal</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#C8913A;"></span> Attention</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#E87A3A;"></span> Alert</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#4A6B50;"></span> Fallow</div>
+  </div>
+
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="js/components.js"></script>
+<script src="js/utils.js"></script>
+<script src="js/farm-map.js"></script>
+</body>
+</html>

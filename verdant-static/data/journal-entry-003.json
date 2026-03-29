@@ -1,0 +1,112 @@
+{
+  "id": "entry-003",
+  "slug": "designing-livestock-monitoring-drone-ethics-first",
+  "title": "Designing the Flock Monitoring Drone: Why We Started with Ethics, Not Engineering",
+  "subtitle": "Before we asked what we could measure, we asked what we were allowed to measure — and it changed everything",
+  "author": "felix-oduya",
+  "author_name": "Felix Oduya",
+  "date": "2024-08-21",
+  "category": "Livestock Systems",
+  "tags": ["UAV", "Livestock Welfare", "Computer Vision", "Ethics"],
+  "read_time_min": 10,
+  "status": "published",
+  "pinned": false,
+  "body": [
+    {
+      "type": "lede",
+      "text": "The first design question we asked about the flock monitoring drone wasn't about sensors, flight paths, or computer vision models. It was: do the chickens get a say in this?"
+    },
+    {
+      "type": "paragraph",
+      "text": "I realize that sounds a bit much. Bear with me."
+    },
+    {
+      "type": "paragraph",
+      "text": "I have a veterinary background. The first thing veterinary training instills — or should instill — is that monitoring is not neutral. Observation changes the observed. This is true for people and it is true for animals. A monitoring approach that causes chronic stress to the animals it monitors is not a welfare tool. It's just surveillance with good intentions."
+    },
+    {
+      "type": "paragraph",
+      "text": "When we started talking about aerial monitoring for the poultry flock in late 2023, the initial enthusiasm was about what we could see. Daily headcounts without manual mustering. Behavioral pattern analysis. Predator incursion detection. Heat stress early warning. These are real welfare benefits. But the mechanism — a drone flying over animals that evolved a strong fear response to aerial predators — introduced an obvious potential problem that we needed to take seriously before we started soldering anything."
+    },
+    {
+      "type": "heading",
+      "text": "The Acclimation Question"
+    },
+    {
+      "type": "paragraph",
+      "text": "The scientific literature on avian responses to UAVs is genuinely thin, and what exists is mostly about wild bird species. We found a few studies on commercial poultry operations, but those involved completely different animal densities, breed types, and management contexts than ours. We couldn't just cite a paper and proceed."
+    },
+    {
+      "type": "paragraph",
+      "text": "So we designed an acclimation protocol before we designed the drone. For eight weeks before our first monitoring flight, we flew a small off-the-shelf quadcopter over the pasture during feeding time, at progressively lower altitudes, starting at 40 meters and working down to 8 meters. We measured clustering behavior — birds bunching together is a stress indicator — and vocalization rates. We also measured feeding interruption time."
+    },
+    {
+      "type": "paragraph",
+      "text": "Week one, the birds went into full alarm response at 40 meters altitude. Bunching, distress calls, complete feeding interruption for 4–7 minutes after each flight. We flew for exactly 90 seconds and left. Then did it again 24 hours later."
+    },
+    {
+      "type": "paragraph",
+      "text": "By week four, at 25 meters, the response was a brief heads-up look from most birds and a return to feeding within 30–60 seconds. By week seven, at 12 meters, most of the flock ignored the drone entirely. A few individuals — we've identified at least three that remain reliably drone-averse — still show some response, but the flock-level effect is within the range of other routine disturbances like feed deliveries."
+    },
+    {
+      "type": "callout",
+      "text": "Baseline stress response at week 1: 4–7 minutes feeding interruption, flock-wide clustering. Week 8 response: 30–45 seconds, ~20% of birds. The acclimation worked. But we needed 8 weeks, not 8 days."
+    },
+    {
+      "type": "paragraph",
+      "text": "The lesson here is that acclimation works, but it requires patience and a willingness to stop if it isn't working. We set explicit criteria in advance: if flock-level stress response wasn't declining at week six, we would pause the program and consult with an avian behaviorist before continuing. It did decline, so we didn't have to make that call. But having the criteria written down before we started mattered."
+    },
+    {
+      "type": "heading",
+      "text": "Building Wren: What We Actually Measure and Why"
+    },
+    {
+      "type": "paragraph",
+      "text": "Once we'd established that acclimated daily drone flights were acceptable from a welfare standpoint, we started designing the monitoring system. The key decision was what to measure and, importantly, what not to measure."
+    },
+    {
+      "type": "paragraph",
+      "text": "Individual identification was tempting. With a high-resolution camera and a good object detection model, you can technically identify individual birds by their plumage patterns. This would let you track individual animals' health trajectories over time, which has obvious welfare benefits."
+    },
+    {
+      "type": "paragraph",
+      "text": "We decided not to implement it, at least not yet. The compute and storage requirements are significant, but the bigger issue is that individual tracking creates a false sense of precision that can lead to over-intervention. If the system tells you that Bird #47 spent 12% less time at the water station today, you need to be sure that's signal and not noise before you act on it. We don't have enough data to know what normal variation looks like for individual birds in our conditions. We're not ready for that level of apparent precision."
+    },
+    {
+      "type": "paragraph",
+      "text": "Instead, Wren measures four things: total individual count (±5% accuracy), flock spatial distribution (clustering vs. spread, with zone mapping), thermal anomalies from the FLIR sensor (identifying individuals with abnormal surface temperatures), and unusual perimeter activity (birds massed near fence lines, which can indicate predator pressure or water/feed location issues)."
+    },
+    {
+      "type": "heading",
+      "text": "Where We Are Now"
+    },
+    {
+      "type": "paragraph",
+      "text": "Wren has been running twice-daily flights for four months. Individual count accuracy is consistently 80–88% depending on lighting and bird distribution. Flock distribution mapping is working well. We've had two genuine welfare detections: one case where abnormal clustering near the water station correlates (we believe, based on timing) with a partial valve closure that reduced flow, and one thermal outlier that corresponded to a bird with early-stage respiratory infection."
+    },
+    {
+      "type": "paragraph",
+      "text": "In both cases, the drone flagged something a manual inspection would have caught eventually. Did it catch it earlier? Probably the water issue, yes. The respiratory case, possibly not — we do manual health checks three times weekly and might have spotted it the next day anyway."
+    },
+    {
+      "type": "paragraph",
+      "text": "This is where I have to be honest about what automation does and doesn't do in a livestock welfare context: it doesn't replace skilled observation. It augments consistent low-level monitoring. The value proposition is not 'the drone sees things you can't see.' It's 'the drone looks when you're asleep, when you're busy, when you're tired, when it's been a long week.' It's about frequency and consistency, not superiority."
+    },
+    {
+      "type": "heading",
+      "text": "The Three Reliably Drone-Averse Birds"
+    },
+    {
+      "type": "paragraph",
+      "text": "I want to end with the three birds that never fully acclimated. They are consistent. They are real. They are, by any measure we have, experiencing mild stress twice a day that their flockmates are not experiencing."
+    },
+    {
+      "type": "paragraph",
+      "text": "We have not found a management solution that fully addresses this. We can sometimes time the flights to when these individuals are inside the coop (they can be identified by behavior). We're considering whether partial flight path modification to avoid their usual locations is worth the coverage trade-off."
+    },
+    {
+      "type": "paragraph",
+      "text": "I raise this not to suggest we should abandon the program — I don't think we should, given the welfare benefits it provides to the flock overall. I raise it because I think it's important to document the costs alongside the benefits. The three birds who still flinch every time Wren takes off are part of this system's honest accounting."
+    }
+  ]
+}

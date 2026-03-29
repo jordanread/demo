@@ -1,0 +1,128 @@
+{
+  "id": "entry-002",
+  "slug": "mapping-soil-health-distributed-sensors-year-two",
+  "title": "Two Years of Distributed Soil Sensing: What the Data Actually Tells Us",
+  "subtitle": "68 nodes, 2.4 million readings, and a few things we thought we understood that we didn't",
+  "author": "meridian-strauss",
+  "author_name": "Meridian Strauss",
+  "date": "2024-06-04",
+  "category": "Soil Systems",
+  "tags": ["Soil Sensing", "Distributed Systems", "Data Analysis", "Rhizome Network"],
+  "read_time_min": 12,
+  "status": "published",
+  "pinned": true,
+  "body": [
+    {
+      "type": "lede",
+      "text": "After two years of continuous soil monitoring across 68 sensor nodes, the most important thing I've learned is that our soil is not behaving the way we assumed it was."
+    },
+    {
+      "type": "paragraph",
+      "text": "This is good news, actually. If the sensors were just confirming what we already believed, we'd have spent a lot of money on expensive confirmation. Instead, the Rhizome network has surfaced a consistent set of surprises that have changed how we make decisions here. I want to document the most significant ones."
+    },
+    {
+      "type": "paragraph",
+      "text": "A quick note on methodology: all readings referenced here are from the v3.2 firmware running on our ESP32-S3 nodes. Earlier firmware versions had calibration drift issues in the VWC sensors that affected approximately 18 months of data from our original deployment. We've reanalyzed what we can and excluded what we can't correct. If you're comparing these figures to our 2022 annual report, expect some discrepancies."
+    },
+    {
+      "type": "heading",
+      "text": "Finding 1: Zone Moisture Gradients Are Much Steeper Than We Thought"
+    },
+    {
+      "type": "paragraph",
+      "text": "Before Rhizome, we treated each of our 12 farm zones as roughly uniform for irrigation purposes. North Field got a single irrigation schedule. East Field got another. This seemed reasonable — each zone covers a defined crop type and was prepared with the same soil amendments."
+    },
+    {
+      "type": "paragraph",
+      "text": "What the sensor network showed us is that within-zone variation in volumetric water content is often larger than between-zone variation. The North Field, which we treat as a single unit, contains soil that runs from 48% VWC at the field margins (near the windbreak) to 81% VWC in the low spot near the eastern berm — sometimes simultaneously, in the same zone, on the same day."
+    },
+    {
+      "type": "paragraph",
+      "text": "This matters because our irrigation system operates at zone level. We were chronically over-watering the low spot and under-watering the margins, and we had no idea because our manual spot-checks were usually taken in the middle of the field, which happens to be about average."
+    },
+    {
+      "type": "callout",
+      "text": "Within-zone VWC variation: up to 33 percentage points within a single field in normal conditions. Our irrigation assumptions were based on the middle. The margins and low spots were getting entirely different regimes."
+    },
+    {
+      "type": "paragraph",
+      "text": "We've since subdivided our irrigation control into sub-zone groups, roughly following the gradient contours the sensor data revealed. This alone accounts for most of the water reduction Priya's inference model gets credit for — the model makes better decisions, but it's also making decisions at the right spatial granularity now."
+    },
+    {
+      "type": "heading",
+      "text": "Finding 2: Temperature Depth Profiles Are More Predictive Than Surface Readings"
+    },
+    {
+      "type": "paragraph",
+      "text": "Each Rhizome node measures soil temperature at 10cm, 20cm, and 35cm depth. We added the multi-depth measurement mostly because the sensors were cheap and the differential might be interesting. It turned out to be one of our most useful data streams."
+    },
+    {
+      "type": "paragraph",
+      "text": "The temperature gradient between 10cm and 35cm depth is a surprisingly strong predictor of plant water demand — better than surface VWC alone for most of our crops. Plants appear to track root-zone temperature (20–35cm) more closely than surface conditions. On warm days with cold subsoil, water demand is lower than surface conditions suggest. On cool days following warm nights (where subsoil remains warm), demand is higher than the surface would indicate."
+    },
+    {
+      "type": "paragraph",
+      "text": "This is not a novel finding in soil science literature. But it's one thing to read it in a paper and another to watch it play out in your own field data across two growing seasons, with your own crops, in your own microclimate. Priya built it into the irrigation model in v1.2 and we saw immediate improvement in RMSE against actual crop response."
+    },
+    {
+      "type": "heading",
+      "text": "Finding 3: Our Compost Applications Are Not Distributing the Way We Expected"
+    },
+    {
+      "type": "paragraph",
+      "text": "We apply compost primarily in autumn and spring. We aim for roughly uniform application across each field. The electrical conductivity sensors on the Rhizome nodes let us track, indirectly, where the organic matter fractions are going after incorporation."
+    },
+    {
+      "type": "paragraph",
+      "text": "They're not distributing evenly. EC readings consistently show hot spots that persist 6–8 weeks after application, concentrated in areas that correspond — we eventually figured out — with the turning radius points of our tractor. The tractor driver (whoever is driving that season) tends to make the same approach lines, and compost application density clusters along those approach vectors."
+    },
+    {
+      "type": "paragraph",
+      "text": "This is entirely a human behavior pattern, made visible by dense enough sensor coverage. We now have a coverage map from the sensor data that we use to calibrate compost spreader passes. The solution was not technological — it was a new protocol for the spreader operator. But we wouldn't have known to change the protocol without the sensors."
+    },
+    {
+      "type": "heading",
+      "text": "On Node Failures and What They Cluster Around"
+    },
+    {
+      "type": "paragraph",
+      "text": "We've had 34 node failures over 24 months. I went through the maintenance logs and failure records to look for patterns."
+    },
+    {
+      "type": "paragraph",
+      "text": "16 failures were moisture ingress — sensor housing failure allowing water into the electronics compartment. These were disproportionately concentrated in our early batch (nodes 1–24), which used a different gasket material. We've since moved to IP68-rated housing on all new nodes."
+    },
+    {
+      "type": "paragraph",
+      "text": "11 failures were probe tip fouling — the soil contact element builds up a mineral coating over time that throws calibration off. We've added a quarterly probe cleaning protocol. This is boring maintenance work that I mention only because I see people deploy sensor networks and not build in maintenance schedules."
+    },
+    {
+      "type": "paragraph",
+      "text": "4 failures were battery management issues, 3 were communication faults that resolved with firmware updates, and 1 was a node that a tractor ran over directly. We can't automate around all problems."
+    },
+    {
+      "type": "callout",
+      "text": "Maintenance note: 47% of our node failures in year one were preventable with better gasket material. We fixed the design; the failure rate dropped by half. Dense sensor networks require maintenance planning as part of the design."
+    },
+    {
+      "type": "heading",
+      "text": "What Two Years of Data Has Changed"
+    },
+    {
+      "type": "paragraph",
+      "text": "We use less water. This is the most concrete outcome — approximately 31% reduction in irrigation volume against our pre-sensor baseline, with no measured yield decrease. Some of that is the inference model. Most of it is just knowing where we actually needed water and where we were wasting it."
+    },
+    {
+      "type": "paragraph",
+      "text": "We've changed our soil amendment strategy. The compost distribution finding changed how we apply organic matter. The gradient data has changed which areas we prioritize for soil building work."
+    },
+    {
+      "type": "paragraph",
+      "text": "We've also developed a genuine attachment to the data — people here who didn't care about soil science two years ago now check the Rhizome dashboard regularly. There's something about seeing your farm's biology expressed as numbers and trends that makes it feel more knowable. Whether that's accurate or a comfortable illusion is something Saoirse and I argue about productively."
+    },
+    {
+      "type": "paragraph",
+      "text": "The full two-year dataset is available in our public archive. If you're working on similar systems, we'd genuinely welcome comparison data. We suspect some of what we're seeing is specific to our clay-loam soil type and semi-arid climate, and we'd like to know what's universal."
+    }
+  ]
+}

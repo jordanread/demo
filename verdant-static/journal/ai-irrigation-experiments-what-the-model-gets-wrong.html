@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>What Our Irrigation AI Gets Wrong (And Why We're Keeping It Anyway) — Verdant Forge Journal</title>
+  <meta name="description" content="I keep a paper notebook that contains, in my own handwriting, a log of every time the Drip inference engine was wrong in a way I think is worth understanding. It has 47 entries.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/tokens.css">
+  <link rel="stylesheet" href="../css/reset.css">
+  <link rel="stylesheet" href="../css/layout.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/pages/article.css">
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to main content</a>
+  <div class="page-wrapper">
+
+    <div class="article-hero">
+      <div class="container">
+        <div class="article-hero__back">
+          <a href="../journal.html" class="back-link">← Journal</a>
+        </div>
+        <div class="article-category-row">
+          <span class="tag">AI Systems</span>
+          <span class="tag" style="font-size:9px;">Machine Learning</span> <span class="tag" style="font-size:9px;">Irrigation</span> <span class="tag" style="font-size:9px;">XGBoost</span>
+        </div>
+        <h1 class="article-title">What Our Irrigation AI Gets Wrong (And Why We're Keeping It Anyway)</h1>
+        <p class="article-subtitle">18 months of inference-based irrigation scheduling: the wins, the failures, and the cases where the model confidently does the wrong thing</p>
+        <div class="article-meta">
+          <div class="article-meta__author">
+            <div class="article-avatar">PN</div>
+            <div>
+              <span class="article-meta__name">Priya Nandakumar</span>
+              <span class="article-meta__role">AI & Inference Systems</span>
+            </div>
+          </div>
+          <div class="article-meta__details">
+            <span class="article-meta__date">2024-09-11</span>
+            <span class="article-meta__read">13 min read</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <main id="main">
+      <div class="article-layout">
+        <div class="article-sidebar">
+          <div class="sidebar-section">
+            <div class="sidebar-label">Filed under</div>
+            <div class="sidebar-tags">
+              <span class="tag">Machine Learning</span> <span class="tag">Irrigation</span> <span class="tag">XGBoost</span> <span class="tag">Field Data</span>
+            </div>
+          </div>
+          <div class="sidebar-section">
+            <div class="sidebar-label">Author</div>
+            <div class="sidebar-author-name">Priya Nandakumar</div>
+            <div class="sidebar-author-role">AI & Inference Systems</div>
+          </div>
+          <div class="sidebar-section">
+            <div class="sidebar-label">Published</div>
+            <div class="sidebar-date">2024-09-11</div>
+          </div>
+          <div class="sidebar-section">
+            <a href="../journal.html" class="btn btn-secondary btn-sm">← All entries</a>
+          </div>
+        </div>
+        <article class="article-body" id="articleBody">
+          <p>I keep a paper notebook. It sits next to my laptop in the office space and it contains, in my own handwriting, a log of every time the Drip inference engine issued a prediction that turned out to be wrong in a way I think is worth understanding. The notebook has 47 entries over 18 months.</p>
+<p>This is not a story about a model that works perfectly. It's a story about a model that works well enough to be useful while failing in specific ways that are worth documenting publicly, because I think most ML deployments in real physical systems fail similarly and talk about it rarely.</p>
+<p>Drip — our irrigation inference engine — runs on an XGBoost regression model, one per farm zone. Each model takes 42 input features: soil moisture readings from all Rhizome nodes in the zone, temperature at depth, historical weather, current weather, crop type and phenological stage, days since last irrigation, and several derived features like rate-of-change of VWC. It outputs a recommended irrigation duration for the next 4-hour window. A separate scheduling layer converts that into actual valve open times.</p>
+<p>We've been running it in production for 18 months. In aggregate, it works. Water use is down roughly 31% compared to our previous time-based schedule, with no statistically significant yield change across three production seasons. I'm proud of those numbers.</p>
+<p>But the notebook.</p>
+<h2>The First Frost Problem</h2>
+<p>The model handles gradual seasonal transitions reasonably well — it's seen three full growing cycles now and has enough temperature and phenological data to calibrate for summer-to-fall transitions. What it does not handle well is sudden discontinuities.</p>
+<p>Our first hard frost event last November came 11 days earlier than any frost in our 4-year weather dataset. The model, asked to predict irrigation needs for the day after that frost, extrapolated from its training distribution and issued near-normal irrigation recommendations for crops that were about to die or go dormant. It had never seen a frost that early in the season in context with those specific crop-stage feature values. It had no basis for the right answer.</p>
+<p>We caught this because we still have a morning briefing where someone reviews the day's scheduled irrigation before valves open. Felix looked at the frost forecast and the irrigation schedule side by side and flagged it. We overrode manually.</p>
+<p>This is in my notebook as an annotation about the limits of interpolation. The model is really an interpolation engine over its training data. When you push it to genuinely novel conditions, it interpolates from the nearest training examples, which may be quite wrong. We now have an explicit frost-check pre-processor that flags any predicted frost within 72 hours and holds the model's recommendations for human review.</p>
+<h2>The Confident Wrong Answer Problem</h2>
+<p>Gradient boosted trees don't give you uncertainty estimates natively. The model outputs a number: irrigate zone 3 for 18 minutes. It does not say: I'm 60% confident in this, or: I've only seen this feature combination 12 times in training. It just gives you the number.</p>
+<p>This becomes a problem in proportion to how much you trust the number. We went through a phase, around month 8, where we had stopped manually reviewing recommendations as carefully because it had been working reliably for months. We lost a sense of the model's confidence calibration.</p>
+<p>The wake-up call was a peculiar week in February where we had unusually warm days followed by cold nights, with low humidity and high winds. The model issued low irrigation recommendations based on cool temperatures, when in fact VPD (vapor pressure deficit) was extremely high due to the dry wind, and the crops were water-stressed despite the cool temperatures.</p>
+<p>The fix was partly technical — we added VPD as an explicit feature, which the model had been computing indirectly but not well — and partly procedural. We reinstated a daily human review of the scheduled irrigation against a basic sanity check: current weather conditions, visible plant appearance, and gut feel from whoever's been in the field that morning.</p>
+<p>Gut feel sounds like capitulation to vagueness. It isn't. An experienced grower looking at plants can detect water stress that no sensor we have is measuring. We should always want that in the loop.</p>
+<h2>What The Model Gets Consistently Right</h2>
+<p>Since I've been cataloguing failures, I should be fair about the wins.</p>
+<p>The model is excellent at distinguishing between days that look similar by calendar and temperature but differ in crop water demand due to growth stage. It learned to track phenological indicators — bloom timing, fruit set, senescence — that we'd never thought to formalize in our manual scheduling. Before the model, we adjusted irrigation by season and rough crop stage. The model adjusts by something finer than that, and it's mostly right.</p>
+<p>It's also good at the boring optimization — knowing that zone 7 can go an extra four hours without irrigation because its clay content buffers moisture differently than zone 3's sandier profile. It holds this calibration across the whole growing season without forgetting, which humans do.</p>
+<h2>Should You Build Something Like This?</h2>
+<p>Only if you have the sensor density to support it. Without the Rhizome network as input, the Drip model would be roughly useless. The model is only as good as the feature data it receives, and coarse sensor coverage would give it coarse input to reason from.</p>
+<p>Also: keep the human in the loop, visibly and consequentially. Not as a rubber stamp, but as a genuine review step with the authority and expectation of overriding the model when warranted. A model that's overridden 5% of the time is being used correctly. A model that's never overridden has become an authority it shouldn't be.</p>
+        </article>
+      </div>
+
+      <div class="article-related-section">
+        <div class="container">
+          <h2 class="section-title" style="margin-bottom:var(--sp-8);">More from the journal</h2>
+          <div class="grid-3" id="relatedEntries"></div>
+        </div>
+      </div>
+    </main>
+
+  </div>
+  <script src="../js/components.js"></script>
+  <script src="../js/utils.js"></script>
+  <script>
+  // Fix nav links for subdirectory
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.nav-link, .nav-logo').forEach(link => {
+      const href = link.getAttribute('href');
+      if (href && !href.startsWith('http') && !href.startsWith('#') && !href.startsWith('../')) {
+        link.setAttribute('href', '../' + href);
+      }
+    });
+    document.querySelectorAll('.footer-link, .footer-oss').forEach(link => {
+      const href = link.getAttribute('href');
+      if (href && !href.startsWith('http') && !href.startsWith('#') && !href.startsWith('../')) {
+        link.setAttribute('href', '../' + href);
+      }
+    });
+  });
+  </script>
+  <script>
+  // Load related entries
+  document.addEventListener('DOMContentLoaded', async () => {
+    try {
+      const res = await fetch('../data/journal.json');
+      const data = await res.json();
+      const current = 'entry-004';
+      const related = data.journal_index.filter(e => e.id !== current).slice(0, 3);
+      const container = document.getElementById('relatedEntries');
+      if (container) {
+        container.innerHTML = related.map(e => `
+          <a href="${e.slug}.html" class="card journal-card" style="text-decoration:none;color:inherit;">
+            <div class="journal-card__image"><span>${e.category}</span></div>
+            <div class="journal-card__body">
+              <div class="journal-card__tag"><span class="tag">${e.category}</span></div>
+              <h3 class="journal-card__title">${e.title}</h3>
+              <p class="journal-card__excerpt">${e.excerpt}</p>
+              <div class="journal-card__footer">
+                <span>${new Date(e.date).toLocaleDateString('en-US',{year:'numeric',month:'short',day:'numeric'})}</span>
+                <span class="journal-card__link">Read <span>→</span></span>
+              </div>
+            </div>
+          </a>
+        `).join('');
+      }
+    } catch(e) {}
+  });
+  </script>
+</body>
+</html>

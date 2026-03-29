@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Live Dashboard — The Verdant Forge Collective</title>
+  <meta name="description" content="Simulated live telemetry from all farm systems — soil, energy, robots, weather, and more.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/pages/dashboard.css">
+</head>
+<body>
+<a href="#main" class="skip-link">Skip to main content</a>
+<div class="page-wrapper">
+
+  <!-- DASHBOARD HEADER -->
+  <div class="dash-header">
+    <div class="dash-header__left">
+      <span class="dash-header__title">SYSTEM DASHBOARD</span>
+      <div class="dash-header__meta">
+        <span class="dot" style="width:6px;height:6px;background:var(--accent);border-radius:50%;animation:pulse-dot 2s infinite;display:inline-block;"></span>
+        <span>SIMULATION LIVE</span>
+        <span class="dash-sep">·</span>
+        <span id="lastSync">—</span>
+      </div>
+    </div>
+    <div class="dash-header__right">
+      <button class="btn btn-mono btn-sm" id="pauseBtn">⏸ Pause</button>
+      <button class="theme-toggle" aria-label="Toggle theme" title="Toggle theme"></button>
+    </div>
+  </div>
+
+  <main id="main" class="dash-layout">
+
+    <!-- SYSTEM HEALTH BAR -->
+    <section class="dash-section health-bar-section">
+      <div class="health-bar">
+        <div class="health-item" id="health-power">
+          <div class="health-dot"></div>
+          <span class="health-label">POWER GRID</span>
+          <span class="health-status">NOMINAL</span>
+        </div>
+        <div class="health-item" id="health-comms">
+          <div class="health-dot"></div>
+          <span class="health-label">COMMS</span>
+          <span class="health-status">NOMINAL</span>
+        </div>
+        <div class="health-item" id="health-water">
+          <div class="health-dot"></div>
+          <span class="health-label">WATER</span>
+          <span class="health-status">NOMINAL</span>
+        </div>
+        <div class="health-item attention" id="health-climate">
+          <div class="health-dot"></div>
+          <span class="health-label">CLIMATE</span>
+          <span class="health-status">ATTENTION</span>
+        </div>
+        <div class="health-item" id="health-mobile">
+          <div class="health-dot"></div>
+          <span class="health-label">MOBILE</span>
+          <span class="health-status">NOMINAL</span>
+        </div>
+        <div class="health-item" id="health-sensors">
+          <div class="health-dot"></div>
+          <span class="health-label">SENSORS</span>
+          <span class="health-status">NOMINAL</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRIMARY METRICS GRID -->
+    <section class="dash-section" id="metricsGrid">
+      <div class="metrics-grid">
+        <div class="telemetry-widget" id="tw-soil">
+          <span class="tw-label">AVG SOIL MOISTURE</span>
+          <span class="tw-value" id="val-soil">73.4<span class="tw-unit">%</span></span>
+          <span class="tw-source">Rhizome Network · 68 nodes</span>
+          <canvas class="tw-canvas" id="chart-soil"></canvas>
+        </div>
+        <div class="telemetry-widget" id="tw-solar">
+          <span class="tw-label">SOLAR OUTPUT</span>
+          <span class="tw-value" id="val-solar">12.4<span class="tw-unit">kW</span></span>
+          <span class="tw-source">Energy Grove · 48 panels</span>
+          <canvas class="tw-canvas" id="chart-solar"></canvas>
+        </div>
+        <div class="telemetry-widget" id="tw-battery">
+          <span class="tw-label">BATTERY SOC</span>
+          <span class="tw-value" id="val-battery">87.2<span class="tw-unit">%</span></span>
+          <span class="tw-source">Bank A+B · 80kWh</span>
+          <canvas class="tw-canvas" id="chart-battery"></canvas>
+        </div>
+        <div class="telemetry-widget" id="tw-bots">
+          <span class="tw-label">BOTS ACTIVE</span>
+          <span class="tw-value" id="val-bots">7<span class="tw-unit"></span></span>
+          <span class="tw-source">All zones</span>
+          <canvas class="tw-canvas" id="chart-bots"></canvas>
+        </div>
+        <div class="telemetry-widget" id="tw-harvest">
+          <span class="tw-label">HARVEST TODAY</span>
+          <span class="tw-value" id="val-harvest">43.2<span class="tw-unit">kg</span></span>
+          <span class="tw-source">Rover + Manual</span>
+          <canvas class="tw-canvas" id="chart-harvest"></canvas>
+        </div>
+        <div class="telemetry-widget" id="tw-water">
+          <span class="tw-label">WATER USED</span>
+          <span class="tw-value" id="val-water">2840<span class="tw-unit">L</span></span>
+          <span class="tw-source">Today · All zones</span>
+          <canvas class="tw-canvas" id="chart-water"></canvas>
+        </div>
+        <div class="telemetry-widget" id="tw-temp">
+          <span class="tw-label">AMBIENT TEMP</span>
+          <span class="tw-value" id="val-temp">19.3<span class="tw-unit">°C</span></span>
+          <span class="tw-source">Weather Station</span>
+          <canvas class="tw-canvas" id="chart-temp"></canvas>
+        </div>
+        <div class="telemetry-widget" id="tw-compost">
+          <span class="tw-label">COMPOST CORE</span>
+          <span class="tw-value tw-warn" id="val-compost">58.1<span class="tw-unit">°C</span></span>
+          <span class="tw-source">Batch 41 active phase</span>
+          <canvas class="tw-canvas" id="chart-compost"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <!-- LOWER PANELS -->
+    <section class="dash-section lower-panels">
+      <div class="lower-grid">
+
+        <!-- TASK QUEUE -->
+        <div class="dash-panel">
+          <div class="dash-panel__header">
+            <span class="dash-panel__title">Robot Task Queue</span>
+            <span class="dash-panel__count" id="taskCount">8 tasks</span>
+          </div>
+          <div class="dash-panel__body" id="taskQueue"><!-- JS --></div>
+        </div>
+
+        <!-- EVENT LOG -->
+        <div class="dash-panel">
+          <div class="dash-panel__header">
+            <span class="dash-panel__title">System Event Log</span>
+            <button class="btn-mono btn-sm" id="clearLog" style="font-size:9px;color:var(--text-muted);cursor:pointer;background:none;border:none;">clear</button>
+          </div>
+          <div class="dash-panel__body event-log" id="eventLog"><!-- JS --></div>
+        </div>
+
+        <!-- WEATHER -->
+        <div class="dash-panel">
+          <div class="dash-panel__header">
+            <span class="dash-panel__title">Weather Station</span>
+            <span class="dash-panel__meta" id="weatherLocation">Albemarle Co, VA</span>
+          </div>
+          <div class="dash-panel__body" id="weatherPanel"><!-- JS --></div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ZONE OVERVIEW -->
+    <section class="dash-section">
+      <div class="dash-panel">
+        <div class="dash-panel__header">
+          <span class="dash-panel__title">Zone Status Overview</span>
+          <a href="farm-map.html" class="btn btn-mono btn-sm">Open Map →</a>
+        </div>
+        <div class="dash-panel__body" id="zoneOverview"><!-- JS --></div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="js/components.js"></script>
+<script src="js/utils.js"></script>
+<script src="js/dashboard.js"></script>
+</body>
+</html>

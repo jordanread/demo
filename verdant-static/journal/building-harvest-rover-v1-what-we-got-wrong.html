@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Building the Harvest Rover: What v1 Got Wrong and Why v2 Works — Verdant Forge Journal</title>
+  <meta name="description" content="The first version of Bramble worked exactly as designed. That was the problem. We had designed the wrong thing.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/tokens.css">
+  <link rel="stylesheet" href="../css/reset.css">
+  <link rel="stylesheet" href="../css/layout.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/pages/article.css">
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to main content</a>
+  <div class="page-wrapper">
+
+    <div class="article-hero">
+      <div class="container">
+        <div class="article-hero__back">
+          <a href="../journal.html" class="back-link">← Journal</a>
+        </div>
+        <div class="article-category-row">
+          <span class="tag">Robotics</span>
+          <span class="tag" style="font-size:9px;">Harvest Rover</span> <span class="tag" style="font-size:9px;">Mobile Robotics</span> <span class="tag" style="font-size:9px;">Field Lessons</span>
+        </div>
+        <h1 class="article-title">Building the Harvest Rover: What v1 Got Wrong and Why v2 Works</h1>
+        <p class="article-subtitle">A post-mortem on our first autonomous field platform, and the redesign that finally works</p>
+        <div class="article-meta">
+          <div class="article-meta__author">
+            <div class="article-avatar">TK</div>
+            <div>
+              <span class="article-meta__name">Tobias Kellenbrink</span>
+              <span class="article-meta__role">Robotics Engineering Lead</span>
+            </div>
+          </div>
+          <div class="article-meta__details">
+            <span class="article-meta__date">2024-03-18</span>
+            <span class="article-meta__read">11 min read</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <main id="main">
+      <div class="article-layout">
+        <div class="article-sidebar">
+          <div class="sidebar-section">
+            <div class="sidebar-label">Filed under</div>
+            <div class="sidebar-tags">
+              <span class="tag">Harvest Rover</span> <span class="tag">Mobile Robotics</span> <span class="tag">Field Lessons</span> <span class="tag">Mechanical Design</span>
+            </div>
+          </div>
+          <div class="sidebar-section">
+            <div class="sidebar-label">Author</div>
+            <div class="sidebar-author-name">Tobias Kellenbrink</div>
+            <div class="sidebar-author-role">Robotics Engineering Lead</div>
+          </div>
+          <div class="sidebar-section">
+            <div class="sidebar-label">Published</div>
+            <div class="sidebar-date">2024-03-18</div>
+          </div>
+          <div class="sidebar-section">
+            <a href="../journal.html" class="btn btn-secondary btn-sm">← All entries</a>
+          </div>
+        </div>
+        <article class="article-body" id="articleBody">
+          <p class="article-lede">The first version of Bramble — our harvest assist rover — worked exactly as designed. That was the problem. We had designed the wrong thing.</p>
+<p>I want to document this carefully because we learned more from v1's failure than from any of our successes, and I think the failure mode we encountered is common enough in agricultural robotics that it's worth writing down publicly.</p>
+<p>The brief for v1, as agreed in our October 2022 planning session, was: build an autonomous harvest robot that can operate in row crops without human supervision. This seemed reasonable. Every piece of the technology existed — computer vision for fruit detection, articulated arms for picking, mobile platforms with good agricultural terrain capability. We'd all read the research papers. We estimated 18 months from concept to field-ready system.</p>
+<h2>What We Built</h2>
+<p>Bramble v1 was a 6-wheeled differential-drive platform with a 4-DOF arm, a wrist-mounted RGB-D camera, and a trained YOLOv7 model for tomato detection and ripeness classification. The arm used a compliant gripper with force feedback to avoid bruising. Navigation used RTK-GPS for position and a stereo camera pair for obstacle avoidance. Willem fabricated the chassis from 40×40mm aluminum extrusion — his usual approach for prototype work where the design is likely to change.</p>
+<p>It took us 22 months, not 18. Cost overruns of about 40% over budget. Three major redesigns of the arm's end effector. Two complete navigation software rewrites. By the time we deployed it to the North Field in August 2023, everyone who'd worked on it was exhausted and privately a bit relieved to just see it moving.</p>
+<h2>The Field Reality</h2>
+<p>The first real harvest trial was on a Wednesday afternoon. Meridian, Priya, and I were all there, plus about half the community who'd been watching this project consume our energy for nearly two years. The rover found a ripe tomato. The arm extended. The gripper made contact. Picked it cleanly. Put it in the basket.</p>
+<p>We cheered. I'm not embarrassed about that.</p>
+<p>Then we watched it for the next four hours. In that time, it harvested 31 tomatoes. Missed approximately 140 others due to occlusion — tomatoes hidden behind foliage that the top-down camera couldn't see. Bruised 8 of the 31 it did pick due to approach angle miscalculation. Got stuck twice in the row ends where the ground was uneven from our tractor tires. Required human intervention 4 times to clear error states.</p>
+<p>Meanwhile, Domingo and Saoirse — who had agreed to do a manual harvest comparison in an adjacent row — picked 680 tomatoes in the same four hours. That's not a fair comparison in every dimension, but it was a clear signal. The robot was operating at roughly 4% of human efficiency, with more bruising.</p>
+<div class="callout">Field note: 31 tomatoes in 4 hours vs. 680 for two human pickers in an adjacent row. The robot was at ~4% efficiency with higher bruise rates. We had built a very expensive 4% solution.</div>
+<p>We ran v1 for six more weeks, logging everything. The efficiency improved with tuning — we got up to about 18% of human throughput on good days, in good lighting conditions, on well-staked plants. On bad days, in overcast light with mature sprawling plants, it dropped back to near zero.</p>
+<h2>The Diagnosis</h2>
+<p>Here is what I think we got wrong, in roughly descending order of importance:</p>
+<p>We designed for ideal conditions. Our training data, our test environment, our success criteria — all of them implicitly assumed a well-managed, ideally-staged row crop. Real tomatoes in a real field are chaotic. Plants lean. Fruit hides. Vines reach into adjacent rows. The model performed well on our test set and poorly in the field because the field is not a test set.</p>
+<p>We tried to replace the human rather than assist them. A human picker is extraordinarily good at this task — 20 years of evolutionary hardware for object manipulation, two eyes that handle occlusion trivially, contextual reasoning about which fruit is actually ripe, and a brain that can adjust strategy mid-row without a firmware update. We tried to replicate all of that. We should have asked: what is the hard part for humans? The answer is carrying. The tomatoes are heavy. The rows are long. The baskets fill up fast and someone has to run them back to the processing area.</p>
+<h2>The Redesign Philosophy</h2>
+<p>We scrapped the arm entirely. Removed the picking camera, the end effector, the force feedback system, the ripeness model. Stripped v1 down to its wheels, chassis, compute platform, and navigation sensors.</p>
+<p>The new brief was brutally simple: follow a human picker through the field. Carry their baskets. Don't get in the way. Do this reliably for a 6-hour shift.</p>
+<p>v2 — the Bramble you can find in the field today — does exactly this. The harvest team works with it rather than alongside it or waiting for it. It follows a designated picker using a UWB tag they carry. It has a 40kg payload capacity and a 6-hour field runtime. It communicates with a hand-held fob: follow me, stop here, go back to base. That's the entire interface.</p>
+<p>Harvest throughput with one rover assisting two pickers increased by approximately 22% compared to the same two pickers without the rover. That's because they no longer make the 80-meter round trips to dump baskets. They just pick. The rover handles the carrying.</p>
+<div class="callout">After removing the arm: +22% harvest throughput for the same two pickers. Not because the robot does more, but because the humans can do less of the wrong thing.</div>
+<p>22% is not a headline number. It won't appear on a venture pitch deck. But it is real, it is consistent, and it costs us nothing in harvest quality or bruise rate because the humans are still doing the picking.</p>
+<h2>What I'd Tell the 2022 Version of Myself</h2>
+<p>Start with the human. Ask what they actually find hard. Watch someone do the work for a full day before you open a CAD program. Then automate the hard part — not the interesting part, not the AI-amenable part, the actually-hard part.</p>
+<p>In agricultural robotics, the hard parts are almost always logistics — moving things from place to place, carrying weight across distance, being somewhere reliably at a specific time. The glamorous parts (picking, sorting, identification) are genuinely difficult computer vision and manipulation problems that academia has been working on for 30 years with incomplete results. Maybe don't bet your project on solving them in 18 months.</p>
+<p>v1 is still in the Tool Barn. Willem turned the arm into a parts shelf. I look at it sometimes. I don't regret building it — we learned things we couldn't have learned any other way. But I do think we could have learned the same lessons cheaper and faster if we'd spent two weeks watching harvests before we started engineering.</p>
+<p>v3 is in the planning stages now. We're thinking about it very differently.</p>
+        </article>
+      </div>
+
+      <div class="article-related-section">
+        <div class="container">
+          <h2 class="section-title" style="margin-bottom:var(--sp-8);">More from the journal</h2>
+          <div class="grid-3" id="relatedEntries"></div>
+        </div>
+      </div>
+    </main>
+
+  </div>
+  <script src="../js/components.js"></script>
+  <script src="../js/utils.js"></script>
+  <script>
+  // Fix nav links for subdirectory
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.nav-link, .nav-logo').forEach(link => {
+      const href = link.getAttribute('href');
+      if (href && !href.startsWith('http') && !href.startsWith('#') && !href.startsWith('../')) {
+        link.setAttribute('href', '../' + href);
+      }
+    });
+    document.querySelectorAll('.footer-link, .footer-oss').forEach(link => {
+      const href = link.getAttribute('href');
+      if (href && !href.startsWith('http') && !href.startsWith('#') && !href.startsWith('../')) {
+        link.setAttribute('href', '../' + href);
+      }
+    });
+  });
+  </script>
+  <script>
+  // Load related entries
+  document.addEventListener('DOMContentLoaded', async () => {
+    try {
+      const res = await fetch('../data/journal.json');
+      const data = await res.json();
+      const current = 'entry-001';
+      const related = data.journal_index.filter(e => e.id !== current).slice(0, 3);
+      const container = document.getElementById('relatedEntries');
+      if (container) {
+        container.innerHTML = related.map(e => `
+          <a href="${e.slug}.html" class="card journal-card" style="text-decoration:none;color:inherit;">
+            <div class="journal-card__image"><span>${e.category}</span></div>
+            <div class="journal-card__body">
+              <div class="journal-card__tag"><span class="tag">${e.category}</span></div>
+              <h3 class="journal-card__title">${e.title}</h3>
+              <p class="journal-card__excerpt">${e.excerpt}</p>
+              <div class="journal-card__footer">
+                <span>${new Date(e.date).toLocaleDateString('en-US',{year:'numeric',month:'short',day:'numeric'})}</span>
+                <span class="journal-card__link">Read <span>→</span></span>
+              </div>
+            </div>
+          </a>
+        `).join('');
+      }
+    } catch(e) {}
+  });
+  </script>
+</body>
+</html>
