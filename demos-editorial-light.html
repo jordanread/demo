@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jordan Read — Demos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=DM+Mono:wght@300;400&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:         #f4f0e8;
+      --bg-warm:    #ece8e0;
+      --surface:    #f9f7f3;
+      --surface2:   #edeae3;
+      --border:     #ddd9d0;
+      --border2:    #ccc8be;
+      --ink:        #1e1d1a;
+      --ink-mid:    #5a574f;
+      --ink-dim:    #9b9790;
+      --ink-faint:  #c8c4bc;
+      --accent:     #7a9e64;       /* sage green */
+      --accent-warm:#c4714a;       /* terracotta */
+      --accent-gold:#b8962e;       /* warm gold */
+      --tag-bg:     #ece8df;
+      --shadow:     rgba(30,29,26,0.06);
+      --shadow-md:  rgba(30,29,26,0.11);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Lora', serif;
+      font-weight: 400;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Very subtle warm paper texture */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 200;
+      opacity: 0.025;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      background-size: 180px;
+    }
+
+    /* ─── Header ─── */
+    header {
+      padding: 1.75rem 4rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--surface);
+      animation: fadeDown 0.5s ease both;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: baseline;
+      gap: 1rem;
+    }
+
+    .site-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.95rem;
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink-mid);
+    }
+
+    .site-name a { color: inherit; text-decoration: none; transition: color 0.2s; }
+    .site-name a:hover { color: var(--accent); }
+
+    .sep {
+      color: var(--ink-faint);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+      font-style: italic;
+    }
+
+    .page-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      color: var(--ink-dim);
+    }
+
+    .header-right {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.06em;
+      color: var(--ink-faint);
+    }
+
+    /* ─── Masthead ─── */
+    .masthead {
+      padding: 4rem 4rem 3.5rem;
+      border-bottom: 1px solid var(--border);
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: end;
+      gap: 2rem;
+      position: relative;
+      overflow: hidden;
+      animation: fadeDown 0.6s 0.07s ease both;
+    }
+
+    /* Decorative squiggle — hand-drawn feel */
+    .masthead::before {
+      content: '';
+      position: absolute;
+      top: 2.5rem;
+      right: 19rem;
+      width: 80px;
+      height: 80px;
+      background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10 40 C 20 20, 30 60, 40 40 C 50 20, 60 60, 70 40' stroke='%237a9e64' stroke-width='1.5' stroke-linecap='round' fill='none' opacity='0.35'/%3E%3Ccircle cx='10' cy='40' r='2.5' fill='%237a9e64' opacity='0.25'/%3E%3Ccircle cx='70' cy='40' r='2.5' fill='%237a9e64' opacity='0.25'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      pointer-events: none;
+    }
+
+    .masthead-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3.5rem, 7vw, 6rem);
+      font-weight: 300;
+      line-height: 0.95;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+    }
+
+    .masthead-title em {
+      font-style: italic;
+      color: var(--accent-warm);
+    }
+
+    /* Small rotated "archive" label — a whimsical touch */
+    .masthead-title-wrap {
+      position: relative;
+      display: inline-block;
+    }
+
+    .rotated-label {
+      position: absolute;
+      top: 0.5rem;
+      left: calc(100% + 1rem);
+      font-family: 'DM Mono', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      transform: rotate(90deg);
+      transform-origin: left top;
+      white-space: nowrap;
+    }
+
+    .masthead-meta {
+      text-align: right;
+      padding-bottom: 0.25rem;
+    }
+
+    .masthead-meta .count {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 4.5rem;
+      font-weight: 300;
+      color: var(--ink-faint);
+      display: block;
+      line-height: 1;
+      letter-spacing: -0.03em;
+    }
+
+    .masthead-meta p {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      color: var(--ink-dim);
+      letter-spacing: 0.08em;
+      margin-top: 0.2rem;
+    }
+
+    /* ─── Editorial grid ─── */
+    .editorial {
+      padding: 0 4rem 5rem;
+    }
+
+    .row-1 {
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      border-bottom: 1px solid var(--border);
+      animation: fadeUp 0.55s 0.12s ease both;
+    }
+
+    .row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border-bottom: 1px solid var(--border);
+      animation: fadeUp 0.55s 0.22s ease both;
+    }
+
+    .row-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      animation: fadeUp 0.55s 0.32s ease both;
+    }
+
+    .stack {
+      display: flex;
+      flex-direction: column;
+      border-left: 1px solid var(--border);
+    }
+
+    .stack .card:first-child {
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* ─── Base card ─── */
+    .card {
+      background: transparent;
+      transition: background 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+      cursor: default;
+      position: relative;
+    }
+
+    /* Cards lift slightly on hover — the main whimsy mechanic */
+    .card-featured:hover,
+    .card-medium:hover {
+      background: var(--surface);
+      box-shadow: 0 4px 24px var(--shadow-md), 0 1px 4px var(--shadow);
+      transform: translateY(-2px);
+      z-index: 2;
+    }
+
+    .card-small:hover,
+    .card-mini:hover {
+      background: var(--surface);
+    }
+
+    /* ─── Featured card ─── */
+    .card-featured {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card-featured .card-image {
+      width: 100%;
+      aspect-ratio: 16/7;
+      overflow: hidden;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface2);
+    }
+
+    .card-featured .card-image img {
+      width: 100%; height: 100%; object-fit: cover;
+      opacity: 0.9;
+      transition: opacity 0.35s, transform 0.55s ease;
+    }
+
+    .card-featured:hover .card-image img { opacity: 1; transform: scale(1.02); }
+
+    .card-featured .card-body {
+      padding: 2rem 2.25rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ─── Small stacked card ─── */
+    .card-small {
+      padding: 1.5rem 1.75rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 170px;
+      flex: 1;
+    }
+
+    /* ─── Medium card ─── */
+    .card-medium {
+      display: grid;
+      grid-template-columns: 180px 1fr;
+    }
+
+    .card-medium:first-child {
+      border-right: 1px solid var(--border);
+    }
+
+    .card-medium .card-image {
+      overflow: hidden;
+      border-right: 1px solid var(--border);
+      background: var(--surface2);
+    }
+
+    .card-medium .card-image img {
+      width: 100%; height: 100%; object-fit: cover;
+      opacity: 0.85;
+      transition: opacity 0.3s, transform 0.5s ease;
+    }
+
+    .card-medium:hover .card-image img { opacity: 1; transform: scale(1.03); }
+
+    .card-medium .card-body {
+      padding: 1.5rem 1.75rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    /* ─── Mini card ─── */
+    .card-mini {
+      padding: 1.5rem 1.75rem;
+      border-right: 1px solid var(--border);
+      min-height: 140px;
+    }
+
+    .card-mini:last-child { border-right: none; }
+
+    /* ─── Image placeholder ─── */
+    .card-image-placeholder {
+      width: 100%;
+      height: 100%;
+      min-height: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg-warm);
+    }
+
+    .card-image-placeholder svg { opacity: 0.18; }
+
+    /* ─── Tags & meta ─── */
+    .card-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .card-num {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.58rem;
+      color: var(--ink-faint);
+      letter-spacing: 0.06em;
+    }
+
+    .tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.58rem;
+      font-weight: 400;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--ink-mid);
+      background: var(--tag-bg);
+      border: 1px solid var(--border);
+      padding: 0.18rem 0.45rem;
+      border-radius: 2px;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .tag.featured {
+      color: var(--accent);
+      border-color: #b8d4a4;
+      background: #edf4e8;
+    }
+
+    .tag.warm {
+      color: var(--accent-warm);
+      border-color: #e4b89e;
+      background: #faf0ea;
+    }
+
+    /* ─── Card titles & desc ─── */
+    .card-title-lg {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem;
+      font-weight: 400;
+      line-height: 1.15;
+      color: var(--ink);
+      margin-bottom: 0.625rem;
+      letter-spacing: 0.01em;
+    }
+
+    .card-title-md {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem;
+      font-weight: 400;
+      line-height: 1.2;
+      color: var(--ink);
+      margin-bottom: 0.5rem;
+    }
+
+    .card-title-sm {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-weight: 400;
+      line-height: 1.2;
+      color: var(--ink);
+      margin-bottom: 0.4rem;
+    }
+
+    .card-desc-lg {
+      font-size: 0.82rem;
+      line-height: 1.8;
+      color: var(--ink-mid);
+      flex: 1;
+    }
+
+    .card-desc-sm {
+      font-size: 0.78rem;
+      line-height: 1.7;
+      color: var(--ink-mid);
+    }
+
+    /* ─── Card footer ─── */
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 1.25rem;
+      padding-top: 0.875rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .card-type {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+    }
+
+    .card-link {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.62rem;
+      color: var(--ink-dim);
+      text-decoration: none;
+      letter-spacing: 0.04em;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      transition: color 0.2s;
+    }
+
+    .card-featured:hover .card-link,
+    .card-medium:hover .card-link,
+    .card-small:hover .card-link { color: var(--accent-warm); }
+
+    .card-arrow {
+      width: 14px;
+      height: 14px;
+      transition: transform 0.22s ease;
+      flex-shrink: 0;
+    }
+
+    .card:hover .card-arrow { transform: translate(2px, -2px); }
+
+    /* ─── Whimsy: little dot accent on featured card ─── */
+    .dot-accent {
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent-warm);
+      margin-left: 0.5rem;
+      vertical-align: middle;
+      position: relative;
+      top: -1px;
+    }
+
+    /* ─── Footer ─── */
+    footer {
+      padding: 2rem 4rem;
+      border-top: 1px solid var(--border);
+      background: var(--surface);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .footer-note {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      color: var(--ink-faint);
+      letter-spacing: 0.06em;
+    }
+
+    .footer-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+      margin: 0 1.5rem;
+    }
+
+    /* Whimsical footer flourish */
+    .footer-flourish {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 0.85rem;
+      color: var(--ink-faint);
+    }
+
+    /* ─── Animations ─── */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ─── Responsive ─── */
+    @media (max-width: 960px) {
+      header, .masthead, .editorial, footer { padding-left: 2rem; padding-right: 2rem; }
+      .row-1, .row-2, .row-3 { grid-template-columns: 1fr; }
+      .stack { border-left: none; border-top: 1px solid var(--border); flex-direction: row; }
+      .stack .card:first-child { border-bottom: none; border-right: 1px solid var(--border); }
+      .card-medium { grid-template-columns: 1fr; }
+      .card-medium .card-image { aspect-ratio: 16/6; border-right: none; border-bottom: 1px solid var(--border); }
+      .card-medium:first-child { border-right: none; border-bottom: 1px solid var(--border); }
+      .card-mini { border-right: none; border-top: 1px solid var(--border); }
+      .masthead::before { display: none; }
+    }
+
+    @media (max-width: 560px) {
+      .stack { flex-direction: column; }
+      .stack .card:first-child { border-right: none; border-bottom: 1px solid var(--border); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="header-left">
+      <span class="site-name"><a href="https://jordanread.com">jordanread.com</a></span>
+      <span class="sep">/</span>
+      <span class="page-label">demos</span>
+    </div>
+    <span class="header-right">demos.jordanread.com</span>
+  </header>
+
+  <!-- Masthead -->
+  <div class="masthead">
+    <div>
+      <div class="masthead-title-wrap">
+        <h1 class="masthead-title">Built<br><em>things.</em><br>Here they are.</h1>
+        <span class="rotated-label">a working archive</span>
+      </div>
+    </div>
+    <div class="masthead-meta">
+      <span class="count">06</span>
+      <p>projects</p>
+      <p>static &amp; jekyll</p>
+    </div>
+  </div>
+
+  <!-- Editorial grid -->
+  <main class="editorial">
+
+    <!-- Row 1: Featured + stacked small -->
+    <div class="row-1">
+
+      <article class="card card-featured">
+        <div class="card-image">
+          <div class="card-image-placeholder">
+            <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#1e1d1a" stroke-width="0.7">
+              <rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/>
+            </svg>
+          </div>
+        </div>
+        <div class="card-body">
+          <div>
+            <div class="card-meta">
+              <span class="card-num">01</span>
+              <span class="tag featured">Featured</span>
+              <span class="tag">Static</span>
+              <span class="tag">Three.js</span>
+              <span class="tag">Leaflet</span>
+            </div>
+            <h2 class="card-title-lg">The Verdant Forge Collective<span class="dot-accent"></span></h2>
+            <p class="card-desc-lg">A fully realized fictional world — a speculative robotics homestead community presented as if it were real. Features a Three.js 3D hero, Leaflet farm map, Chart.js telemetry dashboard, and ~15,800 words of structured JSON content across 48 files. Built as an exercise in worldbuilding through code.</p>
+          </div>
+          <div class="card-footer">
+            <span class="card-type">Static Site</span>
+            <a class="card-link" href="#">
+              verdantforge.demo
+              <svg class="card-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M7 17L17 7M17 7H7M17 7v10"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <div class="stack">
+        <article class="card card-small">
+          <div>
+            <div class="card-meta">
+              <span class="card-num">02</span>
+              <span class="tag">Jekyll</span>
+              <span class="tag">Python</span>
+            </div>
+            <h2 class="card-title-sm">LOZ Sail</h2>
+            <p class="card-desc-sm">A sailing charter site for Lake of the Ozarks, resurrected from an archived version and converted to Jekyll with Python-generated imagery.</p>
+          </div>
+          <div class="card-footer">
+            <span class="card-type">Jekyll</span>
+            <svg class="card-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width:13px;height:13px;color:var(--ink-faint);">
+              <path d="M7 17L17 7M17 7H7M17 7v10"/>
+            </svg>
+          </div>
+        </article>
+
+        <article class="card card-small">
+          <div>
+            <div class="card-meta">
+              <span class="card-num">03</span>
+              <span class="tag">Static</span>
+              <span class="tag">Self-hosted</span>
+            </div>
+            <h2 class="card-title-sm">Homelab Dashboard</h2>
+            <p class="card-desc-sm">A static status and reference dashboard — services, uptime notes, network topology. Zero backend dependencies.</p>
+          </div>
+          <div class="card-footer">
+            <span class="card-type">Static</span>
+            <svg class="card-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width:13px;height:13px;color:var(--ink-faint);">
+              <path d="M7 17L17 7M17 7H7M17 7v10"/>
+            </svg>
+          </div>
+        </article>
+      </div>
+
+    </div><!-- /row-1 -->
+
+    <!-- Row 2: Two medium cards -->
+    <div class="row-2">
+
+      <article class="card card-medium">
+        <div class="card-image">
+          <div class="card-image-placeholder">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#1e1d1a" stroke-width="0.75">
+              <rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/>
+            </svg>
+          </div>
+        </div>
+        <div class="card-body">
+          <div>
+            <div class="card-meta">
+              <span class="card-num">04</span>
+              <span class="tag">Jekyll</span>
+            </div>
+            <h2 class="card-title-md">Project Title</h2>
+            <p class="card-desc-sm">A placeholder for an upcoming demo. Description and tags will live here once the project is ready to show.</p>
+          </div>
+          <div class="card-footer">
+            <span class="card-type">Jekyll</span>
+            <svg class="card-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color:var(--ink-faint);">
+              <path d="M7 17L17 7M17 7H7M17 7v10"/>
+            </svg>
+          </div>
+        </div>
+      </article>
+
+      <article class="card card-medium">
+        <div class="card-image">
+          <div class="card-image-placeholder">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#1e1d1a" stroke-width="0.75">
+              <rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/>
+            </svg>
+          </div>
+        </div>
+        <div class="card-body">
+          <div>
+            <div class="card-meta">
+              <span class="card-num">05</span>
+              <span class="tag">Static</span>
+            </div>
+            <h2 class="card-title-md">Project Title</h2>
+            <p class="card-desc-sm">A placeholder for an upcoming demo. Description and tags will live here once the project is ready to show.</p>
+          </div>
+          <div class="card-footer">
+            <span class="card-type">Static</span>
+            <svg class="card-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color:var(--ink-faint);">
+              <path d="M7 17L17 7M17 7H7M17 7v10"/>
+            </svg>
+          </div>
+        </div>
+      </article>
+
+    </div><!-- /row-2 -->
+
+    <!-- Row 3: three mini cards -->
+    <div class="row-3">
+
+      <article class="card card-mini">
+        <div class="card-meta">
+          <span class="card-num">06</span>
+          <span class="tag warm">In Progress</span>
+        </div>
+        <h2 class="card-title-sm">Project Title</h2>
+        <p class="card-desc-sm" style="margin-top:0.4rem;">Placeholder. More soon.</p>
+        <div class="card-footer">
+          <span class="card-type">Static</span>
+          <svg class="card-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width:13px;height:13px;color:var(--ink-faint);">
+            <path d="M7 17L17 7M17 7H7M17 7v10"/>
+          </svg>
+        </div>
+      </article>
+
+      <!-- Decorative interstitial — a breath of white space with a tiny doodle -->
+      <div class="card-mini" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.75rem;border-right:1px solid var(--border);opacity:0.5;pointer-events:none;">
+        <svg width="48" height="28" viewBox="0 0 48 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M4 14 C 10 4, 18 24, 24 14 C 30 4, 38 24, 44 14" stroke="#7a9e64" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+        </svg>
+        <span style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:0.75rem;color:var(--ink-faint);">more to come</span>
+      </div>
+
+      <article class="card card-mini" style="border-right:none;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;gap:0.5rem;">
+        <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1rem;color:var(--ink-dim);line-height:1.6;">
+          New demos added as they ship.<br>Check back sometime.
+        </p>
+        <span style="font-family:'DM Mono',monospace;font-size:0.58rem;color:var(--ink-faint);letter-spacing:0.08em;">— jordan</span>
+      </article>
+
+    </div><!-- /row-3 -->
+
+  </main>
+
+  <footer>
+    <span class="footer-note">jordanread.com</span>
+    <div class="footer-line"></div>
+    <span class="footer-flourish">built &amp; shipped from wherever we are</span>
+    <div class="footer-line"></div>
+    <span class="footer-note">demos.jordanread.com</span>
+  </footer>
+
+</body>
+</html>

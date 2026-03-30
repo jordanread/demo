@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jordan Read — Demos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,200;0,9..144,400;0,9..144,600;1,9..144,200;1,9..144,400&family=DM+Mono:wght@300;400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:           #f6f7f5;
+      --bg2:          #eef0ec;
+      --surface:      #ffffff;
+      --border:       #e0e3dc;
+      --border-mid:   #c8ccc3;
+      --ink:          #161a17;
+      --ink-mid:      #4a5248;
+      --ink-dim:      #8a9088;
+      --ink-faint:    #bfc3bb;
+
+      /* Primary accent — deep teal */
+      --teal:         #2a7c8a;
+      --teal-light:   #e4f2f4;
+      --teal-mid:     #4a9dab;
+
+      /* Supporting accent — forest green */
+      --green:        #4a7c52;
+      --green-light:  #e8f2e9;
+      --green-mid:    #6a9e72;
+
+      /* Wedge colors for the SVG logo */
+      --w1: #1d6b6b;   /* deep teal — tropics */
+      --w2: #2e8b8b;   /* mid teal — ocean */
+      --w3: #3d7a56;   /* forest green — mountains */
+      --w4: #5a9468;   /* sage green — high desert */
+      --w5: #6daa78;   /* light green — pastoral */
+      --w6: #4a8a7a;   /* teal-green — waterway */
+
+      --shadow-sm:    0 1px 4px rgba(22,26,23,0.06);
+      --shadow-md:    0 4px 20px rgba(22,26,23,0.09), 0 1px 4px rgba(22,26,23,0.05);
+      --shadow-lg:    0 8px 40px rgba(22,26,23,0.12), 0 2px 8px rgba(22,26,23,0.06);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ═══════════════════════════
+       SCROLL REVEAL SYSTEM
+    ═══════════════════════════ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .reveal.up    { transform: translateY(24px); }
+    .reveal.left  { transform: translateX(-24px); }
+    .reveal.right { transform: translateX(24px); }
+    .reveal.visible {
+      opacity: 1;
+      transform: translate(0, 0);
+    }
+    .reveal.d1 { transition-delay: 0.05s; }
+    .reveal.d2 { transition-delay: 0.15s; }
+    .reveal.d3 { transition-delay: 0.25s; }
+    .reveal.d4 { transition-delay: 0.35s; }
+
+    /* Animated rule — center outward */
+    .rule-animated {
+      height: 1px;
+      background: var(--border);
+      position: relative;
+      overflow: hidden;
+      margin: 0;
+    }
+    .rule-animated.thick { height: 3px; background: var(--border-mid); }
+    .rule-animated::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--bg);
+      transform: scaleX(1);
+      transform-origin: center;
+      transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .rule-animated.revealed::after { transform: scaleX(0); }
+
+    /* ═══════════════════════════
+       HEADER
+    ═══════════════════════════ */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(246,247,245,0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 3rem;
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      animation: headerIn 0.5s ease both;
+    }
+
+    @keyframes headerIn {
+      from { opacity: 0; transform: translateY(-8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .header-monogram {
+      font-family: 'Fraunces', serif;
+      font-size: 1.4rem;
+      font-weight: 200;
+      letter-spacing: 0.06em;
+      color: var(--ink);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .header-monogram span {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.14em;
+      color: var(--ink-faint);
+      text-transform: uppercase;
+      padding-left: 0.6rem;
+      border-left: 1px solid var(--border-mid);
+    }
+
+    /* Circle logo in header — statement size */
+    .header-logo {
+      width: 52px;
+      height: 52px;
+      cursor: default;
+      transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .header-logo:hover { transform: rotate(15deg) scale(1.05); }
+
+    /* ═══════════════════════════
+       HERO
+    ═══════════════════════════ */
+    .hero {
+      min-height: calc(100vh - 72px);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      padding: 0 3rem;
+      gap: 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Subtle background gradient wash */
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 60% 70% at 80% 50%, rgba(42,124,138,0.06) 0%, transparent 70%),
+                  radial-gradient(ellipse 40% 50% at 20% 80%, rgba(74,124,82,0.04) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .hero-text { position: relative; }
+
+    .hero-eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      opacity: 0;
+      animation: fadeUp 0.6s 0.3s ease forwards;
+    }
+
+    .hero-eyebrow::before {
+      content: '';
+      display: block;
+      width: 24px;
+      height: 1px;
+      background: var(--teal);
+    }
+
+    .hero-title {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(3.5rem, 6vw, 5.5rem);
+      font-weight: 200;
+      line-height: 1.0;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      margin-bottom: 2rem;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.45s ease forwards;
+    }
+
+    .hero-title em {
+      font-style: italic;
+      color: var(--teal);
+      font-weight: 200;
+    }
+
+    .hero-title .line-green { color: var(--green); }
+
+    /* About text lives in the hero whitespace */
+    .hero-about {
+      max-width: 38ch;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.6s ease forwards;
+    }
+
+    .hero-about p {
+      font-size: 0.9rem;
+      line-height: 1.85;
+      color: var(--ink-mid);
+      margin-bottom: 1rem;
+    }
+
+    .hero-about p:last-child { margin-bottom: 0; }
+
+    .hero-about a {
+      color: var(--teal);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(42,124,138,0.3);
+      transition: border-color 0.2s;
+    }
+    .hero-about a:hover { border-color: var(--teal); }
+
+    /* Big circle SVG — right column */
+    .hero-visual {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      opacity: 0;
+      animation: fadeScale 0.9s 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @keyframes fadeScale {
+      from { opacity: 0; transform: scale(0.88); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+
+    .circle-logo-large {
+      width: min(420px, 80%);
+      height: min(420px, 80%);
+      filter: drop-shadow(0 12px 40px rgba(42,124,138,0.18));
+    }
+
+    /* Outer ring — slow rotation */
+    .circle-outer-ring {
+      animation: spinSlow 60s linear infinite;
+      transform-origin: 200px 200px;
+    }
+
+    /* Individual wedge hover */
+    .wedge { transition: opacity 0.3s ease; cursor: default; }
+    .wedge:hover { opacity: 0.85; }
+
+    /* Scroll hint */
+    .hero-scroll-hint {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 3rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      opacity: 0;
+      animation: fadeUp 0.6s 1.1s ease forwards;
+    }
+
+    .scroll-arrow {
+      width: 16px;
+      height: 16px;
+      animation: bounceDown 2s 1.5s ease infinite;
+    }
+
+    @keyframes bounceDown {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(4px); }
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes spinSlow {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+
+    /* ═══════════════════════════
+       SECTION WRAPPER
+    ═══════════════════════════ */
+    .section {
+      padding: 5rem 3rem;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      gap: 1.25rem;
+      margin-bottom: 3rem;
+    }
+
+    .section-title {
+      font-family: 'Fraunces', serif;
+      font-size: 1.75rem;
+      font-weight: 200;
+      color: var(--ink);
+      letter-spacing: -0.01em;
+    }
+
+    .section-count {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.12em;
+      color: var(--ink-faint);
+    }
+
+    /* ═══════════════════════════
+       FEATURED CARD
+    ═══════════════════════════ */
+    .card-featured {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      box-shadow: var(--shadow-sm);
+      transition: box-shadow 0.3s ease, transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      margin-bottom: 2rem;
+      cursor: default;
+    }
+
+    .card-featured:hover {
+      box-shadow: var(--shadow-lg);
+      transform: translateY(-3px);
+    }
+
+    .card-featured .card-img {
+      aspect-ratio: 16/10;
+      overflow: hidden;
+      background: var(--bg2);
+      position: relative;
+    }
+
+    .card-featured .card-img img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s ease;
+      /* Tonal opacity treatment */
+      mix-blend-mode: luminosity;
+      opacity: 0.88;
+    }
+
+    /* Teal tint overlay on image */
+    .card-featured .card-img::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(42,124,138,0.15) 0%, rgba(74,124,82,0.08) 100%);
+      pointer-events: none;
+    }
+
+    .card-featured:hover .card-img img { transform: scale(1.03); }
+
+    .card-img-placeholder {
+      width: 100%; height: 100%;
+      min-height: 240px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #e8f0ee 0%, #dce8e2 100%);
+    }
+
+    .card-img-placeholder svg { opacity: 0.2; }
+
+    .card-featured .card-body {
+      padding: 2.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border-left: 1px solid var(--border);
+    }
+
+    .card-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--teal);
+      background: var(--teal-light);
+      border: 1px solid rgba(42,124,138,0.2);
+      padding: 0.25rem 0.6rem;
+      border-radius: 100px;
+      margin-bottom: 1rem;
+      width: fit-content;
+    }
+
+    .card-badge::before {
+      content: '';
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: var(--teal);
+    }
+
+    .card-title {
+      font-family: 'Fraunces', serif;
+      font-size: 1.9rem;
+      font-weight: 200;
+      line-height: 1.15;
+      color: var(--ink);
+      margin-bottom: 0.875rem;
+      letter-spacing: -0.01em;
+    }
+
+    .card-desc {
+      font-size: 0.85rem;
+      line-height: 1.8;
+      color: var(--ink-mid);
+      flex: 1;
+    }
+
+    .card-meta-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 1.75rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--border);
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+
+    .tag-group { display: flex; gap: 0.375rem; flex-wrap: wrap; }
+
+    .tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--ink-dim);
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+    }
+
+    .tag.green {
+      color: var(--green);
+      background: var(--green-light);
+      border-color: rgba(74,124,82,0.25);
+    }
+
+    .card-link {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.06em;
+      color: var(--teal);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      transition: gap 0.2s ease;
+    }
+
+    .card-link:hover { gap: 0.55rem; }
+
+    .card-link svg {
+      width: 12px; height: 12px;
+      transition: transform 0.2s ease;
+    }
+
+    .card-link:hover svg { transform: translate(2px, -2px); }
+
+    /* ═══════════════════════════
+       2-COL GRID
+    ═══════════════════════════ */
+    .card-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      transition: box-shadow 0.3s ease, transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      cursor: default;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+    }
+
+    .card .card-img {
+      aspect-ratio: 16/10;
+      overflow: hidden;
+      background: var(--bg2);
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .card .card-img img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      mix-blend-mode: luminosity;
+      opacity: 0.85;
+      transition: transform 0.5s ease;
+    }
+
+    .card .card-img::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(42,124,138,0.12) 0%, rgba(74,124,82,0.06) 100%);
+      pointer-events: none;
+    }
+
+    .card:hover .card-img img { transform: scale(1.04); }
+
+    /* Repo card placeholder variant */
+    .card-img.is-repo {
+      background: linear-gradient(135deg, #1a2420 0%, #1e2e28 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .card-img.is-repo::after { display: none; }
+
+    .repo-placeholder-inner {
+      text-align: center;
+    }
+
+    .repo-placeholder-inner svg { opacity: 0.35; margin-bottom: 0.5rem; }
+
+    .repo-placeholder-inner span {
+      display: block;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(122,180,160,0.5);
+    }
+
+    .card .card-body {
+      padding: 1.5rem 1.75rem 1.75rem;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .card .card-title {
+      font-size: 1.3rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .card .card-desc {
+      font-size: 0.8rem;
+      flex: 1;
+      margin-bottom: 0;
+    }
+
+    .card .card-meta-row {
+      margin-top: 1.25rem;
+      padding-top: 1rem;
+    }
+
+    /* ═══════════════════════════
+       VERTICAL SEPARATOR (animated)
+    ═══════════════════════════ */
+    .v-sep {
+      width: 1px;
+      background: var(--border);
+      position: relative;
+      overflow: hidden;
+      align-self: stretch;
+    }
+
+    .v-sep::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--bg);
+      transform: scaleY(1);
+      transform-origin: center;
+      transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .v-sep.revealed::after { transform: scaleY(0); }
+
+    /* ═══════════════════════════
+       FOOTER
+    ═══════════════════════════ */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2.5rem 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--surface);
+    }
+
+    .footer-left {
+      font-family: 'Fraunces', serif;
+      font-style: italic;
+      font-size: 0.9rem;
+      font-weight: 200;
+      color: var(--ink-faint);
+    }
+
+    .footer-right {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.1em;
+      color: var(--ink-faint);
+    }
+
+    /* ═══════════════════════════
+       RESPONSIVE
+    ═══════════════════════════ */
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; min-height: auto; padding: 4rem 2rem; gap: 3rem; }
+      .hero-visual { order: -1; }
+      .circle-logo-large { width: 260px; height: 260px; }
+      .card-featured { grid-template-columns: 1fr; }
+      .card-featured .card-body { border-left: none; border-top: 1px solid var(--border); }
+      .section { padding: 3rem 2rem; }
+      header { padding: 0 2rem; }
+    }
+
+    @media (max-width: 640px) {
+      .card-grid { grid-template-columns: 1fr; }
+      footer { flex-direction: column; gap: 0.75rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ══════════════════════════════
+       HEADER
+  ══════════════════════════════ -->
+  <header>
+    <a class="header-monogram" href="https://jordanread.com">
+      JR
+      <span>demos</span>
+    </a>
+
+    <!-- Circle logo — statement size, right side -->
+    <svg class="header-logo" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" aria-label="Jordan Read logo">
+      <defs>
+        <clipPath id="hCircle">
+          <circle cx="200" cy="200" r="188"/>
+        </clipPath>
+      </defs>
+      <g clip-path="url(#hCircle)">
+        <!-- Tropical/jungle — top left -->
+        <path d="M200,200 L60,55 A188,188 0 0,1 200,12 Z" fill="#1d6b6b"/>
+        <!-- Ocean/coast — top right -->
+        <path d="M200,200 L200,12 A188,188 0 0,1 340,55 Z" fill="#2e8b8b"/>
+        <!-- Mountains/forest — right -->
+        <path d="M200,200 L340,55 A188,188 0 0,1 388,200 Z" fill="#3d7a56"/>
+        <!-- High desert — bottom right -->
+        <path d="M200,200 L388,200 A188,188 0 0,1 340,345 Z" fill="#5a9468"/>
+        <!-- Pastoral — bottom left -->
+        <path d="M200,200 L340,345 A188,188 0 0,1 60,345 Z" fill="#6daa78"/>
+        <!-- Waterway — left -->
+        <path d="M200,200 L60,345 A188,188 0 0,1 60,55 Z" fill="#4a8a7a"/>
+      </g>
+      <!-- Dividing lines between wedges -->
+      <g stroke="rgba(255,255,255,0.4)" stroke-width="1.5" clip-path="url(#hCircle)">
+        <line x1="200" y1="200" x2="60" y2="55"/>
+        <line x1="200" y1="200" x2="200" y2="12"/>
+        <line x1="200" y1="200" x2="340" y2="55"/>
+        <line x1="200" y1="200" x2="388" y2="200"/>
+        <line x1="200" y1="200" x2="340" y2="345"/>
+        <line x1="200" y1="200" x2="60" y2="345"/>
+      </g>
+      <circle cx="200" cy="200" r="188" fill="none" stroke="#1a2e28" stroke-width="10"/>
+    </svg>
+  </header>
+
+  <!-- ══════════════════════════════
+       HERO
+  ══════════════════════════════ -->
+  <section class="hero">
+    <div class="hero-text">
+      <div class="hero-eyebrow">demos.jordanread.com</div>
+      <h1 class="hero-title">
+        Things<br>
+        I've <em>built.</em><br>
+        <span class="line-green">Have a look.</span>
+      </h1>
+      <div class="hero-about">
+        <p>I'm a software engineer who builds things for fun as much as for work — static sites, Jekyll experiments, weird little tools, and the occasional fictional world. Sometimes client work ends up here too.</p>
+        <p>Currently somewhere in the world. Permanently curious.</p>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <!-- Large circle logo with slow-rotating outer ring -->
+      <svg class="circle-logo-large" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <clipPath id="bigCircle">
+            <circle cx="200" cy="200" r="178"/>
+          </clipPath>
+          <filter id="wedgeShadow">
+            <feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="rgba(0,0,0,0.15)"/>
+          </filter>
+        </defs>
+
+        <!-- Wedges -->
+        <g clip-path="url(#bigCircle)">
+          <!-- Tropical/jungle -->
+          <path class="wedge" d="M200,200 L55,58 A178,178 0 0,1 200,22 Z" fill="#1d6b6b"/>
+          <!-- Ocean/coast -->
+          <path class="wedge" d="M200,200 L200,22 A178,178 0 0,1 345,58 Z" fill="#2e8b8b"/>
+          <!-- Mountains/forest -->
+          <path class="wedge" d="M200,200 L345,58 A178,178 0 0,1 378,200 Z" fill="#3d7a56"/>
+          <!-- High desert -->
+          <path class="wedge" d="M200,200 L378,200 A178,178 0 0,1 345,342 Z" fill="#5a9468"/>
+          <!-- Pastoral/English -->
+          <path class="wedge" d="M200,200 L345,342 A178,178 0 0,1 55,342 Z" fill="#6daa78"/>
+          <!-- Waterway/marina -->
+          <path class="wedge" d="M200,200 L55,342 A178,178 0 0,1 55,58 Z" fill="#4a8a7a"/>
+        </g>
+
+        <!-- Wedge dividers -->
+        <g stroke="rgba(255,255,255,0.35)" stroke-width="1.5" clip-path="url(#bigCircle)">
+          <line x1="200" y1="200" x2="55" y2="58"/>
+          <line x1="200" y1="200" x2="200" y2="22"/>
+          <line x1="200" y1="200" x2="345" y2="58"/>
+          <line x1="200" y1="200" x2="378" y2="200"/>
+          <line x1="200" y1="200" x2="345" y2="342"/>
+          <line x1="200" y1="200" x2="55" y2="342"/>
+        </g>
+
+        <!-- Center dot -->
+        <circle cx="200" cy="200" r="6" fill="rgba(255,255,255,0.5)"/>
+
+        <!-- Outer border ring -->
+        <circle cx="200" cy="200" r="178" fill="none" stroke="#1a2e28" stroke-width="10"/>
+
+        <!-- Rotating outer ring with tick marks -->
+        <g class="circle-outer-ring">
+          <circle cx="200" cy="200" r="194" fill="none" stroke="rgba(42,124,138,0.18)" stroke-width="1" stroke-dasharray="3 11"/>
+          <!-- Small ticks at each wedge boundary -->
+          <g stroke="rgba(42,124,138,0.35)" stroke-width="1.5">
+            <line x1="200" y1="4"   x2="200" y2="14"/>
+            <line x1="200" y1="386" x2="200" y2="396"/>
+            <line x1="4"   y1="200" x2="14"  y2="200"/>
+            <line x1="386" y1="200" x2="396" y2="200"/>
+            <!-- diagonal ticks -->
+            <line x1="38"  y1="62"  x2="45"  y2="69"/>
+            <line x1="338" y1="62"  x2="331" y2="69"/>
+            <line x1="38"  y1="338" x2="45"  y2="331"/>
+            <line x1="338" y1="338" x2="331" y2="331"/>
+          </g>
+        </g>
+
+        <!-- Wedge labels (tiny, subtle) -->
+        <g font-family="'DM Mono', monospace" font-size="9" fill="rgba(255,255,255,0.55)" text-anchor="middle">
+          <text transform="rotate(-60,200,200) translate(200,60)">tropics</text>
+          <text transform="rotate(-20,200,200) translate(200,60)">coast</text>
+          <text transform="rotate(20,200,200)  translate(200,60)">mountains</text>
+          <text transform="rotate(60,200,200)  translate(200,60)">desert</text>
+          <text transform="rotate(100,200,200) translate(200,60)">pastoral</text>
+          <text transform="rotate(140,200,200) translate(200,60)">waterway</text>
+        </g>
+      </svg>
+    </div>
+
+    <div class="hero-scroll-hint">
+      <svg class="scroll-arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M8 3v10M4 9l4 4 4-4"/>
+      </svg>
+      scroll to explore
+    </div>
+  </section>
+
+  <!-- Animated thick rule -->
+  <div class="rule-animated thick" data-rule></div>
+
+  <!-- ══════════════════════════════
+       DEMOS SECTION
+  ══════════════════════════════ -->
+  <section class="section">
+
+    <div class="section-header reveal up">
+      <h2 class="section-title">Projects</h2>
+      <span class="section-count">06 total</span>
+    </div>
+
+    <!-- Featured card -->
+    <div class="card-featured reveal up">
+      <div class="card-img">
+        <div class="card-img-placeholder">
+          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#2a7c8a" stroke-width="0.75">
+            <rect x="2" y="3" width="20" height="14" rx="2"/>
+            <path d="M8 21h8M12 17v4"/>
+          </svg>
+        </div>
+      </div>
+      <div class="card-body">
+        <div>
+          <div class="card-badge">Featured</div>
+          <h2 class="card-title">The Verdant Forge Collective</h2>
+          <p class="card-desc">A fully realized fictional world — a speculative robotics homestead community presented as if it were real. Three.js 3D hero, Leaflet farm map, Chart.js telemetry dashboard, and ~15,800 words of structured JSON content across 48 files. An exercise in worldbuilding through code.</p>
+        </div>
+        <div class="card-meta-row">
+          <div class="tag-group">
+            <span class="tag">Static</span>
+            <span class="tag">Three.js</span>
+            <span class="tag">Leaflet</span>
+            <span class="tag">Chart.js</span>
+          </div>
+          <a class="card-link" href="#">
+            View site
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M7 17L17 7M17 7H7M17 7v10"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Animated rule -->
+    <div class="rule-animated" data-rule style="margin: 2rem 0;"></div>
+
+    <!-- 2-col grid -->
+    <div class="card-grid">
+
+      <div class="card reveal up d1">
+        <div class="card-img">
+          <div class="card-img-placeholder">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#2a7c8a" stroke-width="0.75">
+              <rect x="2" y="3" width="20" height="14" rx="2"/>
+              <path d="M8 21h8M12 17v4"/>
+            </svg>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-badge" style="color:var(--green);background:var(--green-light);border-color:rgba(74,124,82,0.2);">
+            Jekyll
+          </div>
+          <h3 class="card-title">LOZ Sail</h3>
+          <p class="card-desc">A sailing charter site for Lake of the Ozarks, resurrected from an archived version and rebuilt as a Jekyll site with Python-generated imagery.</p>
+          <div class="card-meta-row">
+            <div class="tag-group">
+              <span class="tag green">Jekyll</span>
+              <span class="tag">Python</span>
+            </div>
+            <a class="card-link" href="#">View <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card reveal up d2">
+        <div class="card-img">
+          <div class="card-img-placeholder">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#2a7c8a" stroke-width="0.75">
+              <rect x="2" y="3" width="20" height="14" rx="2"/>
+              <path d="M8 21h8M12 17v4"/>
+            </svg>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-badge" style="--badge-c:var(--ink-dim);">
+          </div>
+          <h3 class="card-title">Homelab Dashboard</h3>
+          <p class="card-desc">A static status and reference dashboard — services, uptime notes, network topology. Zero backend dependencies, reads fine offline.</p>
+          <div class="card-meta-row">
+            <div class="tag-group">
+              <span class="tag">Static</span>
+              <span class="tag">Self-hosted</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card reveal up d1">
+        <!-- Repo card variant -->
+        <div class="card-img is-repo">
+          <div class="repo-placeholder-inner">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="rgba(122,200,180,0.6)" stroke-width="1">
+              <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+            </svg>
+            <span>github repo</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <h3 class="card-title">Project Title</h3>
+          <p class="card-desc">Placeholder for an upcoming project. Tags and description will live here once it's ready.</p>
+          <div class="card-meta-row">
+            <div class="tag-group">
+              <span class="tag">GitHub</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card reveal up d2">
+        <div class="card-img">
+          <div class="card-img-placeholder">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#2a7c8a" stroke-width="0.75">
+              <rect x="2" y="3" width="20" height="14" rx="2"/>
+              <path d="M8 21h8M12 17v4"/>
+            </svg>
+          </div>
+        </div>
+        <div class="card-body">
+          <h3 class="card-title">Project Title</h3>
+          <p class="card-desc">Placeholder for an upcoming demo. Description and tags will live here once the project is ready to show.</p>
+          <div class="card-meta-row">
+            <div class="tag-group">
+              <span class="tag">Static</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card reveal up d1" style="grid-column: 1 / -1; max-width: calc(50% - 0.75rem);">
+        <div class="card-img">
+          <div class="card-img-placeholder">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#2a7c8a" stroke-width="0.75">
+              <rect x="2" y="3" width="20" height="14" rx="2"/>
+              <path d="M8 21h8M12 17v4"/>
+            </svg>
+          </div>
+        </div>
+        <div class="card-body">
+          <h3 class="card-title">Project Title</h3>
+          <p class="card-desc">Placeholder for an upcoming demo. Description and tags will live here once the project is ready to show.</p>
+          <div class="card-meta-row">
+            <div class="tag-group">
+              <span class="tag">Jekyll</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Animated thick rule before footer -->
+  <div class="rule-animated thick" data-rule></div>
+
+  <!-- ══════════════════════════════
+       FOOTER
+  ══════════════════════════════ -->
+  <footer>
+    <span class="footer-left">built &amp; shipped from wherever we are</span>
+    <span class="footer-right">demos.jordanread.com</span>
+  </footer>
+
+  <!-- ══════════════════════════════
+       SCROLL REVEAL JS
+  ══════════════════════════════ -->
+  <script>
+    const reveals = document.querySelectorAll('.reveal');
+    const rules   = document.querySelectorAll('[data-rule]');
+
+    const revealObs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          revealObs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -48px 0px' });
+
+    const ruleObs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('revealed');
+          ruleObs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.5 });
+
+    reveals.forEach(el => revealObs.observe(el));
+    rules.forEach(el => ruleObs.observe(el));
+
+    // Fire immediately for anything already in view
+    setTimeout(() => {
+      reveals.forEach(el => {
+        const r = el.getBoundingClientRect();
+        if (r.top < window.innerHeight * 0.95) el.classList.add('visible');
+      });
+      rules.forEach(el => {
+        const r = el.getBoundingClientRect();
+        if (r.top < window.innerHeight * 0.95) el.classList.add('revealed');
+      });
+    }, 200);
+  </script>
+
+</body>
+</html>

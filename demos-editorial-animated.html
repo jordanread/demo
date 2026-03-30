@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jordan Read — Demos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=DM+Mono:wght@300;400&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:         #f4f0e8;
+      --bg-warm:    #ece8e0;
+      --surface:    #f9f7f3;
+      --surface2:   #edeae3;
+      --border:     #ddd9d0;
+      --border2:    #ccc8be;
+      --ink:        #1e1d1a;
+      --ink-mid:    #5a574f;
+      --ink-dim:    #9b9790;
+      --ink-faint:  #c8c4bc;
+      --accent:     #7a9e64;
+      --accent-warm:#c4714a;
+      --accent-gold:#b8962e;
+      --tag-bg:     #ece8df;
+      --shadow:     rgba(30,29,26,0.06);
+      --shadow-md:  rgba(30,29,26,0.11);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Lora', serif;
+      font-weight: 400;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 200;
+      opacity: 0.022;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      background-size: 180px;
+    }
+
+    /* ═══════════════════════════════
+       HEADER — tech background
+    ═══════════════════════════════ */
+    header {
+      padding: 1.75rem 4rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+      background: #1a1c18;
+      animation: fadeDown 0.5s ease both;
+    }
+
+    /* Animated SVG grid/circuit in header */
+    .header-bg {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .header-content {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: baseline;
+      gap: 1rem;
+    }
+
+    .site-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.95rem;
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(212,208,198,0.75);
+    }
+
+    .site-name a { color: inherit; text-decoration: none; transition: color 0.2s; }
+    .site-name a:hover { color: var(--accent); }
+
+    .sep {
+      color: rgba(212,208,198,0.3);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+      font-style: italic;
+    }
+
+    .page-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      color: rgba(212,208,198,0.4);
+    }
+
+    .header-right {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.06em;
+      color: rgba(212,208,198,0.25);
+    }
+
+    /* ═══════════════════════════════
+       MASTHEAD
+    ═══════════════════════════════ */
+    .masthead {
+      padding: 4rem 4rem 3.5rem;
+      border-bottom: 1px solid var(--border);
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: end;
+      gap: 2rem;
+      position: relative;
+      overflow: hidden;
+      animation: fadeDown 0.6s 0.07s ease both;
+    }
+
+    /* Squiggle — draws itself in */
+    .masthead-squiggle {
+      position: absolute;
+      top: 2.5rem;
+      right: 19rem;
+      pointer-events: none;
+    }
+
+    .squiggle-path {
+      stroke-dasharray: 120;
+      stroke-dashoffset: 120;
+      animation: drawLine 1.4s 0.5s ease forwards;
+    }
+
+    @keyframes drawLine {
+      to { stroke-dashoffset: 0; }
+    }
+
+    .masthead-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3.5rem, 7vw, 6rem);
+      font-weight: 300;
+      line-height: 0.95;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+    }
+
+    .masthead-title em {
+      font-style: italic;
+      color: var(--accent-warm);
+    }
+
+    .masthead-title-wrap {
+      position: relative;
+      display: inline-block;
+    }
+
+    .rotated-label {
+      position: absolute;
+      top: 0.5rem;
+      left: calc(100% + 1rem);
+      font-family: 'DM Mono', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      transform: rotate(90deg);
+      transform-origin: left top;
+      white-space: nowrap;
+    }
+
+    .masthead-meta {
+      text-align: right;
+      padding-bottom: 0.25rem;
+      position: relative;
+    }
+
+    /* Rotating JR monogram */
+    .jr-monogram {
+      position: absolute;
+      bottom: -1rem;
+      right: -1.5rem;
+      width: 120px;
+      height: 120px;
+      opacity: 0.07;
+      pointer-events: none;
+    }
+
+    .jr-ring {
+      animation: spinSlow 28s linear infinite;
+      transform-origin: 60px 60px;
+    }
+
+    .jr-letters {
+      /* static center */
+    }
+
+    @keyframes spinSlow {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+
+    .masthead-meta .count {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 4.5rem;
+      font-weight: 300;
+      color: var(--ink-faint);
+      display: block;
+      line-height: 1;
+      letter-spacing: -0.03em;
+    }
+
+    .masthead-meta p {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      color: var(--ink-dim);
+      letter-spacing: 0.08em;
+      margin-top: 0.2rem;
+    }
+
+    /* ═══════════════════════════════
+       ANIMATED THICK RULE DIVIDERS
+       center-outward expand
+    ═══════════════════════════════ */
+    .thick-rule {
+      height: 3px;
+      background: var(--border2);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .thick-rule::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--bg);
+      transform: scaleX(1);
+      transform-origin: center;
+      transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .thick-rule.revealed::after {
+      transform: scaleX(0);
+    }
+
+    /* ═══════════════════════════════
+       SCROLL REVEAL
+    ═══════════════════════════════ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.65s ease, transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Stagger children inside a reveal parent */
+    .reveal-stagger > * {
+      opacity: 0;
+      transform: translateY(14px);
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .reveal-stagger.visible > *:nth-child(1) { opacity: 1; transform: none; transition-delay: 0s; }
+    .reveal-stagger.visible > *:nth-child(2) { opacity: 1; transform: none; transition-delay: 0.1s; }
+    .reveal-stagger.visible > *:nth-child(3) { opacity: 1; transform: none; transition-delay: 0.2s; }
+
+    /* ═══════════════════════════════
+       EDITORIAL GRID
+    ═══════════════════════════════ */
+    .editorial {
+      padding: 0 4rem 5rem;
+    }
+
+    .row-1 {
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .row-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .stack {
+      display: flex;
+      flex-direction: column;
+      border-left: 1px solid var(--border);
+    }
+
+    .stack .card:first-child { border-bottom: 1px solid var(--border); }
+
+    /* ═══════════════════════════════
+       CARDS
+    ═══════════════════════════════ */
+    .card {
+      background: transparent;
+      transition: background 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+      cursor: default;
+      position: relative;
+    }
+
+    .card-featured:hover,
+    .card-medium:hover {
+      background: var(--surface);
+      box-shadow: 0 4px 24px var(--shadow-md), 0 1px 4px var(--shadow);
+      transform: translateY(-2px);
+      z-index: 2;
+    }
+
+    .card-small:hover,
+    .card-mini:hover { background: var(--surface); }
+
+    /* Featured */
+    .card-featured { display: flex; flex-direction: column; }
+
+    .card-featured .card-image {
+      width: 100%;
+      aspect-ratio: 16/7;
+      overflow: hidden;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface2);
+    }
+
+    .card-featured .card-image img {
+      width: 100%; height: 100%; object-fit: cover;
+      opacity: 0.9; transition: opacity 0.35s, transform 0.55s ease;
+    }
+
+    .card-featured:hover .card-image img { opacity: 1; transform: scale(1.02); }
+
+    .card-featured .card-body {
+      padding: 2rem 2.25rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Small */
+    .card-small {
+      padding: 1.5rem 1.75rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 170px;
+      flex: 1;
+    }
+
+    /* Medium */
+    .card-medium { display: grid; grid-template-columns: 180px 1fr; }
+    .card-medium:first-child { border-right: 1px solid var(--border); }
+
+    .card-medium .card-image {
+      overflow: hidden;
+      border-right: 1px solid var(--border);
+      background: var(--surface2);
+    }
+
+    .card-medium .card-image img {
+      width: 100%; height: 100%; object-fit: cover;
+      opacity: 0.85; transition: opacity 0.3s, transform 0.5s ease;
+    }
+
+    .card-medium:hover .card-image img { opacity: 1; transform: scale(1.03); }
+
+    .card-medium .card-body {
+      padding: 1.5rem 1.75rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    /* Mini */
+    .card-mini {
+      padding: 1.5rem 1.75rem;
+      border-right: 1px solid var(--border);
+      min-height: 140px;
+    }
+
+    .card-mini:last-child { border-right: none; }
+
+    /* Image placeholder */
+    .card-image-placeholder {
+      width: 100%;
+      height: 100%;
+      min-height: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg-warm);
+    }
+
+    .card-image-placeholder svg { opacity: 0.18; }
+
+    /* Meta / tags */
+    .card-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .card-num {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.58rem;
+      color: var(--ink-faint);
+      letter-spacing: 0.06em;
+    }
+
+    .tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.58rem;
+      font-weight: 400;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--ink-mid);
+      background: var(--tag-bg);
+      border: 1px solid var(--border);
+      padding: 0.18rem 0.45rem;
+      border-radius: 2px;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .tag.featured { color: var(--accent); border-color: #b8d4a4; background: #edf4e8; }
+    .tag.warm     { color: var(--accent-warm); border-color: #e4b89e; background: #faf0ea; }
+
+    /* Titles */
+    .card-title-lg {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem; font-weight: 400; line-height: 1.15;
+      color: var(--ink); margin-bottom: 0.625rem; letter-spacing: 0.01em;
+    }
+
+    .card-title-md {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem; font-weight: 400; line-height: 1.2;
+      color: var(--ink); margin-bottom: 0.5rem;
+    }
+
+    .card-title-sm {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem; font-weight: 400; line-height: 1.2;
+      color: var(--ink); margin-bottom: 0.4rem;
+    }
+
+    .card-desc-lg {
+      font-size: 0.82rem; line-height: 1.8;
+      color: var(--ink-mid); flex: 1;
+    }
+
+    .card-desc-sm {
+      font-size: 0.78rem; line-height: 1.7;
+      color: var(--ink-mid);
+    }
+
+    /* Card footer */
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 1.25rem;
+      padding-top: 0.875rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .card-type {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+    }
+
+    .card-link {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.62rem;
+      color: var(--ink-dim);
+      text-decoration: none;
+      letter-spacing: 0.04em;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      transition: color 0.2s;
+    }
+
+    .card-featured:hover .card-link,
+    .card-medium:hover .card-link,
+    .card-small:hover .card-link { color: var(--accent-warm); }
+
+    .card-arrow {
+      width: 14px; height: 14px;
+      transition: transform 0.22s ease;
+      flex-shrink: 0;
+    }
+
+    .card:hover .card-arrow { transform: translate(2px, -2px); }
+
+    .dot-accent {
+      display: inline-block;
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--accent-warm);
+      margin-left: 0.5rem;
+      vertical-align: middle;
+      position: relative; top: -1px;
+    }
+
+    /* ═══════════════════════════════
+       FOOTER
+    ═══════════════════════════════ */
+    footer {
+      padding: 2rem 4rem;
+      border-top: 1px solid var(--border);
+      background: var(--surface);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .footer-note {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      color: var(--ink-faint);
+      letter-spacing: 0.06em;
+    }
+
+    .footer-line { flex: 1; height: 1px; background: var(--border); margin: 0 1.5rem; }
+
+    .footer-flourish {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 0.85rem;
+      color: var(--ink-faint);
+    }
+
+    /* ═══════════════════════════════
+       PAGE LOAD ANIMATIONS
+    ═══════════════════════════════ */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ═══════════════════════════════
+       RESPONSIVE
+    ═══════════════════════════════ */
+    @media (max-width: 960px) {
+      header, .masthead, .editorial, footer { padding-left: 2rem; padding-right: 2rem; }
+      .row-1, .row-2, .row-3 { grid-template-columns: 1fr; }
+      .stack { border-left: none; border-top: 1px solid var(--border); flex-direction: row; }
+      .stack .card:first-child { border-bottom: none; border-right: 1px solid var(--border); }
+      .card-medium { grid-template-columns: 1fr; }
+      .card-medium .card-image { aspect-ratio: 16/6; border-right: none; border-bottom: 1px solid var(--border); }
+      .card-medium:first-child { border-right: none; border-bottom: 1px solid var(--border); }
+      .card-mini { border-right: none; border-top: 1px solid var(--border); }
+    }
+
+    @media (max-width: 560px) {
+      .stack { flex-direction: column; }
+      .stack .card:first-child { border-right: none; border-bottom: 1px solid var(--border); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── Header with animated tech background ── -->
+  <header>
+    <svg class="header-bg" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+      <defs>
+        <!-- Dot grid pattern -->
+        <pattern id="dots" x="0" y="0" width="32" height="32" patternUnits="userSpaceOnUse">
+          <circle cx="1" cy="1" r="0.8" fill="rgba(122,158,100,0.18)"/>
+        </pattern>
+        <!-- Animated circuit traces -->
+      </defs>
+      <rect width="100%" height="100%" fill="url(#dots)"/>
+
+      <!-- Horizontal trace lines that pulse -->
+      <g stroke="rgba(122,158,100,0.12)" stroke-width="1" fill="none">
+        <line x1="0" y1="30%" x2="100%" y2="30%">
+          <animate attributeName="opacity" values="0.4;1;0.4" dur="4s" repeatCount="indefinite"/>
+        </line>
+        <line x1="0" y1="70%" x2="100%" y2="70%">
+          <animate attributeName="opacity" values="1;0.3;1" dur="6s" repeatCount="indefinite"/>
+        </line>
+      </g>
+
+      <!-- Vertical trace segments -->
+      <g stroke="rgba(122,158,100,0.1)" stroke-width="1" fill="none">
+        <line x1="15%" y1="0" x2="15%" y2="100%">
+          <animate attributeName="opacity" values="0.3;0.8;0.3" dur="5s" repeatCount="indefinite"/>
+        </line>
+        <line x1="45%" y1="0" x2="45%" y2="100%">
+          <animate attributeName="opacity" values="0.7;0.2;0.7" dur="7s" repeatCount="indefinite"/>
+        </line>
+        <line x1="78%" y1="0" x2="78%" y2="100%">
+          <animate attributeName="opacity" values="0.2;0.6;0.2" dur="4.5s" repeatCount="indefinite"/>
+        </line>
+      </g>
+
+      <!-- Circuit node dots that blink -->
+      <g fill="rgba(122,158,100,0.5)">
+        <circle cx="15%" cy="30%" r="2.5">
+          <animate attributeName="opacity" values="1;0.2;1" dur="3s" repeatCount="indefinite"/>
+          <animate attributeName="r" values="2.5;3.5;2.5" dur="3s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="45%" cy="70%" r="2.5">
+          <animate attributeName="opacity" values="0.3;1;0.3" dur="4s" repeatCount="indefinite"/>
+          <animate attributeName="r" values="2.5;4;2.5" dur="4s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="78%" cy="30%" r="2.5">
+          <animate attributeName="opacity" values="0.6;0.1;0.6" dur="5s" repeatCount="indefinite"/>
+          <animate attributeName="r" values="2.5;3;2.5" dur="5s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="78%" cy="70%" r="2">
+          <animate attributeName="opacity" values="0.1;0.7;0.1" dur="3.5s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="15%" cy="70%" r="2">
+          <animate attributeName="opacity" values="0.5;0;0.5" dur="6s" repeatCount="indefinite"/>
+        </circle>
+      </g>
+
+      <!-- Travelling signal dot on horizontal line -->
+      <circle cy="30%" r="3" fill="rgba(196,113,74,0.7)">
+        <animate attributeName="cx" values="-10;110%" dur="6s" repeatCount="indefinite" calcMode="linear"/>
+        <animate attributeName="opacity" values="0;1;1;1;0" dur="6s" repeatCount="indefinite"/>
+      </circle>
+      <circle cy="70%" r="2.5" fill="rgba(122,158,100,0.8)">
+        <animate attributeName="cx" values="110%;-10" dur="8s" repeatCount="indefinite" calcMode="linear"/>
+        <animate attributeName="opacity" values="0;1;1;1;0" dur="8s" repeatCount="indefinite"/>
+      </circle>
+    </svg>
+
+    <div class="header-content">
+      <div class="header-left">
+        <span class="site-name"><a href="https://jordanread.com">jordanread.com</a></span>
+        <span class="sep">/</span>
+        <span class="page-label">demos</span>
+      </div>
+      <span class="header-right">demos.jordanread.com</span>
+    </div>
+  </header>
+
+  <!-- ── Masthead ── -->
+  <div class="masthead">
+    <!-- Hand-drawn squiggle, draws itself in -->
+    <svg class="masthead-squiggle" width="90" height="90" viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path class="squiggle-path" d="M10 45 C 22 22, 34 68, 45 45 C 56 22, 68 68, 80 45" stroke="#7a9e64" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.4"/>
+      <circle cx="10" cy="45" r="2.5" fill="#7a9e64" opacity="0.25">
+        <animate attributeName="opacity" values="0.25;0.6;0.25" dur="3s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="80" cy="45" r="2.5" fill="#7a9e64" opacity="0.25">
+        <animate attributeName="opacity" values="0.6;0.25;0.6" dur="3s" repeatCount="indefinite"/>
+      </circle>
+    </svg>
+
+    <div>
+      <div class="masthead-title-wrap">
+        <h1 class="masthead-title">Built<br><em>things.</em><br>Here they are.</h1>
+        <span class="rotated-label">a working archive</span>
+      </div>
+    </div>
+
+    <div class="masthead-meta">
+      <!-- Rotating JR monogram -->
+      <svg class="jr-monogram" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Outer ring with tick marks — this rotates -->
+        <g class="jr-ring">
+          <circle cx="60" cy="60" r="54" stroke="#1e1d1a" stroke-width="0.75" stroke-dasharray="2 8"/>
+          <!-- Cardinal ticks -->
+          <line x1="60" y1="4"  x2="60" y2="12"  stroke="#1e1d1a" stroke-width="1.2"/>
+          <line x1="60" y1="108" x2="60" y2="116" stroke="#1e1d1a" stroke-width="1.2"/>
+          <line x1="4"  y1="60" x2="12"  y2="60" stroke="#1e1d1a" stroke-width="1.2"/>
+          <line x1="108" y1="60" x2="116" y2="60" stroke="#1e1d1a" stroke-width="1.2"/>
+          <!-- Ordinal ticks -->
+          <line x1="98.2" y1="21.8" x2="92.7" y2="27.3" stroke="#1e1d1a" stroke-width="0.75"/>
+          <line x1="21.8" y1="21.8" x2="27.3" y2="27.3" stroke="#1e1d1a" stroke-width="0.75"/>
+          <line x1="98.2" y1="98.2" x2="92.7" y2="92.7" stroke="#1e1d1a" stroke-width="0.75"/>
+          <line x1="21.8" y1="98.2" x2="27.3" y2="92.7" stroke="#1e1d1a" stroke-width="0.75"/>
+        </g>
+        <!-- Inner ring — static -->
+        <circle cx="60" cy="60" r="38" stroke="#1e1d1a" stroke-width="0.5"/>
+        <!-- JR letters — static center -->
+        <g class="jr-letters" fill="#1e1d1a" font-family="Cormorant Garamond, serif" font-size="28" font-weight="300" letter-spacing="2">
+          <text x="50%" y="50%" text-anchor="middle" dominant-baseline="central" font-family="'Cormorant Garamond', serif" font-size="26" font-weight="300" fill="#1e1d1a">JR</text>
+        </g>
+      </svg>
+
+      <span class="count">06</span>
+      <p>projects</p>
+      <p>static &amp; jekyll</p>
+    </div>
+  </div>
+
+  <!-- ── Editorial grid ── -->
+  <main class="editorial">
+
+    <!-- Thick rule between masthead and row 1 -->
+    <div class="thick-rule" data-rule></div>
+
+    <!-- Row 1 -->
+    <div class="row-1 reveal-stagger">
+
+      <article class="card card-featured">
+        <div class="card-image">
+          <div class="card-image-placeholder">
+            <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#1e1d1a" stroke-width="0.7">
+              <rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/>
+            </svg>
+          </div>
+        </div>
+        <div class="card-body">
+          <div>
+            <div class="card-meta">
+              <span class="card-num">01</span>
+              <span class="tag featured">Featured</span>
+              <span class="tag">Static</span>
+              <span class="tag">Three.js</span>
+              <span class="tag">Leaflet</span>
+            </div>
+            <h2 class="card-title-lg">The Verdant Forge Collective<span class="dot-accent"></span></h2>
+            <p class="card-desc-lg">A fully realized fictional world — a speculative robotics homestead community presented as if it were real. Features a Three.js 3D hero, Leaflet farm map, Chart.js telemetry dashboard, and ~15,800 words of structured JSON content across 48 files. Built as an exercise in worldbuilding through code.</p>
+          </div>
+          <div class="card-footer">
+            <span class="card-type">Static Site</span>
+            <a class="card-link" href="#">
+              verdantforge.demo
+              <svg class="card-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <div class="stack">
+        <article class="card card-small">
+          <div>
+            <div class="card-meta">
+              <span class="card-num">02</span>
+              <span class="tag">Jekyll</span>
+              <span class="tag">Python</span>
+            </div>
+            <h2 class="card-title-sm">LOZ Sail</h2>
+            <p class="card-desc-sm">A sailing charter site for Lake of the Ozarks, resurrected from an archived version and converted to Jekyll with Python-generated imagery.</p>
+          </div>
+          <div class="card-footer">
+            <span class="card-type">Jekyll</span>
+            <svg class="card-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width:13px;height:13px;color:var(--ink-faint);"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+          </div>
+        </article>
+        <article class="card card-small">
+          <div>
+            <div class="card-meta">
+              <span class="card-num">03</span>
+              <span class="tag">Static</span>
+              <span class="tag">Self-hosted</span>
+            </div>
+            <h2 class="card-title-sm">Homelab Dashboard</h2>
+            <p class="card-desc-sm">A static status and reference dashboard — services, uptime notes, network topology. Zero backend dependencies.</p>
+          </div>
+          <div class="card-footer">
+            <span class="card-type">Static</span>
+            <svg class="card-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width:13px;height:13px;color:var(--ink-faint);"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+          </div>
+        </article>
+      </div>
+
+    </div>
+
+    <!-- Thick rule between row 1 and row 2 -->
+    <div class="thick-rule" data-rule></div>
+
+    <!-- Row 2 -->
+    <div class="row-2 reveal-stagger">
+
+      <article class="card card-medium">
+        <div class="card-image">
+          <div class="card-image-placeholder">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#1e1d1a" stroke-width="0.75"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+          </div>
+        </div>
+        <div class="card-body">
+          <div>
+            <div class="card-meta"><span class="card-num">04</span><span class="tag">Jekyll</span></div>
+            <h2 class="card-title-md">Project Title</h2>
+            <p class="card-desc-sm">A placeholder for an upcoming demo. Description and tags will live here once the project is ready to show.</p>
+          </div>
+          <div class="card-footer">
+            <span class="card-type">Jekyll</span>
+            <svg class="card-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color:var(--ink-faint);"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+          </div>
+        </div>
+      </article>
+
+      <article class="card card-medium">
+        <div class="card-image">
+          <div class="card-image-placeholder">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#1e1d1a" stroke-width="0.75"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+          </div>
+        </div>
+        <div class="card-body">
+          <div>
+            <div class="card-meta"><span class="card-num">05</span><span class="tag">Static</span></div>
+            <h2 class="card-title-md">Project Title</h2>
+            <p class="card-desc-sm">A placeholder for an upcoming demo. Description and tags will live here once the project is ready to show.</p>
+          </div>
+          <div class="card-footer">
+            <span class="card-type">Static</span>
+            <svg class="card-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color:var(--ink-faint);"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+          </div>
+        </div>
+      </article>
+
+    </div>
+
+    <!-- Thick rule between row 2 and row 3 -->
+    <div class="thick-rule" data-rule></div>
+
+    <!-- Row 3 -->
+    <div class="row-3 reveal-stagger">
+
+      <article class="card card-mini">
+        <div class="card-meta">
+          <span class="card-num">06</span>
+          <span class="tag warm">In Progress</span>
+        </div>
+        <h2 class="card-title-sm">Project Title</h2>
+        <p class="card-desc-sm" style="margin-top:0.4rem;">Placeholder. More soon.</p>
+        <div class="card-footer">
+          <span class="card-type">Static</span>
+          <svg class="card-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width:13px;height:13px;color:var(--ink-faint);"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+        </div>
+      </article>
+
+      <div class="card-mini" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.75rem;border-right:1px solid var(--border);opacity:0.45;pointer-events:none;">
+        <svg width="52" height="30" viewBox="0 0 52 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M4 15 C 11 4, 19 26, 26 15 C 33 4, 41 26, 48 15" stroke="#7a9e64" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+        </svg>
+        <span style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:0.75rem;color:var(--ink-faint);">more to come</span>
+      </div>
+
+      <article class="card card-mini" style="border-right:none;display:flex;flex-direction:column;justify-content:center;gap:0.5rem;">
+        <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1rem;color:var(--ink-dim);line-height:1.6;">
+          New demos added as they ship.<br>Check back sometime.
+        </p>
+        <span style="font-family:'DM Mono',monospace;font-size:0.58rem;color:var(--ink-faint);letter-spacing:0.08em;">— jordan</span>
+      </article>
+
+    </div>
+
+  </main>
+
+  <footer>
+    <span class="footer-note">jordanread.com</span>
+    <div class="footer-line"></div>
+    <span class="footer-flourish">built &amp; shipped from wherever we are</span>
+    <div class="footer-line"></div>
+    <span class="footer-note">demos.jordanread.com</span>
+  </footer>
+
+  <script>
+    // ── Scroll-reveal observer ──
+    const revealEls = document.querySelectorAll('.reveal, .reveal-stagger');
+    const ruleEls   = document.querySelectorAll('[data-rule]');
+
+    const revealObs = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          revealObs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+    revealEls.forEach(el => revealObs.observe(el));
+
+    // ── Thick rule observer (center-outward) ──
+    const ruleObs = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('revealed');
+          ruleObs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.5 });
+
+    ruleEls.forEach(el => ruleObs.observe(el));
+
+    // ── Trigger reveals for anything already in view on load ──
+    setTimeout(() => {
+      [...revealEls, ...ruleEls].forEach(el => {
+        const rect = el.getBoundingClientRect();
+        if (rect.top < window.innerHeight * 0.92) {
+          el.classList.add(el.hasAttribute('data-rule') ? 'revealed' : 'visible');
+        }
+      });
+    }, 300);
+  </script>
+
+</body>
+</html>
